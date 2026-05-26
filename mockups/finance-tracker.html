@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Finance Tracker</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f8f9fa;
+      color: #111827;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Nav ── */
+    nav {
+      background: #fff;
+      border-bottom: 1px solid #e5e7eb;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .nav-logo {
+      font-size: 15px;
+      font-weight: 700;
+      color: #111827;
+      white-space: nowrap;
+      letter-spacing: -0.3px;
+    }
+
+    .nav-center {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .file-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: #15803d;
+    }
+
+    .file-badge .check {
+      font-size: 10px;
+      color: #16a34a;
+    }
+
+    .upload-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #111827;
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 6px 13px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+
+    .upload-btn:hover { background: #1f2937; }
+
+    /* ── Main layout ── */
+    .main {
+      flex: 1;
+      display: flex;
+      gap: 20px;
+      padding: 18px 20px;
+      overflow: hidden;
+      min-height: 0;
+    }
+
+    /* ── Left column ── */
+    .col-left {
+      flex: 0 0 55%;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-height: 0;
+    }
+
+    .period-heading {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .period-heading h2 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .period-heading .total-tag {
+      font-size: 12px;
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    .categories-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 14px 16px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .category-row {
+      padding: 9px 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .category-row:last-child { border-bottom: none; }
+
+    .cat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .cat-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #374151;
+    }
+
+    .cat-label .emoji {
+      font-size: 14px;
+      line-height: 1;
+    }
+
+    .cat-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cat-amount {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .cat-pct {
+      font-size: 11px;
+      font-weight: 500;
+      color: #9ca3af;
+      min-width: 28px;
+      text-align: right;
+    }
+
+    .bar-track {
+      height: 6px;
+      background: #e5e7eb;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.4s ease;
+    }
+
+    /* ── Right column ── */
+    .col-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      min-height: 0;
+    }
+
+    .insights-card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .insights-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #111827;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .insights-list {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      flex: 1;
+    }
+
+    .insight-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .insight-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .insight-text {
+      font-size: 12px;
+      line-height: 1.55;
+      color: #374151;
+    }
+
+    .insight-text strong {
+      color: #111827;
+      font-weight: 600;
+    }
+
+    .powered-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 0 2px;
+      border-top: 1px solid #f3f4f6;
+      margin-top: auto;
+    }
+
+    .powered-badge span {
+      font-size: 10.5px;
+      color: #9ca3af;
+      font-weight: 500;
+      letter-spacing: 0.1px;
+    }
+
+    .claude-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .claude-dot {
+      width: 14px;
+      height: 14px;
+      background: linear-gradient(135deg, #d97706, #b45309);
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .claude-name {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #b45309;
+      letter-spacing: 0.2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <div class="nav-logo">💰 Finance Tracker</div>
+    <div class="nav-center">
+      <div class="file-badge">
+        📄 bank_statement_oct.csv <span class="check">✓</span>
+      </div>
+    </div>
+    <button class="upload-btn">Upload New ↑</button>
+  </nav>
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- Left column -->
+    <div class="col-left">
+      <div class="period-heading">
+        <h2>October 2024</h2>
+        <span class="total-tag">Total: $3,175</span>
+      </div>
+
+      <div class="categories-card">
+
+        <!-- Food & Dining -->
+        <div class="category-row">
+          <div class="cat-header">
+            <div class="cat-label"><span class="emoji">🍔</span> Food &amp; Dining</div>
+            <div class="cat-right">
+              <span class="cat-amount">$892</span>
+              <span class="cat-pct">28%</span>
+            </div>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: 28%; background: #f97316;"></div>
+          </div>
+        </div>
+
+        <!-- Shopping -->
+        <div class="category-row">
+          <div class="cat-header">
+            <div class="cat-label"><span class="emoji">🛍</span> Shopping</div>
+            <div class="cat-right">
+              <span class="cat-amount">$634</span>
+              <span class="cat-pct">20%</span>
+            </div>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: 20%; background: #8b5cf6;"></div>
+          </div>
+        </div>
+
+        <!-- Bills & Utilities -->
+        <div class="category-row">
+          <div class="cat-header">
+            <div class="cat-label"><span class="emoji">💡</span> Bills &amp; Utilities</div>
+            <div class="cat-right">
+              <span class="cat-amount">$580</span>
+              <span class="cat-pct">18%</span>
+            </div>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: 18%; background: #06b6d4;"></div>
+          </div>
+        </div>
+
+        <!-- Other -->
+        <div class="category-row">
+          <div class="cat-header">
+            <div class="cat-label"><span class="emoji">📦</span> Other</div>
+            <div class="cat-right">
+              <span class="cat-amount">$436</span>
+              <span class="cat-pct">14%</span>
+            </div>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: 14%; background: #6b7280;"></div>
+          </div>
+        </div>
+
+        <!-- Transport -->
+        <div class="category-row">
+          <div class="cat-header">
+            <div class="cat-label"><span class="emoji">🚌</span> Transport</div>
+            <div class="cat-right">
+              <span class="cat-amount">$412</span>
+              <span class="cat-pct">13%</span>
+            </div>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: 13%; background: #3b82f6;"></div>
+          </div>
+        </div>
+
+        <!-- Entertainment -->
+        <div class="category-row">
+          <div class="cat-header">
+            <div class="cat-label"><span class="emoji">🎮</span> Entertainment</div>
+            <div class="cat-right">
+              <span class="cat-amount">$221</span>
+              <span class="cat-pct">7%</span>
+            </div>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width: 7%; background: #ec4899;"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Right column -->
+    <div class="col-right">
+      <div class="insights-card">
+
+        <div class="insights-title">
+          🤖 Claude AI Insights
+        </div>
+
+        <div class="insights-list">
+
+          <div class="insight-item">
+            <div class="insight-dot" style="background: #f97316;"></div>
+            <p class="insight-text"><strong>Dining spend is up.</strong> Your Food &amp; Dining costs are 23% above September. Consider meal prepping a few days a week to meaningfully reduce this.</p>
+          </div>
+
+          <div class="insight-item">
+            <div class="insight-dot" style="background: #3b82f6;"></div>
+            <p class="insight-text"><strong>Transport looks steady.</strong> Commuting costs are stable month-over-month — good discipline. No changes needed here.</p>
+          </div>
+
+          <div class="insight-item">
+            <div class="insight-dot" style="background: #ec4899;"></div>
+            <p class="insight-text"><strong>Savings gap to close.</strong> You're saving ~$400 less than your $800/mo goal. Trimming entertainment spend could close most of that gap.</p>
+          </div>
+
+        </div>
+
+        <div class="powered-badge">
+          <span>Powered by</span>
+          <div class="claude-logo">
+            <span class="claude-dot"></span>
+            <span class="claude-name">Claude</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

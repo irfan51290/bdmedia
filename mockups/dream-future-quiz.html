@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dream Future Quiz</title>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .card {
+      background: #ffffff;
+      max-width: 480px;
+      width: 90%;
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .quiz-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #764ba2;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .step-count {
+      font-size: 13px;
+      font-weight: 700;
+      color: #9ca3af;
+    }
+
+    /* ── Progress bar ── */
+    .progress-bar-wrap {
+      margin-top: 14px;
+      height: 6px;
+      background: #f3f4f6;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 50%;
+      background: #764ba2;
+      border-radius: 999px;
+    }
+
+    /* ── Question ── */
+    .question {
+      margin-top: 22px;
+      font-size: 20px;
+      font-weight: 700;
+      color: #111827;
+      line-height: 1.4;
+    }
+
+    /* ── Options grid ── */
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .option {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: 2px solid #e5e7eb;
+      background: #ffffff;
+      transition: none;
+    }
+
+    .option.selected {
+      background: #764ba2;
+      border-color: #764ba2;
+      box-shadow: 0 6px 20px rgba(118, 75, 162, 0.35);
+      transform: scale(1.02);
+    }
+
+    .option-emoji {
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .option-text {
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+      line-height: 1.4;
+    }
+
+    .option.selected .option-text {
+      color: #ffffff;
+    }
+
+    /* ── Next button ── */
+    .next-btn {
+      display: block;
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
+      background: #764ba2;
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      letter-spacing: 0.01em;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+
+    <!-- Header -->
+    <div class="header">
+      <span class="quiz-label">🔮 Dream Future Quiz</span>
+      <span class="step-count">4 / 8</span>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill"></div>
+    </div>
+
+    <!-- Question -->
+    <p class="question">When you imagine your ideal work day, what matters most to you?</p>
+
+    <!-- Answer options -->
+    <div class="options-grid">
+
+      <div class="option">
+        <span class="option-emoji">🎨</span>
+        <span class="option-text">Creating something new every day</span>
+      </div>
+
+      <div class="option selected">
+        <span class="option-emoji">📊</span>
+        <span class="option-text">Analysing data and finding patterns</span>
+      </div>
+
+      <div class="option">
+        <span class="option-emoji">👥</span>
+        <span class="option-text">Leading teams and people</span>
+      </div>
+
+      <div class="option">
+        <span class="option-emoji">🚀</span>
+        <span class="option-text">Shipping products to millions</span>
+      </div>
+
+    </div>
+
+    <!-- Next button -->
+    <button class="next-btn">Next →</button>
+
+  </div>
+</body>
+</html>

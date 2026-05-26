@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Watch Hunter Bot</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    background: #0d1117;
+    color: #e6edf3;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+  }
+
+  /* LEFT PANEL */
+  .left-panel {
+    flex: 1;
+    border-right: 1px solid #21262d;
+    padding: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* STATS ROW */
+  .stats-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  .stat-card {
+    flex: 1;
+    background: #161b22;
+    border: 1px solid #21262d;
+    border-radius: 8px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .stat-number {
+    font-size: 20px;
+    font-weight: 700;
+    color: #58a6ff;
+    letter-spacing: -0.5px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    color: #8b949e;
+    letter-spacing: 0.3px;
+  }
+
+  /* SCAN HEADER */
+  .scan-header {
+    font-size: 11px;
+    color: #8b949e;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 2px;
+  }
+
+  .pulse-dot {
+    width: 7px;
+    height: 7px;
+    background: #3fb950;
+    border-radius: 50%;
+    flex-shrink: 0;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(63, 185, 80, 0.5); }
+    50% { opacity: 0.6; box-shadow: 0 0 0 4px rgba(63, 185, 80, 0); }
+  }
+
+  /* LISTINGS */
+  .listings {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .listing-row {
+    background: #161b22;
+    border: 1px solid #21262d;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  .listing-row.match {
+    background: #0d2010;
+    border-color: #3fb950;
+  }
+
+  .listing-emoji {
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .listing-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .listing-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: #e6edf3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .listing-sub {
+    font-size: 10px;
+    color: #8b949e;
+    margin-top: 2px;
+  }
+
+  .listing-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .listing-price {
+    font-size: 13px;
+    font-weight: 700;
+    color: #e6edf3;
+  }
+
+  .listing-row.match .listing-price {
+    color: #3fb950;
+  }
+
+  .match-badge {
+    font-size: 8px;
+    font-weight: 700;
+    color: #3fb950;
+    background: rgba(63, 185, 80, 0.15);
+    border: 1px solid rgba(63, 185, 80, 0.4);
+    border-radius: 4px;
+    padding: 2px 5px;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+
+  /* RIGHT PANEL */
+  .right-panel {
+    width: 280px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .panel-label {
+    font-size: 11px;
+    color: #8b949e;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  /* TELEGRAM CARD */
+  .telegram-card {
+    background: #17212b;
+    border-radius: 12px;
+    padding: 14px;
+    border: 1px solid #2b5278;
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  .tg-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .tg-avatar {
+    width: 28px;
+    height: 28px;
+    background: #2b9fda;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .tg-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: #e6edf3;
+    flex: 1;
+  }
+
+  .tg-time {
+    font-size: 10px;
+    color: #8b949e;
+  }
+
+  .tg-body {
+    font-size: 11px;
+    line-height: 1.6;
+    color: #e6edf3;
+    margin-bottom: 12px;
+    padding: 10px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 8px;
+  }
+
+  .tg-body .alert-title {
+    font-weight: 700;
+    color: #ff7b72;
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .tg-body .tap-line {
+    color: #8b949e;
+    font-size: 10px;
+    margin-top: 6px;
+    display: block;
+  }
+
+  .tg-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .tg-btn {
+    width: 100%;
+    padding: 9px 12px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .tg-btn-primary {
+    background: #2b9fda;
+    color: #ffffff;
+  }
+
+  .tg-btn-secondary {
+    background: #2b5278;
+    color: #2b9fda;
+  }
+</style>
+</head>
+<body>
+
+<!-- LEFT PANEL -->
+<div class="left-panel">
+
+  <!-- Stats Row -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-number" id="stat-scans">1,248</div>
+      <div class="stat-label">Scans Today</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">12</div>
+      <div class="stat-label">Alerts Sent</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">23d</div>
+      <div class="stat-label">Running</div>
+    </div>
+  </div>
+
+  <!-- Scan Header -->
+  <div class="scan-header">
+    <div class="pulse-dot"></div>
+    <span id="scan-header-text">Scanning Carousell SG · every 15 min · Scan #1,248</span>
+  </div>
+
+  <!-- Listings -->
+  <div class="listings">
+    <div class="listing-row" id="listing-0">
+      <div class="listing-emoji">⌚</div>
+      <div class="listing-info">
+        <div class="listing-title">Rolex Submariner 116610LN</div>
+        <div class="listing-sub">Buona Vista · 2h ago · Good</div>
+      </div>
+      <div class="listing-right">
+        <div class="listing-price">$14,200</div>
+      </div>
+    </div>
+
+    <div class="listing-row" id="listing-1">
+      <div class="listing-emoji">⌚</div>
+      <div class="listing-info">
+        <div class="listing-title">AP Royal Oak 15500ST</div>
+        <div class="listing-sub">Orchard · 5h ago · Excellent</div>
+      </div>
+      <div class="listing-right">
+        <div class="listing-price">$28,800</div>
+      </div>
+    </div>
+
+    <div class="listing-row" id="listing-2">
+      <div class="listing-emoji">⌚</div>
+      <div class="listing-info">
+        <div class="listing-title">Rolex GMT-Master II 126710BLNR</div>
+        <div class="listing-sub">Tampines · 1d ago · Good</div>
+      </div>
+      <div class="listing-right">
+        <div class="listing-price">$16,500</div>
+      </div>
+    </div>
+
+    <div class="listing-row" id="listing-3">
+      <div class="listing-emoji">⌚</div>
+      <div class="listing-info">
+        <div class="listing-title">Richard Mille RM 055</div>
+        <div class="listing-sub">CBD · 3h ago · Like New</div>
+      </div>
+      <div class="listing-right">
+        <div class="listing-price">$88,000</div>
+      </div>
+    </div>
+
+    <div class="listing-row match" id="listing-4">
+      <div class="listing-emoji">⌚</div>
+      <div class="listing-info">
+        <div class="listing-title">Rolex Submariner 116610LV</div>
+        <div class="listing-sub">Clementi · Just now · Excellent</div>
+      </div>
+      <div class="listing-right">
+        <div class="listing-price">$9,800</div>
+        <div class="match-badge">✓ BELOW TARGET $12,000</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- RIGHT PANEL -->
+<div class="right-panel">
+  <div class="panel-label">TELEGRAM ALERTS</div>
+
+  <div class="telegram-card" id="telegram-card">
+
+    <div class="tg-header">
+      <div class="tg-avatar">🤖</div>
+      <div class="tg-name">Watch Hunter Bot</div>
+      <div class="tg-time">just now</div>
+    </div>
+
+    <div class="tg-body">
+      <span class="alert-title">🚨 MATCH FOUND</span>
+      ⌚ Rolex Submariner 116610LV<br>
+      💰 $9,800 (target: $12,000)<br>
+      📍 Clementi, Singapore<br>
+      ⭐ Condition: Excellent<br>
+      <span class="tap-line">Tap below to auto-message seller →</span>
+    </div>
+
+    <div class="tg-buttons">
+      <button class="tg-btn tg-btn-primary">📨 Message Seller</button>
+      <button class="tg-btn tg-btn-secondary">👁 View Listing</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  var scanCount = 1248;
+
+  function formatNumber(n) {
+    return n.toLocaleString();
+  }
+
+  function animateSequence() {
+    var listings = [];
+    for (var i = 0; i < 5; i++) {
+      listings.push(document.getElementById('listing-' + i));
+    }
+    var telegramCard = document.getElementById('telegram-card');
+    var statScans = document.getElementById('stat-scans');
+    var scanHeaderText = document.getElementById('scan-header-text');
+
+    // Increment scan counter
+    scanCount++;
+    statScans.textContent = formatNumber(scanCount);
+    scanHeaderText.textContent = 'Scanning Carousell SG · every 15 min · Scan #' + formatNumber(scanCount);
+
+    // Reset all to hidden
+    for (var j = 0; j < listings.length; j++) {
+      listings[j].style.transition = 'none';
+      listings[j].style.opacity = '0';
+      listings[j].style.transform = 'translateY(-8px)';
+    }
+    telegramCard.style.transition = 'none';
+    telegramCard.style.opacity = '0';
+    telegramCard.style.transform = 'translateX(20px)';
+
+    // Animate each listing in sequence
+    for (var k = 0; k < listings.length; k++) {
+      (function(index, el) {
+        setTimeout(function() {
+          el.style.transition = 'all 0.4s cubic-bezier(0.16,1,0.3,1)';
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        }, 300 + index * 600);
+      })(k, listings[k]);
+    }
+
+    // Animate telegram card after all listings
+    var telegramDelay = 300 + 5 * 600 + 400;
+    setTimeout(function() {
+      telegramCard.style.transition = 'all 0.5s cubic-bezier(0.16,1,0.3,1)';
+      telegramCard.style.opacity = '1';
+      telegramCard.style.transform = 'translateX(0)';
+    }, telegramDelay);
+  }
+
+  // Start immediately
+  animateSequence();
+
+  // Loop every 7 seconds
+  setInterval(animateSequence, 7000);
+</script>
+
+</body>
+</html>
