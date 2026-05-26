@@ -499,6 +499,7 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
   letter-spacing: 1.5px; color: var(--text-dim);
 }
 .detail-nav-name { font-size: 16px; font-weight: 700; color: var(--text-primary); }
+.detail-nav-btn.next { text-align: right; }
 
 /* ============================================================
    RESPONSIVE — TABLET (< 900px)
@@ -555,4 +556,3 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
   .detail-header { flex-direction: column; }
   .vote-btn      { padding: 12px 18px; font-size: 13px; }
 }
-.detail-nav-btn.next { text-align: right; }
