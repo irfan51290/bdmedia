@@ -1,451 +1,520 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Finance Tracker</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finance Tracker</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0e1117;
+    --sidebar: #161b22;
+    --card: #1e2530;
+    --border: #30363d;
+    --accent: #4fa3e0;
+    --text: #e6edf3;
+    --muted: #8b949e;
+    --red: #FF6B6B;
+    --green: #58D68D;
+    --income: #58D68D;
+    --expense: #FF6B6B;
+    --radius: 8px;
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; font-size: 14px; }
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #f8f9fa;
-      color: #111827;
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
+  .sidebar { width: 220px; min-width: 220px; background: var(--sidebar); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 20px 0; }
+  .sidebar-title { padding: 0 20px 16px; font-size: 17px; font-weight: 700; border-bottom: 1px solid var(--border); }
+  .nav { padding: 12px 10px; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: var(--radius); cursor: pointer; color: var(--muted); font-weight: 500; transition: all .15s; margin-bottom: 2px; }
+  .nav-item:hover { background: rgba(255,255,255,.05); color: var(--text); }
+  .nav-item.active { background: rgba(79,163,224,.15); color: var(--accent); }
 
-    /* ── Nav ── */
-    nav {
-      background: #fff;
-      border-bottom: 1px solid #e5e7eb;
-      height: 52px;
-      display: flex;
-      align-items: center;
-      padding: 0 20px;
-      gap: 12px;
-      flex-shrink: 0;
-    }
+  .main { flex: 1; overflow-y: auto; padding: 28px 32px; }
+  .page { display: none; }
+  .page.active { display: block; }
+  h1 { font-size: 22px; font-weight: 700; margin-bottom: 20px; }
+  h3 { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
 
-    .nav-logo {
-      font-size: 15px;
-      font-weight: 700;
-      color: #111827;
-      white-space: nowrap;
-      letter-spacing: -0.3px;
-    }
+  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+  .metric { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px 18px; }
+  .metric-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .metric-value { font-size: 22px; font-weight: 700; }
+  .metric-delta { font-size: 12px; margin-top: 4px; }
+  .delta-pos { color: var(--green); }
+  .delta-neg { color: var(--red); }
 
-    .nav-center {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-    }
+  .period-bar { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+  .period-btn { padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; font-size: 12px; transition: all .15s; }
+  .period-btn:hover { border-color: var(--accent); color: var(--text); }
+  .period-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
 
-    .file-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: #f0fdf4;
-      border: 1px solid #bbf7d0;
-      border-radius: 20px;
-      padding: 3px 10px;
-      font-size: 11.5px;
-      font-weight: 500;
-      color: #15803d;
-    }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; }
+  .card-header { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .card-caption { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
 
-    .file-badge .check {
-      font-size: 10px;
-      color: #16a34a;
-    }
+  .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .chart-wrap { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+  canvas { max-height: 240px; }
 
-    .upload-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: #111827;
-      color: #fff;
-      border: none;
-      border-radius: 7px;
-      padding: 6px 13px;
-      font-size: 12px;
-      font-weight: 500;
-      cursor: pointer;
-      white-space: nowrap;
-      transition: background 0.15s;
-    }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { text-align: left; padding: 8px 12px; color: var(--muted); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; border-bottom: 1px solid var(--border); }
+  tbody tr { border-bottom: 1px solid rgba(255,255,255,.04); transition: background .1s; }
+  tbody tr:hover { background: rgba(255,255,255,.03); }
+  tbody td { padding: 9px 12px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+  .amount-neg { color: var(--red); font-weight: 600; }
+  .amount-pos { color: var(--green); font-weight: 600; }
 
-    .upload-btn:hover { background: #1f2937; }
+  .filter-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
+  .form-group label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
+  input, select { background: var(--sidebar); border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 7px 10px; font-size: 13px; outline: none; width: 100%; }
+  input:focus, select:focus { border-color: var(--accent); }
+  select option { background: var(--sidebar); }
 
-    /* ── Main layout ── */
-    .main {
-      flex: 1;
-      display: flex;
-      gap: 20px;
-      padding: 18px 20px;
-      overflow: hidden;
-      min-height: 0;
-    }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-size: 13px; font-weight: 600; transition: all .15s; }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: #3a8ec9; }
+  .btn-secondary { background: transparent; border: 1px solid var(--border); color: var(--text); }
+  .btn-secondary:hover { background: rgba(255,255,255,.05); }
+  .btn-sm { padding: 5px 12px; font-size: 12px; }
 
-    /* ── Left column ── */
-    .col-left {
-      flex: 0 0 55%;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      min-height: 0;
-    }
+  .drilldown { background: rgba(79,163,224,.08); border: 1px solid rgba(79,163,224,.3); border-radius: var(--radius); padding: 16px; margin-top: 16px; display: none; }
+  .drilldown.visible { display: block; }
+  .drilldown-title { font-size: 15px; font-weight: 700; margin-bottom: 12px; }
 
-    .period-heading {
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-    }
+  .alert { border-radius: var(--radius); padding: 12px 16px; font-size: 13px; margin-bottom: 16px; }
+  .alert-info { background: rgba(79,163,224,.1); border: 1px solid rgba(79,163,224,.3); color: var(--accent); }
+  .alert-success { background: rgba(88,214,141,.1); border: 1px solid rgba(88,214,141,.3); color: var(--green); }
+  .alert-warning { background: rgba(255,188,66,.1); border: 1px solid rgba(255,188,66,.3); color: #ffbc42; }
 
-    .period-heading h2 {
-      font-size: 15px;
-      font-weight: 700;
-      color: #111827;
-    }
+  .upload-zone { border: 2px dashed var(--border); border-radius: var(--radius); padding: 48px; text-align: center; cursor: pointer; transition: border-color .15s; margin-bottom: 20px; }
+  .upload-zone:hover, .upload-zone.dragover { border-color: var(--accent); }
+  .upload-icon { font-size: 36px; margin-bottom: 10px; }
+  .upload-text { color: var(--muted); font-size: 13px; }
 
-    .period-heading .total-tag {
-      font-size: 12px;
-      color: #6b7280;
-      font-weight: 500;
-    }
+  .gmail-status { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+  .status-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-green { background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .dot-grey { background: var(--muted); }
+  .sync-controls { display: flex; gap: 12px; margin-top: 16px; }
+  .slider-wrap { margin-bottom: 20px; }
+  .slider-wrap label { font-size: 13px; color: var(--muted); display: block; margin-bottom: 8px; }
+  input[type=range] { width: 100%; accent-color: var(--accent); }
+  .slider-val { font-weight: 700; color: var(--accent); }
 
-    .categories-card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 14px 16px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      flex: 1;
-      min-height: 0;
-      overflow: hidden;
-    }
+  .section-divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
 
-    .category-row {
-      padding: 9px 0;
-      border-bottom: 1px solid #f3f4f6;
-    }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
-    .category-row:last-child { border-bottom: none; }
+  .tx-summary { font-size: 13px; margin-bottom: 14px; color: var(--muted); }
+  .tx-summary strong { color: var(--text); }
 
-    .cat-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 6px;
-    }
+  .cat-food { background: rgba(255,107,107,.15); color: #FF6B6B; }
+  .cat-transport { background: rgba(79,163,224,.15); color: #4fa3e0; }
+  .cat-shopping { background: rgba(188,107,255,.15); color: #bc6bff; }
+  .cat-utilities { background: rgba(255,188,66,.15); color: #ffbc42; }
+  .cat-health { background: rgba(88,214,141,.15); color: #58D68D; }
+  .cat-entertainment { background: rgba(255,149,79,.15); color: #ff954f; }
+  .cat-income { background: rgba(88,214,141,.15); color: #58D68D; }
+  .cat-transfer { background: rgba(139,148,158,.15); color: #8b949e; }
 
-    .cat-label {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 12.5px;
-      font-weight: 500;
-      color: #374151;
-    }
-
-    .cat-label .emoji {
-      font-size: 14px;
-      line-height: 1;
-    }
-
-    .cat-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .cat-amount {
-      font-size: 12.5px;
-      font-weight: 600;
-      color: #111827;
-    }
-
-    .cat-pct {
-      font-size: 11px;
-      font-weight: 500;
-      color: #9ca3af;
-      min-width: 28px;
-      text-align: right;
-    }
-
-    .bar-track {
-      height: 6px;
-      background: #e5e7eb;
-      border-radius: 3px;
-      overflow: hidden;
-    }
-
-    .bar-fill {
-      height: 100%;
-      border-radius: 3px;
-      transition: width 0.4s ease;
-    }
-
-    /* ── Right column ── */
-    .col-right {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      min-height: 0;
-    }
-
-    .insights-card {
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 16px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      flex: 1;
-      min-height: 0;
-    }
-
-    .insights-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: #111827;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid #f3f4f6;
-    }
-
-    .insights-list {
-      display: flex;
-      flex-direction: column;
-      gap: 11px;
-      flex: 1;
-    }
-
-    .insight-item {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-    }
-
-    .insight-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-      margin-top: 4px;
-    }
-
-    .insight-text {
-      font-size: 12px;
-      line-height: 1.55;
-      color: #374151;
-    }
-
-    .insight-text strong {
-      color: #111827;
-      font-weight: 600;
-    }
-
-    .powered-badge {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 8px 0 2px;
-      border-top: 1px solid #f3f4f6;
-      margin-top: auto;
-    }
-
-    .powered-badge span {
-      font-size: 10.5px;
-      color: #9ca3af;
-      font-weight: 500;
-      letter-spacing: 0.1px;
-    }
-
-    .claude-logo {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .claude-dot {
-      width: 14px;
-      height: 14px;
-      background: linear-gradient(135deg, #d97706, #b45309);
-      border-radius: 50%;
-      display: inline-block;
-    }
-
-    .claude-name {
-      font-size: 10.5px;
-      font-weight: 700;
-      color: #b45309;
-      letter-spacing: 0.2px;
-    }
-  </style>
+  .file-card { background: rgba(255,255,255,.03); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 16px; }
+  .file-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .hint { font-size: 11px; color: var(--muted); margin-top: 6px; }
+  .recat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px; }
+</style>
 </head>
 <body>
 
-  <!-- Nav -->
-  <nav>
-    <div class="nav-logo">💰 Finance Tracker</div>
-    <div class="nav-center">
-      <div class="file-badge">
-        📄 bank_statement_oct.csv <span class="check">✓</span>
+<nav class="sidebar">
+  <div class="sidebar-title">💰 Finance Tracker</div>
+  <div class="nav">
+    <div class="nav-item active" onclick="navigate('dashboard')">📊 &nbsp;Dashboard</div>
+    <div class="nav-item" onclick="navigate('upload')">📤 &nbsp;Upload Statement</div>
+    <div class="nav-item" onclick="navigate('gmail')">📧 &nbsp;Gmail Sync</div>
+    <div class="nav-item" onclick="navigate('transactions')">📋 &nbsp;Transactions</div>
+  </div>
+</nav>
+
+<main class="main">
+
+  <!-- DASHBOARD -->
+  <div id="page-dashboard" class="page active">
+    <h1>Dashboard</h1>
+    <div class="period-bar">
+      <button class="period-btn" onclick="setPeriod(this,'Last month')">Last month</button>
+      <button class="period-btn active" onclick="setPeriod(this,'This month')">This month</button>
+      <button class="period-btn" onclick="setPeriod(this,'Last 3 months')">Last 3 months</button>
+      <button class="period-btn" onclick="setPeriod(this,'Last 6 months')">Last 6 months</button>
+      <button class="period-btn" onclick="setPeriod(this,'This year')">This year</button>
+    </div>
+    <div class="metrics">
+      <div class="metric"><div class="metric-label">Total Spent</div><div class="metric-value" id="m-spent">S$3,241.80</div></div>
+      <div class="metric"><div class="metric-label">Total Income</div><div class="metric-value" id="m-income">S$6,500.00</div></div>
+      <div class="metric"><div class="metric-label">Net</div><div class="metric-value" id="m-net" style="color:var(--green)">S$3,258.20</div><div class="metric-delta delta-pos" id="m-net-delta">+S$3,258.20</div></div>
+      <div class="metric"><div class="metric-label">Largest Expense</div><div class="metric-value" id="m-largest">S$980.00</div></div>
+    </div>
+    <div class="chart-row">
+      <div class="chart-wrap">
+        <div class="card-header">Spending by Category</div>
+        <div class="card-caption">👆 Click any slice to drill down</div>
+        <canvas id="pieChart"></canvas>
+      </div>
+      <div class="chart-wrap">
+        <div class="card-header">Category Breakdown</div>
+        <div class="card-caption">👆 Click any bar to drill down</div>
+        <canvas id="barChart"></canvas>
       </div>
     </div>
-    <button class="upload-btn">Upload New ↑</button>
-  </nav>
-
-  <!-- Main -->
-  <div class="main">
-
-    <!-- Left column -->
-    <div class="col-left">
-      <div class="period-heading">
-        <h2>October 2024</h2>
-        <span class="total-tag">Total: $3,175</span>
-      </div>
-
-      <div class="categories-card">
-
-        <!-- Food & Dining -->
-        <div class="category-row">
-          <div class="cat-header">
-            <div class="cat-label"><span class="emoji">🍔</span> Food &amp; Dining</div>
-            <div class="cat-right">
-              <span class="cat-amount">$892</span>
-              <span class="cat-pct">28%</span>
-            </div>
-          </div>
-          <div class="bar-track">
-            <div class="bar-fill" style="width: 28%; background: #f97316;"></div>
-          </div>
-        </div>
-
-        <!-- Shopping -->
-        <div class="category-row">
-          <div class="cat-header">
-            <div class="cat-label"><span class="emoji">🛍</span> Shopping</div>
-            <div class="cat-right">
-              <span class="cat-amount">$634</span>
-              <span class="cat-pct">20%</span>
-            </div>
-          </div>
-          <div class="bar-track">
-            <div class="bar-fill" style="width: 20%; background: #8b5cf6;"></div>
-          </div>
-        </div>
-
-        <!-- Bills & Utilities -->
-        <div class="category-row">
-          <div class="cat-header">
-            <div class="cat-label"><span class="emoji">💡</span> Bills &amp; Utilities</div>
-            <div class="cat-right">
-              <span class="cat-amount">$580</span>
-              <span class="cat-pct">18%</span>
-            </div>
-          </div>
-          <div class="bar-track">
-            <div class="bar-fill" style="width: 18%; background: #06b6d4;"></div>
-          </div>
-        </div>
-
-        <!-- Other -->
-        <div class="category-row">
-          <div class="cat-header">
-            <div class="cat-label"><span class="emoji">📦</span> Other</div>
-            <div class="cat-right">
-              <span class="cat-amount">$436</span>
-              <span class="cat-pct">14%</span>
-            </div>
-          </div>
-          <div class="bar-track">
-            <div class="bar-fill" style="width: 14%; background: #6b7280;"></div>
-          </div>
-        </div>
-
-        <!-- Transport -->
-        <div class="category-row">
-          <div class="cat-header">
-            <div class="cat-label"><span class="emoji">🚌</span> Transport</div>
-            <div class="cat-right">
-              <span class="cat-amount">$412</span>
-              <span class="cat-pct">13%</span>
-            </div>
-          </div>
-          <div class="bar-track">
-            <div class="bar-fill" style="width: 13%; background: #3b82f6;"></div>
-          </div>
-        </div>
-
-        <!-- Entertainment -->
-        <div class="category-row">
-          <div class="cat-header">
-            <div class="cat-label"><span class="emoji">🎮</span> Entertainment</div>
-            <div class="cat-right">
-              <span class="cat-amount">$221</span>
-              <span class="cat-pct">7%</span>
-            </div>
-          </div>
-          <div class="bar-track">
-            <div class="bar-fill" style="width: 7%; background: #ec4899;"></div>
-          </div>
-        </div>
-
-      </div>
+    <div class="drilldown" id="drilldown">
+      <div class="drilldown-title" id="drilldown-title"></div>
+      <table><thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>Subcategory</th></tr></thead><tbody id="drilldown-body"></tbody></table>
+      <p class="hint" id="drilldown-caption" style="margin-top:10px"></p>
     </div>
-
-    <!-- Right column -->
-    <div class="col-right">
-      <div class="insights-card">
-
-        <div class="insights-title">
-          🤖 Claude AI Insights
-        </div>
-
-        <div class="insights-list">
-
-          <div class="insight-item">
-            <div class="insight-dot" style="background: #f97316;"></div>
-            <p class="insight-text"><strong>Dining spend is up.</strong> Your Food &amp; Dining costs are 23% above September. Consider meal prepping a few days a week to meaningfully reduce this.</p>
-          </div>
-
-          <div class="insight-item">
-            <div class="insight-dot" style="background: #3b82f6;"></div>
-            <p class="insight-text"><strong>Transport looks steady.</strong> Commuting costs are stable month-over-month — good discipline. No changes needed here.</p>
-          </div>
-
-          <div class="insight-item">
-            <div class="insight-dot" style="background: #ec4899;"></div>
-            <p class="insight-text"><strong>Savings gap to close.</strong> You're saving ~$400 less than your $800/mo goal. Trimming entertainment spend could close most of that gap.</p>
-          </div>
-
-        </div>
-
-        <div class="powered-badge">
-          <span>Powered by</span>
-          <div class="claude-logo">
-            <span class="claude-dot"></span>
-            <span class="claude-name">Claude</span>
-          </div>
-        </div>
-
-      </div>
+    <hr class="section-divider">
+    <div class="card">
+      <div class="card-header">Monthly Trend</div>
+      <canvas id="trendChart" style="max-height:200px"></canvas>
     </div>
-
+    <div class="card">
+      <div class="card-header">Top 10 Merchants</div>
+      <table><thead><tr><th>Merchant</th><th>Total Spent</th><th>Transactions</th></tr></thead><tbody id="merchants-body"></tbody></table>
+    </div>
   </div>
 
+  <!-- UPLOAD -->
+  <div id="page-upload" class="page">
+    <h1>Upload Bank Statement</h1>
+    <div class="alert alert-info">
+      <strong>Supported banks:</strong> DBS, OCBC, UOB, Maybank &nbsp;·&nbsp; <strong>Formats:</strong> CSV, PDF<br>
+      <span style="color:var(--muted)">Tip: Include the bank name in the filename (e.g. <code>DBS_Dec2024.csv</code>) for faster detection.</span>
+    </div>
+    <div class="upload-zone" id="upload-zone" onclick="simulateUpload()">
+      <div class="upload-icon">📂</div>
+      <p style="font-size:15px;font-weight:600;margin-bottom:6px">Drop files here or <strong>browse</strong></p>
+      <p class="upload-text">Accepts .csv and .pdf files</p>
+    </div>
+    <div id="upload-preview" style="display:none">
+      <div class="file-card">
+        <div class="file-card-header">
+          <span>📄</span><strong>DBS_May2026.csv</strong>
+          <span class="badge" style="background:rgba(88,214,141,.15);color:var(--green);margin-left:auto">DBS Detected</span>
+        </div>
+        <div class="alert alert-success" style="margin-bottom:12px">Detected: <strong>DBS</strong> — 47 transactions found</div>
+        <table>
+          <thead><tr><th>Date</th><th>Description</th><th>Amount (SGD)</th><th>Category</th><th>Subcategory</th></tr></thead>
+          <tbody>
+            <tr><td>2026-05-24</td><td>GRAB*TRANSPORT</td><td class="amount-neg">-S$14.20</td><td><span class="badge cat-transport">Transport</span></td><td>Grab</td></tr>
+            <tr><td>2026-05-23</td><td>FAIRPRICE FINEST</td><td class="amount-neg">-S$67.85</td><td><span class="badge cat-food">Food</span></td><td>Groceries</td></tr>
+            <tr><td>2026-05-22</td><td>NETFLIX.COM</td><td class="amount-neg">-S$17.98</td><td><span class="badge cat-entertainment">Entertainment</span></td><td>Streaming</td></tr>
+            <tr><td>2026-05-21</td><td>SALARY CREDIT</td><td class="amount-pos">+S$6,500.00</td><td><span class="badge cat-income">Income</span></td><td>Salary</td></tr>
+            <tr><td>2026-05-20</td><td>SP GROUP</td><td class="amount-neg">-S$98.40</td><td><span class="badge cat-utilities">Utilities</span></td><td>Electricity</td></tr>
+            <tr><td colspan="5" style="text-align:center;color:var(--muted);padding:10px">… 42 more transactions</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:14px;display:flex;gap:10px">
+          <button class="btn btn-primary" onclick="simulateImport()">Import 47 transactions</button>
+          <button class="btn btn-secondary btn-sm" onclick="cancelUpload()">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <div id="import-success" style="display:none"><div class="alert alert-success">✓ 44 imported, 3 duplicates skipped.</div></div>
+    <hr class="section-divider">
+    <h3>Recent Imports</h3>
+    <table><thead><tr><th>Imported At</th><th>File</th><th>Transactions</th></tr></thead>
+      <tbody>
+        <tr><td>2026-05-20 09:14</td><td>DBS_Apr2026.csv</td><td>52</td></tr>
+        <tr><td>2026-04-18 21:03</td><td>DBS_Mar2026.pdf</td><td>39</td></tr>
+        <tr><td>2026-04-18 21:01</td><td>OCBC_Mar2026.csv</td><td>28</td></tr>
+        <tr><td>2026-03-15 14:22</td><td>DBS_Feb2026.csv</td><td>47</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- GMAIL -->
+  <div id="page-gmail" class="page">
+    <h1>Gmail Sync</h1>
+    <p style="color:var(--muted);margin-bottom:20px">Automatically extract <strong style="color:var(--text)">PayLah</strong> and <strong style="color:var(--text)">PayNow</strong> transactions from your Gmail inbox.</p>
+    <div class="gmail-status">
+      <div class="status-dot dot-green" id="gmail-dot"></div>
+      <span id="gmail-status-text" style="font-weight:600;color:var(--green)">Gmail connected</span>
+      <button class="btn btn-secondary btn-sm" style="margin-left:auto" onclick="toggleGmail()">Disconnect</button>
+    </div>
+    <div id="gmail-disconnected" style="display:none">
+      <div class="alert alert-warning">Not connected to Gmail.</div>
+      <button class="btn btn-primary" onclick="toggleGmail()">Connect Gmail (opens browser)</button>
+    </div>
+    <hr class="section-divider">
+    <div id="gmail-controls">
+      <div class="slider-wrap">
+        <label>Sync emails from the last <span class="slider-val" id="days-val">90</span> days</label>
+        <input type="range" min="7" max="365" value="90" oninput="document.getElementById('days-val').textContent=this.value">
+      </div>
+      <div class="sync-controls">
+        <button class="btn btn-secondary" onclick="previewGmail()">👁 Preview (no import)</button>
+        <button class="btn btn-primary" onclick="syncGmail()">⚡ Sync Now</button>
+      </div>
+      <div id="gmail-preview-result" style="display:none;margin-top:20px">
+        <div class="alert alert-success" style="margin-bottom:14px">Found <strong>12</strong> transactions in emails.</div>
+        <table><thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>Source</th></tr></thead>
+          <tbody>
+            <tr><td>2026-05-25</td><td>PayLah! to John Tan</td><td class="amount-neg">-S$25.00</td><td><span class="badge cat-transfer">gmail_paylah</span></td></tr>
+            <tr><td>2026-05-24</td><td>PayNow from Sarah</td><td class="amount-pos">+S$50.00</td><td><span class="badge cat-income">gmail_paynow</span></td></tr>
+            <tr><td>2026-05-22</td><td>PayLah! to Hawker Centre</td><td class="amount-neg">-S$8.50</td><td><span class="badge cat-transfer">gmail_paylah</span></td></tr>
+            <tr><td colspan="4" style="text-align:center;color:var(--muted);padding:10px">… 9 more transactions</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="gmail-sync-result" style="display:none;margin-top:16px"><div class="alert alert-success">✓ 11 transactions imported, 1 duplicate skipped.</div></div>
+    </div>
+  </div>
+
+  <!-- TRANSACTIONS -->
+  <div id="page-transactions" class="page">
+    <h1>Transactions</h1>
+    <div class="card" style="margin-bottom:16px">
+      <div class="filter-row">
+        <div>
+          <div class="form-group" style="margin-bottom:10px"><label>From</label><input type="date" value="2026-04-26"></div>
+          <div class="form-group"><label>To</label><input type="date" value="2026-05-26"></div>
+        </div>
+        <div>
+          <div class="form-group" style="margin-bottom:10px">
+            <label>Category</label>
+            <select onchange="filterTransactions(this.value)">
+              <option value="All">All</option><option>Food</option><option>Transport</option><option>Shopping</option>
+              <option>Utilities</option><option>Health</option><option>Entertainment</option><option>Income</option><option>Transfer</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Search</label><input type="text" placeholder="e.g. Grab, Netflix…" oninput="searchTransactions(this.value)"></div>
+        </div>
+        <div>
+          <div class="form-group"><label>Source</label>
+            <select><option>All</option><option>dbs_csv</option><option>dbs_pdf</option><option>ocbc_csv</option><option>gmail_paylah</option><option>gmail_paynow</option></select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tx-summary" id="tx-summary"></div>
+    <table><thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>Category</th><th>Subcategory</th><th>Source</th></tr></thead><tbody id="tx-body"></tbody></table>
+    <hr class="section-divider">
+    <h3>Re-categorize a Transaction</h3>
+    <div class="form-group">
+      <label>Select transaction</label>
+      <select onchange="showRecat(this.value)">
+        <option value="">— select —</option>
+        <option value="0">2026-05-24 | GRAB*TRANSPORT | -S$14.20</option>
+        <option value="1">2026-05-23 | FAIRPRICE FINEST | -S$67.85</option>
+        <option value="2">2026-05-22 | NETFLIX.COM | -S$17.98</option>
+        <option value="3">2026-05-21 | SALARY CREDIT | +S$6,500.00</option>
+      </select>
+    </div>
+    <div id="recat-panel" style="display:none">
+      <div class="recat-row">
+        <div class="form-group"><label>New Category</label>
+          <select id="recat-cat"><option>Food</option><option>Transport</option><option>Shopping</option><option>Utilities</option><option>Health</option><option>Entertainment</option><option>Income</option><option>Transfer</option></select>
+        </div>
+        <div class="form-group"><label>New Subcategory</label>
+          <select id="recat-sub"><option></option><option>Grab</option><option>MRT/Bus</option><option>Taxi</option></select>
+        </div>
+      </div>
+      <button class="btn btn-primary" style="margin-top:12px" onclick="saveRecat()">Save category</button>
+      <div id="recat-success" style="display:none;margin-top:10px" class="alert alert-success"></div>
+    </div>
+    <hr class="section-divider">
+    <button class="btn btn-secondary" onclick="exportCSV()">⬇ Export to CSV</button>
+  </div>
+
+</main>
+
+<script>
+const categories = ['Food','Transport','Shopping','Utilities','Health','Entertainment'];
+const catColors   = ['#FF6B6B','#4fa3e0','#bc6bff','#ffbc42','#58D68D','#ff954f'];
+const catClass    = ['cat-food','cat-transport','cat-shopping','cat-utilities','cat-health','cat-entertainment'];
+
+const periodData = {
+  'Last month':    { spent:2980.40, income:6500, largest:800, cats:[620,480,350,210,190,160] },
+  'This month':    { spent:3241.80, income:6500, largest:980, cats:[780,510,420,280,160,110] },
+  'Last 3 months': { spent:9120.50, income:19500,largest:1200,cats:[2100,1450,1800,820,530,410] },
+  'Last 6 months': { spent:18340.20,income:39000,largest:1500,cats:[4200,2900,3600,1640,1060,820] },
+  'This year':     { spent:24810.00,income:52000,largest:1500,cats:[5600,3800,4800,2200,1400,1100] },
+};
+
+const allTransactions = [
+  {date:'2026-05-24',desc:'GRAB*TRANSPORT',amt:-14.20,cat:'Transport',sub:'Grab',src:'dbs_csv'},
+  {date:'2026-05-23',desc:'FAIRPRICE FINEST',amt:-67.85,cat:'Food',sub:'Groceries',src:'dbs_csv'},
+  {date:'2026-05-22',desc:'NETFLIX.COM',amt:-17.98,cat:'Entertainment',sub:'Streaming',src:'dbs_csv'},
+  {date:'2026-05-21',desc:'SALARY CREDIT',amt:6500.00,cat:'Income',sub:'Salary',src:'dbs_csv'},
+  {date:'2026-05-20',desc:'SP GROUP',amt:-98.40,cat:'Utilities',sub:'Electricity',src:'dbs_csv'},
+  {date:'2026-05-19',desc:'WATSONS SG',amt:-42.50,cat:'Health',sub:'Pharmacy',src:'dbs_csv'},
+  {date:'2026-05-18',desc:'LAZADA SG',amt:-189.00,cat:'Shopping',sub:'Online',src:'dbs_csv'},
+  {date:'2026-05-17',desc:'GRAB*TRANSPORT',amt:-22.80,cat:'Transport',sub:'Grab',src:'dbs_csv'},
+  {date:'2026-05-16',desc:'KOUFU FOODCOURT',amt:-8.60,cat:'Food',sub:'Hawker',src:'gmail_paylah'},
+  {date:'2026-05-15',desc:'STARHUB',amt:-57.90,cat:'Utilities',sub:'Telco',src:'dbs_csv'},
+  {date:'2026-05-14',desc:'SHEIN',amt:-78.00,cat:'Shopping',sub:'Clothes',src:'dbs_csv'},
+  {date:'2026-05-13',desc:'PayLah! to John',amt:-25.00,cat:'Transfer',sub:'',src:'gmail_paylah'},
+  {date:'2026-05-12',desc:'NTUC FAIRPRICE',amt:-54.20,cat:'Food',sub:'Groceries',src:'dbs_csv'},
+  {date:'2026-05-11',desc:'GRAB*FOOD',amt:-32.40,cat:'Food',sub:'GrabFood',src:'dbs_csv'},
+  {date:'2026-05-10',desc:'CAPITALAND MALL',amt:-980.00,cat:'Shopping',sub:'Mall',src:'dbs_csv'},
+  {date:'2026-05-09',desc:'GUARDIAN HEALTH',amt:-29.90,cat:'Health',sub:'Pharmacy',src:'dbs_csv'},
+  {date:'2026-05-08',desc:'SPOTIFY',amt:-9.98,cat:'Entertainment',sub:'Streaming',src:'dbs_csv'},
+  {date:'2026-05-07',desc:'MRT/BUS EZ-LINK',amt:-45.00,cat:'Transport',sub:'MRT/Bus',src:'dbs_csv'},
+  {date:'2026-05-06',desc:'PayNow from Sarah',amt:50.00,cat:'Income',sub:'Transfer',src:'gmail_paynow'},
+  {date:'2026-05-05',desc:'PARKWAY PARADE',amt:-112.00,cat:'Shopping',sub:'Mall',src:'dbs_csv'},
+  {date:'2026-05-04',desc:'OLD CHANG KEE',amt:-6.50,cat:'Food',sub:'Snacks',src:'gmail_paylah'},
+  {date:'2026-05-03',desc:'SINGTEL',amt:-35.00,cat:'Utilities',sub:'Telco',src:'dbs_csv'},
+  {date:'2026-05-02',desc:'COLD STORAGE',amt:-89.40,cat:'Food',sub:'Groceries',src:'dbs_csv'},
+];
+
+const merchants = [
+  {name:'CAPITALAND MALL',total:'S$980.00',count:1},{name:'NTUC FAIRPRICE',total:'S$143.60',count:2},
+  {name:'LAZADA SG',total:'S$189.00',count:1},{name:'SP GROUP',total:'S$98.40',count:1},
+  {name:'PARKWAY PARADE',total:'S$112.00',count:1},{name:'COLD STORAGE',total:'S$89.40',count:1},
+  {name:'GRAB*TRANSPORT',total:'S$37.00',count:2},{name:'GRAB*FOOD',total:'S$32.40',count:1},
+  {name:'STARHUB',total:'S$57.90',count:1},{name:'SHEIN',total:'S$78.00',count:1},
+];
+
+const drillData = {
+  'Food':allTransactions.filter(t=>t.cat==='Food'&&t.amt<0),
+  'Transport':allTransactions.filter(t=>t.cat==='Transport'&&t.amt<0),
+  'Shopping':allTransactions.filter(t=>t.cat==='Shopping'&&t.amt<0),
+  'Utilities':allTransactions.filter(t=>t.cat==='Utilities'&&t.amt<0),
+  'Health':allTransactions.filter(t=>t.cat==='Health'&&t.amt<0),
+  'Entertainment':allTransactions.filter(t=>t.cat==='Entertainment'&&t.amt<0),
+};
+
+function navigate(page) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  const items = document.querySelectorAll('.nav-item');
+  const map = {dashboard:0,upload:1,gmail:2,transactions:3};
+  items[map[page]].classList.add('active');
+}
+
+function setPeriod(btn, period) {
+  document.querySelectorAll('.period-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const d = periodData[period];
+  const net = d.income - d.spent;
+  document.getElementById('m-spent').textContent  = `S$${d.spent.toLocaleString('en-SG',{minimumFractionDigits:2})}`;
+  document.getElementById('m-income').textContent = `S$${d.income.toLocaleString('en-SG',{minimumFractionDigits:2})}`;
+  document.getElementById('m-net').textContent    = `S$${net.toLocaleString('en-SG',{minimumFractionDigits:2})}`;
+  document.getElementById('m-net').style.color    = net>=0?'var(--green)':'var(--red)';
+  document.getElementById('m-net-delta').textContent = `${net>=0?'+':''}S$${net.toLocaleString('en-SG',{minimumFractionDigits:2})}`;
+  document.getElementById('m-net-delta').className = `metric-delta ${net>=0?'delta-pos':'delta-neg'}`;
+  document.getElementById('m-largest').textContent = `S$${d.largest.toLocaleString('en-SG',{minimumFractionDigits:2})}`;
+  updateCharts(d.cats);
+  hideDrilldown();
+}
+
+let pieChart, barChart, trendChart;
+
+function buildCharts() {
+  const d = periodData['This month'];
+  pieChart = new Chart(document.getElementById('pieChart'), {
+    type:'doughnut',
+    data:{labels:categories,datasets:[{data:d.cats,backgroundColor:catColors,borderWidth:2,borderColor:'#1e2530'}]},
+    options:{responsive:true,maintainAspectRatio:true,cutout:'45%',
+      plugins:{legend:{position:'right',labels:{color:'#e6edf3',boxWidth:12,padding:10,font:{size:12}}}},
+      onClick:(e,els)=>{if(els.length)showDrilldown(categories[els[0].index]);}}
+  });
+  barChart = new Chart(document.getElementById('barChart'), {
+    type:'bar',
+    data:{labels:[...categories].reverse(),datasets:[{data:[...d.cats].reverse(),backgroundColor:[...catColors].reverse(),borderRadius:4}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:true,
+      plugins:{legend:{display:false}},
+      scales:{x:{grid:{color:'rgba(255,255,255,.06)'},ticks:{color:'#8b949e'}},y:{grid:{display:false},ticks:{color:'#8b949e'}}},
+      onClick:(e,els)=>{if(els.length)showDrilldown([...categories].reverse()[els[0].index]);}}
+  });
+  trendChart = new Chart(document.getElementById('trendChart'), {
+    type:'bar',
+    data:{labels:['Dec','Jan','Feb','Mar','Apr','May'],datasets:[
+      {label:'Expenses',data:[2810,3120,2760,3340,2980,3241],backgroundColor:'#FF6B6B',borderRadius:4},
+      {label:'Income',data:[6500,6500,6500,6500,6500,6500],backgroundColor:'#58D68D',borderRadius:4}
+    ]},
+    options:{responsive:true,maintainAspectRatio:true,
+      plugins:{legend:{labels:{color:'#e6edf3',font:{size:12}}}},
+      scales:{x:{grid:{color:'rgba(255,255,255,.06)'},ticks:{color:'#8b949e'}},y:{grid:{color:'rgba(255,255,255,.06)'},ticks:{color:'#8b949e',callback:v=>`S$${v.toLocaleString()}`}}}}
+  });
+}
+
+function updateCharts(cats) {
+  pieChart.data.datasets[0].data = cats;
+  barChart.data.datasets[0].data = [...cats].reverse();
+  pieChart.update(); barChart.update();
+}
+
+function showDrilldown(cat) {
+  const txs = drillData[cat]||[];
+  const color = catColors[categories.indexOf(cat)]||'#e6edf3';
+  document.getElementById('drilldown-title').innerHTML = `<span style="color:${color}">📂 ${cat}</span>`;
+  document.getElementById('drilldown-body').innerHTML = txs.map(t=>`<tr><td>${t.date}</td><td>${t.desc}</td><td class="amount-neg">S$${Math.abs(t.amt).toFixed(2)}</td><td>${t.sub||'—'}</td></tr>`).join('');
+  const total = txs.reduce((s,t)=>s+Math.abs(t.amt),0);
+  document.getElementById('drilldown-caption').textContent = `${txs.length} transactions · Total: S$${total.toFixed(2)}`;
+  document.getElementById('drilldown').classList.add('visible');
+  document.getElementById('drilldown').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function hideDrilldown() { document.getElementById('drilldown').classList.remove('visible'); }
+
+function buildMerchants() {
+  document.getElementById('merchants-body').innerHTML = merchants.map(m=>`<tr><td>${m.name}</td><td>${m.total}</td><td>${m.count}</td></tr>`).join('');
+}
+
+let filteredTx = [...allTransactions];
+
+function renderTxTable(txs) {
+  document.getElementById('tx-body').innerHTML = txs.map(t=>{
+    const idx=categories.indexOf(t.cat);
+    const cls=idx>=0?catClass[idx]:'cat-transfer';
+    const amtCls=t.amt<0?'amount-neg':'amount-pos';
+    const amtStr=t.amt<0?`-S$${Math.abs(t.amt).toFixed(2)}`:`+S$${t.amt.toFixed(2)}`;
+    return `<tr><td>${t.date}</td><td>${t.desc}</td><td class="${amtCls}">${amtStr}</td><td><span class="badge ${cls}">${t.cat}</span></td><td>${t.sub||'—'}</td><td><span style="font-size:11px;color:var(--muted)">${t.src}</span></td></tr>`;
+  }).join('');
+  const exp=txs.filter(t=>t.amt<0).reduce((s,t)=>s+Math.abs(t.amt),0);
+  const inc=txs.filter(t=>t.amt>0).reduce((s,t)=>s+t.amt,0);
+  document.getElementById('tx-summary').innerHTML=`<strong>${txs.length} transactions</strong> &nbsp;|&nbsp; Expenses: <strong>S$${exp.toFixed(2)}</strong> &nbsp;|&nbsp; Income: <strong>S$${inc.toFixed(2)}</strong>`;
+}
+
+function filterTransactions(cat) { filteredTx=cat==='All'?[...allTransactions]:allTransactions.filter(t=>t.cat===cat); renderTxTable(filteredTx); }
+function searchTransactions(q) { const l=q.toLowerCase(); filteredTx=allTransactions.filter(t=>t.desc.toLowerCase().includes(l)); renderTxTable(filteredTx); }
+
+const recatDefaults=[{cat:'Transport',sub:'Grab'},{cat:'Food',sub:'Groceries'},{cat:'Entertainment',sub:'Streaming'},{cat:'Income',sub:'Salary'}];
+function showRecat(val) {
+  if(!val){document.getElementById('recat-panel').style.display='none';return;}
+  document.getElementById('recat-cat').value=recatDefaults[parseInt(val)].cat;
+  document.getElementById('recat-panel').style.display='block';
+  document.getElementById('recat-success').style.display='none';
+}
+function saveRecat() { const cat=document.getElementById('recat-cat').value; const d=document.getElementById('recat-success'); d.textContent=`Updated to ${cat}`; d.style.display='block'; }
+
+function simulateUpload() { document.getElementById('upload-preview').style.display='block'; document.getElementById('upload-zone').style.display='none'; document.getElementById('import-success').style.display='none'; }
+function simulateImport() { document.getElementById('upload-preview').style.display='none'; document.getElementById('import-success').style.display='block'; document.getElementById('upload-zone').style.display='block'; }
+function cancelUpload() { document.getElementById('upload-preview').style.display='none'; document.getElementById('upload-zone').style.display='block'; }
+
+let gmailConnected=true;
+function toggleGmail() {
+  gmailConnected=!gmailConnected;
+  const dot=document.getElementById('gmail-dot'),text=document.getElementById('gmail-status-text');
+  if(gmailConnected){dot.className='status-dot dot-green';text.textContent='Gmail connected';text.style.color='var(--green)';document.getElementById('gmail-disconnected').style.display='none';document.getElementById('gmail-controls').style.display='block';document.querySelector('.gmail-status .btn').textContent='Disconnect';}
+  else{dot.className='status-dot dot-grey';text.textContent='Not connected';text.style.color='var(--muted)';document.getElementById('gmail-disconnected').style.display='block';document.getElementById('gmail-controls').style.display='none';document.querySelector('.gmail-status .btn').textContent='Connect Gmail';}
+  document.getElementById('gmail-preview-result').style.display='none';
+  document.getElementById('gmail-sync-result').style.display='none';
+}
+function previewGmail() { document.getElementById('gmail-preview-result').style.display='block'; document.getElementById('gmail-sync-result').style.display='none'; }
+function syncGmail() { document.getElementById('gmail-sync-result').style.display='block'; document.getElementById('gmail-preview-result').style.display='none'; }
+
+function exportCSV() {
+  const rows=[['Date','Description','Amount','Category','Subcategory','Source'],...allTransactions.map(t=>[t.date,t.desc,t.amt,t.cat,t.sub,t.src])];
+  const a=document.createElement('a'); a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(rows.map(r=>r.join(',')).join('\n')); a.download='transactions.csv'; a.click();
+}
+
+buildCharts(); buildMerchants(); renderTxTable(allTransactions);
+</script>
 </body>
 </html>
