@@ -191,3 +191,118 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
   border-top: 1px solid var(--border);
   font-size: 12px; color: var(--text-dim);
 }
+
+/* ============================================================
+   TIMELINE
+   ============================================================ */
+.timeline-section {
+  padding: 80px 48px 120px;
+}
+.timeline {
+  position: relative;
+}
+.timeline::before {
+  content: '';
+  position: absolute; left: 72px; top: 0; bottom: 0; width: 1px;
+  background: linear-gradient(to bottom, var(--accent) 0%, var(--border) 100%);
+}
+
+.timeline-item {
+  display: flex; gap: 0; position: relative;
+}
+
+/* Week column */
+.week-col {
+  width: 72px; flex-shrink: 0;
+  display: flex; flex-direction: column; align-items: center;
+  padding-top: 30px; position: relative;
+}
+.week-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent); border: 2px solid var(--bg);
+  position: absolute; left: 50%; top: 30px;
+  transform: translateX(-50%); z-index: 3;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+}
+.week-badge {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1.5px; color: var(--accent);
+  background: var(--accent-light); border: 1px solid var(--accent-border);
+  border-radius: var(--radius-pill); padding: 4px 10px;
+  white-space: nowrap; position: relative; z-index: 2;
+  margin-top: 24px;
+}
+.week-badge.featured {
+  background: var(--accent); color: white; border-color: var(--accent);
+}
+
+/* Project card */
+.project-card {
+  flex: 1; margin-left: 28px; margin-bottom: 40px;
+  background: var(--bg-card); border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  padding: 26px 30px;
+  display: flex; gap: 20px; align-items: flex-start;
+  cursor: pointer;
+  transition: box-shadow 0.25s, transform 0.25s, border-color 0.25s;
+}
+.project-card:hover {
+  box-shadow: 0 12px 40px var(--shadow-blue);
+  transform: translateY(-3px);
+  border-color: var(--accent-border);
+}
+.project-card.featured {
+  border-color: var(--accent-border);
+  background: linear-gradient(135deg, #fff 0%, var(--accent-light) 100%);
+}
+.project-card:hover .card-icon { background: var(--accent); }
+.project-card:hover .card-icon-emoji { filter: brightness(10); }
+.project-card:hover .card-arrow { color: var(--accent); transform: translate(3px, -3px); }
+
+.card-icon {
+  width: 54px; height: 54px; border-radius: 13px;
+  background: var(--accent-light); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.25s;
+}
+.card-icon.featured { background: var(--accent); }
+.card-icon-emoji {
+  font-size: 26px;
+  transition: filter 0.25s;
+}
+.card-body { flex: 1; min-width: 0; }
+.card-category {
+  font-size: 10px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 1.2px; color: var(--accent); margin-bottom: 5px;
+}
+.card-name {
+  font-size: 20px; font-weight: 800; letter-spacing: -0.5px;
+  color: var(--text-primary); margin-bottom: 6px;
+}
+.card-desc {
+  font-size: 13px; color: var(--text-muted); line-height: 1.55;
+  margin-bottom: 14px;
+}
+.card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.card-tag {
+  font-size: 10px; font-weight: 600; padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-light); color: var(--accent);
+}
+.card-right {
+  display: flex; flex-direction: column;
+  align-items: flex-end; gap: 12px; flex-shrink: 0;
+}
+.card-arrow {
+  font-size: 20px; color: var(--border);
+  transition: color 0.2s, transform 0.2s;
+}
+.card-votes {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; color: var(--text-muted);
+}
+.vote-live-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green); animation: pulse 2s infinite; flex-shrink: 0;
+}
+.vote-num { font-weight: 700; color: var(--text-primary); font-size: 14px; }
