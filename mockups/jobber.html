@@ -1,192 +1,934 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Jobber — Mockup</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,'SF Pro Display','Segoe UI',sans-serif;background:#f2f3f7;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:32px 16px}
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jobber — Interactive Mockup</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-.phone{width:375px;background:#f2f3f7;border-radius:48px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,0.18),0 0 0 10px #1a1a1a,0 0 0 12px #333;position:relative;min-height:780px;display:flex;flex-direction:column}
+    :root {
+      --bg: #fdf6f0;
+      --surface: #ffffff;
+      --border: #f3e8e0;
+      --accent: #c86e4b;
+      --accent-light: #fdeee7;
+      --accent-border: #f3c9bc;
+      --text: #1a1207;
+      --text-sec: #92745e;
+      --text-muted: #b8a99a;
+      --applied: #3b5bdb;
+      --applied-light: #e8f0fe;
+      --interview: #2d7a4f;
+      --interview-light: #edf7f0;
+      --offer: #7c6faa;
+      --offer-light: #f3ecfe;
+      --rejected: #d97264;
+      --rejected-light: #fdf0ee;
+    }
 
-/* Status bar */
-.status-bar{background:#f2f3f7;padding:14px 28px 6px;display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:600}
-.status-time{font-size:15px;font-weight:700}
-.status-icons{display:flex;gap:5px;align-items:center}
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #1a1207;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
 
-/* Top bar */
-.top-bar{padding:8px 20px 12px;display:flex;justify-content:space-between;align-items:center;background:#f2f3f7}
-.top-title{font-size:22px;font-weight:800;letter-spacing:-0.5px;color:#111}
-.top-sub{font-size:12px;color:#999;margin-top:1px}
-.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#60a5fa);display:flex;align-items:center;justify-content:center;color:white;font-size:13px;font-weight:700}
+    h1 {
+      color: #fff;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      opacity: 0.5;
+    }
 
-/* Counter */
-.counter-row{padding:0 20px 14px;display:flex;gap:16px}
-.counter{background:white;border-radius:12px;padding:10px 14px;flex:1;border:1px solid #e8e8f0;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
-.counter-num{font-size:20px;font-weight:800;color:#111}
-.counter-label{font-size:10px;color:#999;font-weight:500;margin-top:1px}
-.counter.green .counter-num{color:#16a34a}
-.counter.blue .counter-num{color:#2563eb}
+    /* ── Phone Frame ── */
+    .phone {
+      width: 375px;
+      height: 780px;
+      background: var(--bg);
+      border-radius: 50px;
+      border: 10px solid #2a2a2a;
+      box-shadow: 0 0 0 2px #444, 0 40px 80px rgba(0,0,0,0.6);
+      overflow: hidden;
+      position: relative;
+      flex-shrink: 0;
+    }
 
-/* Card stack */
-.card-stack{flex:1;padding:0 20px;position:relative}
-.card{background:white;border-radius:24px;padding:20px;border:1px solid #e8e8f0;box-shadow:0 8px 32px rgba(0,0,0,0.08)}
+    .notch {
+      width: 120px;
+      height: 28px;
+      background: #2a2a2a;
+      border-radius: 0 0 18px 18px;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+    }
 
-.card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
-.company-row{display:flex;align-items:center;gap:10px}
-.company-logo{width:44px;height:44px;border-radius:10px;background:#f0f4ff;border:1px solid #e0e8ff;display:flex;align-items:center;justify-content:center;font-size:18px}
-.company-name{font-size:14px;font-weight:600;color:#111}
-.company-location{font-size:11px;color:#999;margin-top:2px}
-.remote-badge{display:inline-block;background:#eff6ff;border-radius:100px;padding:1px 7px;font-size:9px;color:#2563eb;font-weight:600;margin-left:4px}
-.match-badge{background:#2563eb;border-radius:10px;padding:6px 10px;text-align:center;min-width:52px}
-.match-score{font-size:15px;font-weight:800;color:white;line-height:1}
-.match-label{font-size:8px;color:rgba(255,255,255,0.8);font-weight:500;letter-spacing:0.5px;margin-top:1px}
+    .status-bar {
+      height: 44px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 0 24px 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+      flex-shrink: 0;
+    }
 
-.job-title{font-size:21px;font-style:italic;color:#111;line-height:1.25;margin-bottom:12px;font-weight:500}
+    .status-bar-right { display: flex; gap: 6px; align-items: center; }
 
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
-.chip{display:flex;align-items:center;gap:4px;background:#f8f8fc;border:1px solid #e8e8f0;border-radius:100px;padding:4px 10px;font-size:11px;color:#555}
-.chip.apply{background:#eff6ff;border-color:#bfdbfe;color:#2563eb}
+    /* ── Screens ── */
+    .screen {
+      display: none;
+      flex-direction: column;
+      height: 100%;
+      overflow: hidden;
+    }
+    .screen.active { display: flex; }
 
-.skills{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
-.skill{background:#f8f8fc;border:1px solid #e8e8f0;border-radius:100px;padding:3px 9px;font-size:11px;color:#666}
-.skill.match{background:#eff6ff;border-color:#bfdbfe;color:#2563eb;font-weight:600}
+    .screen-body {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+    .screen-body::-webkit-scrollbar { display: none; }
 
-.description{font-size:13px;color:#666;line-height:1.6;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.read-more{font-size:11px;color:#2563eb;font-weight:600;margin-bottom:10px}
+    /* ── Bottom Tab Bar ── */
+    .tab-bar {
+      height: 72px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 8px 8px;
+      flex-shrink: 0;
+    }
 
-.why-strip{background:#eff6ff;border-radius:10px;padding:10px 12px;display:flex;gap:6px;align-items:flex-start;margin-bottom:8px}
-.why-icon{font-size:12px;margin-top:1px}
-.why-text{font-size:11px;color:#111;line-height:1.5;flex:1}
+    .tab-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      padding: 8px 16px;
+      border-radius: 12px;
+      border: none;
+      background: none;
+      transition: all 0.15s;
+    }
+    .tab-btn:hover { background: var(--accent-light); }
+    .tab-btn .tab-icon { font-size: 20px; line-height: 1; }
+    .tab-btn .tab-label { font-size: 10px; font-weight: 500; color: var(--text-muted); }
+    .tab-btn.active .tab-label { color: var(--accent); }
+    .tab-btn.active .tab-icon { filter: none; }
 
-.via{font-size:10px;color:#bbb;text-align:right}
+    /* ── Header ── */
+    .header {
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .wordmark { font-family: Georgia, serif; font-style: italic; font-size: 26px; color: var(--accent); }
+    .header-actions { display: flex; gap: 12px; align-items: center; }
+    .pill-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .icon-btn { background: none; border: none; cursor: pointer; font-size: 20px; }
 
-/* Swipe actions */
-.swipe-actions{padding:16px 20px 28px;display:flex;justify-content:center;gap:20px;background:#f2f3f7}
-.swipe-btn{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.12);transition:transform 0.15s}
-.swipe-btn.skip{background:white;color:#ef4444}
-.swipe-btn.apply{background:#2563eb;color:white}
-.swipe-btn.super{background:white;color:#f59e0b}
+    /* ── Job Card ── */
+    .card-stack {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      position: relative;
+    }
 
-/* Tab bar */
-.tab-bar{background:white;border-top:1px solid #e8e8f0;padding:8px 0 16px;display:flex;justify-content:space-around}
-.tab{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;color:#bbb;padding:4px 14px}
-.tab.active{color:#2563eb}
-.tab-icon{font-size:20px}
-</style>
+    .job-card {
+      background: var(--surface);
+      border-radius: 24px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      width: 100%;
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .job-card:hover { transform: translateY(-2px); }
+
+    .card-bg {
+      position: absolute;
+      top: 8px; left: 8px; right: 8px;
+      height: 100%;
+      background: var(--surface);
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      z-index: -1;
+    }
+    .card-bg2 {
+      position: absolute;
+      top: 16px; left: 16px; right: 16px;
+      height: 100%;
+      background: var(--surface);
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      z-index: -2;
+    }
+
+    .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+    .company-row { display: flex; gap: 12px; align-items: flex-start; flex: 1; margin-right: 12px; }
+    .logo-placeholder {
+      width: 44px; height: 44px;
+      background: var(--bg);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .company-name { font-size: 14px; font-weight: 600; color: var(--text); }
+    .location-row { display: flex; align-items: center; gap: 3px; font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+    .remote-badge { background: var(--accent-light); border-radius: 999px; padding: 1px 6px; font-size: 10px; font-weight: 500; color: var(--accent); margin-left: 4px; }
+
+    .match-badge {
+      background: var(--accent);
+      border-radius: 10px;
+      padding: 4px 10px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .match-score { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.2; }
+    .match-label { font-size: 9px; color: rgba(255,255,255,0.85); letter-spacing: 0.5px; }
+
+    .job-title { font-family: Georgia, serif; font-style: italic; font-size: 20px; color: var(--text); margin-bottom: 12px; line-height: 26px; }
+
+    .meta-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .meta-chip {
+      display: flex; align-items: center; gap: 4px;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 999px; padding: 3px 10px;
+      font-size: 11px; color: var(--text-sec);
+    }
+    .meta-chip.accent { background: var(--accent-light); border-color: var(--accent-border); color: var(--accent); }
+
+    .skills-row { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+    .skill-tag {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 999px; padding: 3px 10px;
+      font-size: 11px; color: var(--text-sec);
+    }
+    .skill-tag.match { background: var(--accent-light); border-color: var(--accent-border); color: var(--accent); font-weight: 500; }
+
+    .desc-text { font-size: 12px; color: var(--text-sec); line-height: 18px; margin-bottom: 4px; }
+    .read-more { font-size: 11px; color: var(--accent); font-weight: 500; margin-bottom: 10px; }
+
+    .why-strip {
+      background: var(--accent-light);
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .why-text { font-size: 12px; color: var(--text); line-height: 17px; }
+
+    .swipe-hint {
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(0,0,0,0.55);
+      border-radius: 12px;
+      padding: 10px 16px;
+      margin-top: 12px;
+    }
+    .hint-skip { font-size: 13px; font-weight: 700; color: #FF4D4D; }
+    .hint-center { font-size: 11px; color: rgba(255,255,255,0.6); }
+    .hint-apply { font-size: 13px; font-weight: 700; color: #2ECC71; }
+
+    /* ── Applied Screen ── */
+    .screen-header { padding: 16px 20px 12px; flex-shrink: 0; }
+    .screen-title { font-family: Georgia, serif; font-style: italic; font-size: 26px; color: var(--text); margin-bottom: 4px; }
+
+    .stats-row { display: flex; gap: 10px; margin-bottom: 16px; padding: 0 20px; flex-shrink: 0; }
+    .stat-box {
+      flex: 1; background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 10px; text-align: center;
+    }
+    .stat-num { font-size: 20px; font-weight: 700; }
+    .stat-label { font-size: 10px; color: var(--text-muted); font-weight: 500; margin-top: 2px; }
+    .stat-box.applied .stat-num { color: var(--applied); }
+    .stat-box.interview .stat-num { color: var(--interview); }
+    .stat-box.offer .stat-num { color: var(--offer); }
+
+    .filter-scroll { display: flex; gap: 8px; padding: 0 20px 12px; overflow-x: auto; flex-shrink: 0; }
+    .filter-scroll::-webkit-scrollbar { display: none; }
+    .filter-pill {
+      border-radius: 999px; padding: 7px 16px;
+      border: 1.5px solid var(--border);
+      font-size: 13px; font-weight: 500;
+      color: var(--text); background: var(--surface);
+      cursor: pointer; white-space: nowrap; flex-shrink: 0;
+      height: 36px; display: flex; align-items: center;
+    }
+    .filter-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    .app-card {
+      background: var(--surface);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 14px 16px;
+      margin: 0 20px 10px;
+      border-left: 3px solid var(--applied);
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .app-card:hover { transform: translateX(2px); }
+    .app-card.interview { border-left-color: var(--interview); }
+    .app-card.offer { border-left-color: var(--offer); }
+    .app-card.rejected { border-left-color: var(--rejected); }
+
+    .app-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
+    .app-title { font-family: Georgia, serif; font-style: italic; font-size: 15px; color: var(--text); flex: 1; margin-right: 8px; }
+    .status-badge {
+      border-radius: 6px; padding: 3px 8px;
+      font-size: 10px; font-weight: 600;
+      flex-shrink: 0;
+    }
+    .badge-applied { background: var(--applied-light); color: var(--applied); }
+    .badge-interview { background: var(--interview-light); color: var(--interview); }
+    .badge-offer { background: var(--offer-light); color: var(--offer); }
+    .badge-rejected { background: var(--rejected-light); color: var(--rejected); }
+    .app-company { font-size: 12px; color: var(--text-sec); }
+    .app-date { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+    /* ── Resume Screen ── */
+    .document {
+      background: #fff;
+      border-radius: 16px;
+      padding: 20px;
+      margin: 0 16px 16px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    }
+    .doc-header { display: flex; gap: 14px; margin-bottom: 16px; align-items: flex-start; }
+    .avatar-circle {
+      width: 58px; height: 58px; border-radius: 29px;
+      background: var(--accent-light); border: 2px solid var(--accent-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+    }
+    .doc-name { font-weight: 700; font-size: 17px; color: #111; }
+    .doc-role { font-size: 12px; color: var(--accent); font-weight: 500; margin: 2px 0; }
+    .doc-contact { font-size: 10px; color: #666; }
+
+    .doc-section { margin-top: 14px; }
+    .doc-section-title { font-weight: 700; font-size: 9px; letter-spacing: 1px; color: #333; text-transform: uppercase; margin-bottom: 3px; }
+    .doc-divider { height: 1px; background: #ddd; margin-bottom: 8px; }
+    .doc-body { font-size: 11px; color: #333; line-height: 17px; }
+    .doc-bullet { font-size: 11px; color: #333; line-height: 17px; margin-top: 2px; }
+    .exp-entry { margin-bottom: 10px; }
+    .exp-row { display: flex; justify-content: space-between; }
+    .exp-company { font-weight: 700; font-size: 12px; color: #111; }
+    .exp-date { font-size: 10px; color: #888; }
+    .exp-title { font-size: 11px; color: var(--accent); font-weight: 500; margin: 1px 0 3px; }
+    .skills-wrap { display: flex; flex-wrap: wrap; gap: 5px; }
+    .skill-dot { font-size: 11px; color: #333; }
+
+    .review-btn {
+      display: flex; align-items: center; gap: 5px;
+      background: var(--accent); color: #fff;
+      border: none; border-radius: 999px;
+      padding: 7px 14px; font-size: 12px; font-weight: 500;
+      cursor: pointer;
+    }
+
+    /* ── Profile Screen ── */
+    .profile-scroll { padding: 0 20px 20px; }
+    .section-label {
+      font-size: 11px; font-weight: 500; color: var(--text-sec);
+      text-transform: uppercase; letter-spacing: 0.5px;
+      margin: 16px 0 8px;
+    }
+    .info-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 14px; margin-bottom: 4px;
+    }
+    .info-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; }
+    .info-row + .info-row { border-top: 1px solid var(--border); }
+    .info-key { font-size: 12px; color: var(--text-sec); }
+    .info-val { font-size: 13px; color: var(--text); font-weight: 500; }
+    .edit-hint { font-size: 10px; color: var(--accent); }
+
+    .resume-status-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 14px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .resume-status-row { display: flex; gap: 12px; align-items: flex-start; }
+    .resume-on-file { font-size: 13px; font-weight: 600; color: var(--text); }
+    .resume-sub { font-size: 11px; color: var(--text-sec); line-height: 15px; margin-top: 2px; }
+    .replace-btn {
+      align-self: flex-start;
+      background: var(--accent-light); border: 1px solid var(--accent-border);
+      border-radius: 999px; padding: 5px 12px;
+      font-size: 11px; font-weight: 500; color: var(--accent);
+      cursor: pointer; border: none;
+    }
+
+    .save-btn {
+      width: 100%; background: var(--accent); color: #fff;
+      border: none; border-radius: 999px; padding: 16px;
+      font-size: 15px; font-weight: 700; cursor: pointer;
+      margin-top: 20px; display: flex; align-items: center;
+      justify-content: center; gap: 8px;
+    }
+
+    .role-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .role-tag {
+      border-radius: 999px; padding: 6px 14px;
+      border: 1.5px solid var(--border);
+      font-size: 12px; font-weight: 500; color: var(--text-sec);
+      cursor: pointer;
+    }
+    .role-tag.selected { background: var(--accent-light); border-color: var(--accent-border); color: var(--accent); }
+
+    /* ── Onboarding ── */
+    .onboard-wrap {
+      flex: 1; display: flex; flex-direction: column;
+      justify-content: center; padding: 24px 20px;
+    }
+    .onboard-wordmark { font-family: Georgia, serif; font-style: italic; font-size: 32px; color: var(--accent); text-align: center; margin-bottom: 32px; }
+    .onboard-card {
+      background: var(--surface); border-radius: 20px;
+      padding: 20px; border: 1px solid var(--border);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .onboard-title { font-family: Georgia, serif; font-style: italic; font-size: 20px; color: var(--text); margin-bottom: 6px; }
+    .onboard-body { font-size: 13px; color: var(--text-sec); line-height: 19px; margin-bottom: 16px; }
+    .upload-zone {
+      background: var(--accent-light); border: 2px dashed var(--accent-border);
+      border-radius: 14px; padding: 32px;
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      cursor: pointer;
+    }
+    .upload-icon { font-size: 36px; }
+    .upload-label { font-size: 13px; font-weight: 500; color: var(--accent); }
+    .upload-hint { font-size: 11px; color: var(--text-muted); }
+    .step-label { text-align: center; font-size: 11px; color: var(--text-muted); margin-top: 16px; }
+
+    /* ── Review Screen (Apply) ── */
+    .review-header {
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .review-job-title { font-family: Georgia, serif; font-style: italic; font-size: 18px; color: var(--text); }
+    .review-company { font-size: 13px; color: var(--text-sec); margin-top: 2px; }
+    .score-bar {
+      background: var(--accent-light); border: 1px solid var(--accent-border);
+      border-radius: 12px; padding: 12px 16px;
+      margin: 12px 20px 0; flex-shrink: 0;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .score-label { font-size: 12px; color: var(--text-sec); }
+    .score-val { font-size: 22px; font-weight: 700; color: var(--accent); }
+    .score-sub { font-size: 10px; color: var(--text-muted); }
+    .tab-row {
+      display: flex; border-bottom: 1px solid var(--border);
+      margin-top: 12px; flex-shrink: 0;
+    }
+    .tab-item {
+      flex: 1; text-align: center; padding: 10px;
+      font-size: 13px; font-weight: 500; color: var(--text-muted);
+      cursor: pointer; border-bottom: 2px solid transparent;
+    }
+    .tab-item.active { color: var(--accent); border-bottom-color: var(--accent); }
+    .review-actions {
+      padding: 12px 20px; border-top: 1px solid var(--border);
+      display: flex; gap: 10px; flex-shrink: 0;
+    }
+    .edit-btn {
+      flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
+      border: 1.5px solid var(--accent-border); border-radius: 999px; padding: 12px;
+      font-size: 14px; font-weight: 500; color: var(--accent);
+      background: var(--accent-light); cursor: pointer;
+    }
+    .apply-btn {
+      flex: 2; display: flex; align-items: center; justify-content: center; gap: 6px;
+      background: var(--accent); border-radius: 999px; padding: 12px;
+      font-size: 14px; font-weight: 700; color: #fff;
+      border: none; cursor: pointer;
+    }
+
+    /* ── Nav dots ── */
+    .nav-dots {
+      display: flex; gap: 8px; justify-content: center;
+      margin-top: 20px;
+    }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.2); cursor: pointer;
+      transition: all 0.2s;
+    }
+    .dot.active { background: var(--accent); width: 24px; border-radius: 4px; }
+
+    .clickable-overlay {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.15s;
+      background: rgba(200,110,75,0.08);
+      border-radius: inherit;
+    }
+    .job-card:hover .clickable-overlay { opacity: 1; }
+
+    .tap-hint {
+      text-align: center;
+      font-size: 11px;
+      color: rgba(255,255,255,0.35);
+      margin-top: 12px;
+      letter-spacing: 0.5px;
+    }
+  </style>
 </head>
 <body>
 
-<div class="phone">
-  <!-- Status bar -->
-  <div class="status-bar">
-    <span class="status-time">9:41</span>
-    <div class="status-icons">
-      <span>●●●</span>
-      <span>WiFi</span>
-      <span>🔋</span>
+<h1>Jobber — Interactive Demo</h1>
+
+<div class="phone" id="phone">
+  <div class="notch"></div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 1: ONBOARDING
+  ══════════════════════════════════════ -->
+  <div class="screen active" id="screen-onboard">
+    <div style="height:44px;flex-shrink:0;display:flex;align-items:flex-end;justify-content:space-between;padding:0 24px 8px;font-size:12px;font-weight:600;color:var(--text);">
+      <span>9:41</span>
+      <span style="display:flex;gap:5px;">📶 🔋</span>
+    </div>
+    <div class="onboard-wrap">
+      <div class="onboard-wordmark">Jobber</div>
+      <div class="onboard-card">
+        <div class="onboard-title">Upload your resume</div>
+        <div class="onboard-body">We'll read it and build your profile automatically.</div>
+        <div class="upload-zone" onclick="goTo('screen-swipe')">
+          <div class="upload-icon">📄</div>
+          <div class="upload-label">Tap to upload PDF</div>
+          <div class="upload-hint">from Files or Photos</div>
+        </div>
+      </div>
+      <div class="step-label">Step 1 of 5</div>
     </div>
   </div>
 
-  <!-- Top bar -->
-  <div class="top-bar">
-    <div>
-      <div class="top-title">Find Jobs</div>
-      <div class="top-sub">12 new matches today</div>
+  <!-- ══════════════════════════════════════
+       SCREEN 2: SWIPE / HOME
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-swipe">
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="status-bar-right"><span>📶</span><span>🔋</span></div>
     </div>
-    <div class="avatar">ID</div>
+    <div class="header">
+      <div>
+        <div class="wordmark">Jobber</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:2px;">12 new matches today</div>
+      </div>
+      <div class="header-actions">
+        <button class="pill-btn">✨ Find more</button>
+        <button class="icon-btn">🔄</button>
+      </div>
+    </div>
+    <div class="screen-body">
+      <div class="card-stack" style="padding-top:20px;">
+        <div class="card-bg2"></div>
+        <div class="card-bg"></div>
+        <div class="job-card" onclick="goTo('screen-review')" style="position:relative;z-index:1;">
+          <div class="card-header">
+            <div class="company-row">
+              <div class="logo-placeholder">🏢</div>
+              <div>
+                <div class="company-name">Grab</div>
+                <div class="location-row">📍 Singapore <span class="remote-badge">Hybrid</span></div>
+              </div>
+            </div>
+            <div class="match-badge">
+              <div class="match-score">87%</div>
+              <div class="match-label">MATCH</div>
+            </div>
+          </div>
+          <div class="job-title">Senior Product Manager</div>
+          <div class="meta-row">
+            <div class="meta-chip">💼 $8,000 – $12,000/mo</div>
+            <div class="meta-chip">🕐 Today</div>
+            <div class="meta-chip accent">↗ Apply Online</div>
+          </div>
+          <div class="skills-row">
+            <div class="skill-tag match">Product Strategy</div>
+            <div class="skill-tag match">Agile</div>
+            <div class="skill-tag match">SQL</div>
+            <div class="skill-tag">Figma</div>
+            <div class="skill-tag">Jira</div>
+            <div class="skill-tag">A/B Testing</div>
+          </div>
+          <div class="desc-text">Lead product development for Grab's fintech vertical, owning the roadmap for GrabPay and GrabFinance products across Southeast Asia...</div>
+          <div class="read-more">Read full description →</div>
+          <div class="why-strip">
+            <span>✨</span>
+            <div class="why-text">Your B2B strategy background and campaign analytics align strongly with this product role.</div>
+          </div>
+          <div style="font-size:10px;color:var(--text-muted);text-align:right;margin-bottom:8px;">via MyCareersFuture</div>
+          <div class="swipe-hint">
+            <span class="hint-skip">← Skip</span>
+            <span class="hint-center">swipe to navigate</span>
+            <span class="hint-apply">Apply →</span>
+          </div>
+          <div class="clickable-overlay"><span style="background:var(--accent);color:#fff;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:600;">Tap to apply →</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="goTo('screen-swipe')"><div class="tab-icon">🃏</div><div class="tab-label" style="color:var(--accent)">Discover</div></button>
+      <button class="tab-btn" onclick="goTo('screen-applied')"><div class="tab-icon">📋</div><div class="tab-label">Applied</div></button>
+      <button class="tab-btn" onclick="goTo('screen-resume')"><div class="tab-icon">📄</div><div class="tab-label">Resume</div></button>
+      <button class="tab-btn" onclick="goTo('screen-profile')"><div class="tab-icon">👤</div><div class="tab-label">Profile</div></button>
+    </div>
   </div>
 
-  <!-- Counters -->
-  <div class="counter-row">
-    <div class="counter blue">
-      <div class="counter-num">47</div>
-      <div class="counter-label">Applied</div>
+  <!-- ══════════════════════════════════════
+       SCREEN 3: APPLY / REVIEW
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-review">
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="status-bar-right"><span>📶</span><span>🔋</span></div>
     </div>
-    <div class="counter green">
-      <div class="counter-num">6</div>
-      <div class="counter-label">Responses</div>
+    <div class="review-header">
+      <button onclick="goTo('screen-swipe')" style="background:none;border:none;font-size:13px;color:var(--accent);cursor:pointer;margin-bottom:6px;">← Back</button>
+      <div class="review-job-title">Senior Product Manager</div>
+      <div class="review-company">Grab · Singapore</div>
     </div>
-    <div class="counter">
-      <div class="counter-num">91%</div>
-      <div class="counter-label">Avg Match</div>
+    <div class="score-bar">
+      <div>
+        <div class="score-label">Tailoring Score</div>
+        <div class="score-sub">How well your resume fits this role</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="score-val">8.2<span style="font-size:13px;color:var(--text-muted)">/10</span></div>
+      </div>
+    </div>
+    <div class="tab-row">
+      <div class="tab-item active">Resume</div>
+      <div class="tab-item">Cover Letter</div>
+    </div>
+    <div class="screen-body" style="padding:16px 20px;">
+      <div style="background:#fff;border-radius:14px;padding:16px;border:1px solid var(--border);margin-bottom:12px;">
+        <div style="font-weight:700;font-size:13px;color:#111;margin-bottom:4px;">Alex Tan</div>
+        <div style="font-size:11px;color:var(--accent);margin-bottom:8px;">Marketing & Partnerships Manager → Product Manager</div>
+        <div style="font-size:11px;color:#333;line-height:17px;margin-bottom:10px;">I am a B2B marketing professional with 5 years of experience building and scaling multi-channel campaigns across APAC. My background in pipeline growth and stakeholder management makes me well-suited for a product role at [Company]...</div>
+        <div style="font-size:9px;color:#333;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:3px;">EXPERIENCE</div>
+        <div style="height:1px;background:#ddd;margin-bottom:8px;"></div>
+        <div class="exp-entry">
+          <div class="exp-row"><span class="exp-company">TechBridge Asia</span><span class="exp-date">Jun 2021 – Present</span></div>
+          <div class="exp-title">Marketing & Partnerships Manager</div>
+          <div class="doc-bullet">• Drove SGD 1.2M+ in pipeline by launching 3 new product verticals via targeted go-to-market campaigns</div>
+          <div class="doc-bullet">• Led cross-functional product launches across APAC and ANZ markets</div>
+          <div class="doc-bullet">• Built A/B-tested content strategies generating 80+ qualified leads within 6 months</div>
+        </div>
+        <div style="font-size:9px;color:#333;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin:10px 0 3px;">SKILLS</div>
+        <div style="height:1px;background:#ddd;margin-bottom:8px;"></div>
+        <div style="font-size:11px;color:#333;">B2B Strategy · Pipeline Growth · Stakeholder Management · SEO/SEM · Adobe Creative Suite · Google Analytics</div>
+      </div>
+      <div style="background:var(--accent-light);border-radius:12px;padding:12px;border:1px solid var(--accent-border);">
+        <div style="font-size:11px;font-weight:600;color:var(--accent);margin-bottom:6px;">✨ AI Improvements Made</div>
+        <div style="font-size:11px;color:var(--text-sec);line-height:17px;">• Reworded 4 bullets to match Grab's product terminology<br>• Reordered skills to highlight Product Strategy & Agile first<br>• Summary updated to frame marketing experience as product background</div>
+      </div>
+    </div>
+    <div class="review-actions">
+      <button class="edit-btn">✏️ Edit</button>
+      <button class="apply-btn" onclick="goTo('screen-applied')">👁 Preview & Apply</button>
     </div>
   </div>
 
-  <!-- Job card -->
-  <div class="card-stack">
-    <div class="card">
-      <div class="card-header">
-        <div class="company-row">
-          <div class="company-logo">🏢</div>
+  <!-- ══════════════════════════════════════
+       SCREEN 4: APPLIED TAB
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-applied">
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="status-bar-right"><span>📶</span><span>🔋</span></div>
+    </div>
+    <div class="screen-header">
+      <div class="screen-title">Applications</div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-box applied"><div class="stat-num">4</div><div class="stat-label">Applied</div></div>
+      <div class="stat-box interview"><div class="stat-num">2</div><div class="stat-label">Interview</div></div>
+      <div class="stat-box offer"><div class="stat-num">1</div><div class="stat-label">Offer</div></div>
+    </div>
+    <div class="filter-scroll">
+      <div class="filter-pill active">All</div>
+      <div class="filter-pill">Applied</div>
+      <div class="filter-pill">Interview</div>
+      <div class="filter-pill">Offer</div>
+      <div class="filter-pill">Rejected</div>
+    </div>
+    <div class="screen-body">
+      <div class="app-card offer">
+        <div class="app-card-top">
+          <div class="app-title">Product Manager</div>
+          <div class="status-badge badge-offer">Offer</div>
+        </div>
+        <div class="app-company">Shopee · Singapore</div>
+        <div class="app-date">Applied 3 days ago</div>
+      </div>
+      <div class="app-card interview">
+        <div class="app-card-top">
+          <div class="app-title">Senior Product Manager</div>
+          <div class="status-badge badge-interview">Interview</div>
+        </div>
+        <div class="app-company">Grab · Singapore</div>
+        <div class="app-date">Applied 5 days ago</div>
+      </div>
+      <div class="app-card interview">
+        <div class="app-card-top">
+          <div class="app-title">Growth Marketing Manager</div>
+          <div class="status-badge badge-interview">Interview</div>
+        </div>
+        <div class="app-company">Sea Group · Singapore</div>
+        <div class="app-date">Applied 6 days ago</div>
+      </div>
+      <div class="app-card">
+        <div class="app-card-top">
+          <div class="app-title">B2B Marketing Lead</div>
+          <div class="status-badge badge-applied">Applied</div>
+        </div>
+        <div class="app-company">Stripe · Singapore</div>
+        <div class="app-date">Applied 1 week ago</div>
+      </div>
+      <div class="app-card">
+        <div class="app-card-top">
+          <div class="app-title">Campaign Strategy Manager</div>
+          <div class="status-badge badge-applied">Applied</div>
+        </div>
+        <div class="app-company">Meta · Singapore</div>
+        <div class="app-date">Applied 1 week ago</div>
+      </div>
+      <div class="app-card rejected">
+        <div class="app-card-top">
+          <div class="app-title">Digital Marketing Manager</div>
+          <div class="status-badge badge-rejected">Rejected</div>
+        </div>
+        <div class="app-company">Lazada · Singapore</div>
+        <div class="app-date">Applied 2 weeks ago</div>
+      </div>
+    </div>
+    <div class="tab-bar">
+      <button class="tab-btn" onclick="goTo('screen-swipe')"><div class="tab-icon">🃏</div><div class="tab-label">Discover</div></button>
+      <button class="tab-btn active" onclick="goTo('screen-applied')"><div class="tab-icon">📋</div><div class="tab-label" style="color:var(--accent)">Applied</div></button>
+      <button class="tab-btn" onclick="goTo('screen-resume')"><div class="tab-icon">📄</div><div class="tab-label">Resume</div></button>
+      <button class="tab-btn" onclick="goTo('screen-profile')"><div class="tab-icon">👤</div><div class="tab-label">Profile</div></button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SCREEN 5: RESUME TAB
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-resume">
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="status-bar-right"><span>📶</span><span>🔋</span></div>
+    </div>
+    <div class="header">
+      <div class="screen-title" style="margin:0;">Resume</div>
+      <button class="review-btn">✨ Review Skills</button>
+    </div>
+    <div class="screen-body" style="padding:12px 0 0;">
+      <div class="document">
+        <div class="doc-header">
+          <div class="avatar-circle">👤</div>
           <div>
-            <div class="company-name">Stripe</div>
-            <div class="company-location">📍 Singapore <span class="remote-badge">Remote</span></div>
+            <div class="doc-name">Alex Tan</div>
+            <div class="doc-role">Marketing & Partnerships Manager</div>
+            <div class="doc-contact">alex.tan@gmail.com · +65 9123 4567</div>
+            <div class="doc-contact">linkedin.com/in/alextan-sg</div>
           </div>
         </div>
-        <div class="match-badge">
-          <div class="match-score">94%</div>
-          <div class="match-label">MATCH</div>
+        <div class="doc-section">
+          <div class="doc-section-title">Summary</div>
+          <div class="doc-divider"></div>
+          <div class="doc-body">B2B marketing professional with 5 years building and scaling multi-channel campaigns across APAC and ANZ, with a track record in pipeline growth, partnerships, and product go-to-market...</div>
+        </div>
+        <div class="doc-section">
+          <div class="doc-section-title">Experience</div>
+          <div class="doc-divider"></div>
+          <div class="exp-entry">
+            <div class="exp-row"><span class="exp-company">TechBridge Asia Pte Ltd</span><span class="exp-date">2021–Present</span></div>
+            <div class="exp-title">Marketing & Partnerships Manager</div>
+            <div class="doc-bullet">• SGD 1.2M+ in pipeline within Q1 of launching 3 new product verticals</div>
+            <div class="doc-bullet">• 65% growth in qualified leads over 2 years through marketing-led acquisition</div>
+            <div class="doc-bullet">• +830% impression growth within 3 months via SEO on new product launch</div>
+          </div>
+        </div>
+        <div class="doc-section">
+          <div class="doc-section-title">Education</div>
+          <div class="doc-divider"></div>
+          <div class="exp-row"><span class="exp-company">Nanyang Technological University</span><span class="exp-date">2016–2020</span></div>
+          <div class="exp-title">Bachelor of Business (Marketing)</div>
+        </div>
+        <div class="doc-section">
+          <div class="doc-section-title">Skills</div>
+          <div class="doc-divider"></div>
+          <div class="doc-body">B2B Demand Generation · Pipeline Growth · Thought Leadership & PR · Sales Enablement · Regional Campaign Execution · AI-Powered Marketing</div>
+        </div>
+        <div class="doc-section">
+          <div class="doc-section-title">Tools</div>
+          <div class="doc-divider"></div>
+          <div class="doc-body">Adobe Creative Suite · HubSpot · Google Analytics · Canva · Notion</div>
+        </div>
+        <div class="doc-section">
+          <div class="doc-section-title">Projects</div>
+          <div class="doc-divider"></div>
+          <div class="exp-entry">
+            <div class="exp-company">PricePal</div>
+            <div class="doc-body" style="margin-top:2px;">Price comparison app for Singapore e-commerce, built as a side project using React Native.</div>
+          </div>
         </div>
       </div>
-
-      <div class="job-title">Senior Software Engineer, Payments Infrastructure</div>
-
-      <div class="chips">
-        <div class="chip">💼 $8,000 – $12,000/mo</div>
-        <div class="chip">🕐 Today</div>
-        <div class="chip apply">↗ Easy Apply</div>
-      </div>
-
-      <div class="skills">
-        <div class="skill match">Python</div>
-        <div class="skill match">React</div>
-        <div class="skill match">Supabase</div>
-        <div class="skill">Go</div>
-        <div class="skill">Kubernetes</div>
-        <div class="skill">PostgreSQL</div>
-      </div>
-
-      <div class="description">We're looking for engineers to help build the financial infrastructure that powers millions of businesses worldwide. You'll work on distributed systems handling billions in transactions...</div>
-      <div class="read-more">Read full description →</div>
-
-      <div class="why-strip">
-        <div class="why-icon">✨</div>
-        <div class="why-text">Your React and Python background aligns well with Stripe's full-stack infra team. Your Supabase experience maps to their database engineering work.</div>
-      </div>
-
-      <div class="via">via MyCareersFuture</div>
+    </div>
+    <div class="tab-bar">
+      <button class="tab-btn" onclick="goTo('screen-swipe')"><div class="tab-icon">🃏</div><div class="tab-label">Discover</div></button>
+      <button class="tab-btn" onclick="goTo('screen-applied')"><div class="tab-icon">📋</div><div class="tab-label">Applied</div></button>
+      <button class="tab-btn active" onclick="goTo('screen-resume')"><div class="tab-icon">📄</div><div class="tab-label" style="color:var(--accent)">Resume</div></button>
+      <button class="tab-btn" onclick="goTo('screen-profile')"><div class="tab-icon">👤</div><div class="tab-label">Profile</div></button>
     </div>
   </div>
 
-  <!-- Swipe buttons -->
-  <div class="swipe-actions">
-    <button class="swipe-btn skip">✕</button>
-    <button class="swipe-btn super">★</button>
-    <button class="swipe-btn apply">✓</button>
+  <!-- ══════════════════════════════════════
+       SCREEN 6: PROFILE TAB
+  ══════════════════════════════════════ -->
+  <div class="screen" id="screen-profile">
+    <div class="status-bar">
+      <span>9:41</span>
+      <div class="status-bar-right"><span>📶</span><span>🔋</span></div>
+    </div>
+    <div class="header">
+      <div class="screen-title" style="margin:0;">Profile</div>
+      <span style="font-size:11px;color:var(--accent);font-weight:500;">Unsaved changes</span>
+    </div>
+    <div class="screen-body">
+      <div class="profile-scroll">
+        <div class="section-label">Personal Info</div>
+        <div class="info-card">
+          <div class="info-row"><span class="info-key">Name</span><span class="info-val">Alex Tan <span class="edit-hint">✏️</span></span></div>
+          <div class="info-row"><span class="info-key">Email</span><span class="info-val" style="font-size:11px;">alex.tan@gmail.com</span></div>
+          <div class="info-row"><span class="info-key">Phone</span><span class="info-val">+65 9123 4567 <span class="edit-hint">✏️</span></span></div>
+        </div>
+
+        <div class="section-label">Target Roles</div>
+        <div class="info-card">
+          <div style="font-size:10px;font-weight:500;color:var(--text-sec);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">✨ Recommended</div>
+          <div class="role-tags">
+            <div class="role-tag selected">Product Manager</div>
+            <div class="role-tag selected">Growth Manager</div>
+            <div class="role-tag">Marketing Director</div>
+            <div class="role-tag">Head of Marketing</div>
+          </div>
+          <div style="font-size:10px;font-weight:500;color:#7c6faa;text-transform:uppercase;letter-spacing:0.5px;margin:10px 0 8px;">🔀 Career Switch</div>
+          <div class="role-tags">
+            <div class="role-tag" style="border-color:#ddd0f5;color:#7c6faa;">Partnerships Manager</div>
+            <div class="role-tag" style="border-color:#ddd0f5;color:#7c6faa;">Consultant</div>
+          </div>
+        </div>
+
+        <div class="section-label">Resume</div>
+        <div class="resume-status-card">
+          <div class="resume-status-row">
+            <span style="font-size:20px;">📄</span>
+            <div>
+              <div class="resume-on-file">Resume on file</div>
+              <div class="resume-sub">Uploaded during onboarding — replace only if you have an updated version</div>
+            </div>
+          </div>
+          <button class="replace-btn" style="background:var(--accent-light);border:1px solid var(--accent-border);border-radius:999px;padding:5px 12px;font-size:11px;font-weight:500;color:var(--accent);cursor:pointer;">📤 Replace resume</button>
+        </div>
+
+        <div class="section-label">Connected Email</div>
+        <div class="info-card">
+          <div class="info-row"><span class="info-key">Gmail</span><span style="font-size:12px;color:var(--interview);font-weight:500;">Connected ✓</span></div>
+          <div style="margin-top:8px;font-size:12px;color:var(--accent);cursor:pointer;">Reconnect or switch →</div>
+        </div>
+
+        <button class="save-btn">💾 Save Profile</button>
+        <div style="text-align:center;margin-top:16px;padding:12px;cursor:pointer;">
+          <span style="font-size:14px;font-weight:500;color:var(--rejected);">Sign out</span>
+        </div>
+      </div>
+    </div>
+    <div class="tab-bar">
+      <button class="tab-btn" onclick="goTo('screen-swipe')"><div class="tab-icon">🃏</div><div class="tab-label">Discover</div></button>
+      <button class="tab-btn" onclick="goTo('screen-applied')"><div class="tab-icon">📋</div><div class="tab-label">Applied</div></button>
+      <button class="tab-btn" onclick="goTo('screen-resume')"><div class="tab-icon">📄</div><div class="tab-label">Resume</div></button>
+      <button class="tab-btn active" onclick="goTo('screen-profile')"><div class="tab-icon">👤</div><div class="tab-label" style="color:var(--accent)">Profile</div></button>
+    </div>
   </div>
 
-  <!-- Tab bar -->
-  <div class="tab-bar">
-    <div class="tab active">
-      <div class="tab-icon">💼</div>
-      Jobs
-    </div>
-    <div class="tab">
-      <div class="tab-icon">📋</div>
-      Applied
-    </div>
-    <div class="tab">
-      <div class="tab-icon">📄</div>
-      Resume
-    </div>
-    <div class="tab">
-      <div class="tab-icon">👤</div>
-      Profile
-    </div>
-  </div>
+</div><!-- /phone -->
+
+<!-- Screen nav dots -->
+<div class="nav-dots" id="nav-dots">
+  <div class="dot active" onclick="goTo('screen-onboard')"></div>
+  <div class="dot" onclick="goTo('screen-swipe')"></div>
+  <div class="dot" onclick="goTo('screen-review')"></div>
+  <div class="dot" onclick="goTo('screen-applied')"></div>
+  <div class="dot" onclick="goTo('screen-resume')"></div>
+  <div class="dot" onclick="goTo('screen-profile')"></div>
 </div>
 
+<div class="tap-hint">tap the card or buttons to navigate · dots to jump to any screen</div>
+
+<script>
+  const screens = ['screen-onboard','screen-swipe','screen-review','screen-applied','screen-resume','screen-profile'];
+
+  function goTo(id) {
+    screens.forEach((s, i) => {
+      const el = document.getElementById(s);
+      const dot = document.querySelectorAll('.dot')[i];
+      if (s === id) {
+        el.classList.add('active');
+        dot.classList.add('active');
+      } else {
+        el.classList.remove('active');
+        dot.classList.remove('active');
+      }
+    });
+  }
+</script>
 </body>
 </html>
