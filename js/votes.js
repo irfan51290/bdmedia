@@ -1,10 +1,6 @@
 // js/votes.js
-// -----------------------------------------------------------
-// FILL THESE IN from Supabase Project Settings → API
-// -----------------------------------------------------------
-const SUPABASE_URL  = 'https://YOUR_PROJECT_ID.supabase.co';
-const SUPABASE_ANON = 'YOUR_ANON_PUBLIC_KEY';
-// -----------------------------------------------------------
+const SUPABASE_URL  = 'https://eqdtrpgnhicyphdkhztg.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxZHRycGduaGljeXBoZGtoenRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyMTA0MjUsImV4cCI6MjA5NDc4NjQyNX0.6KSbrrBJTRbjBOidBxP6km2ZEvlqUOI4CCarsVy08ew';
 
 const { createClient } = supabase;  // loaded from CDN script tag
 const db = createClient(SUPABASE_URL, SUPABASE_ANON);
