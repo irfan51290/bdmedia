@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dream Future Quiz — Irfan Dhamiry</title>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-logo">irfan<span class="dot">.</span></div>
+    <a class="nav-back" href="index.html">← All projects</a>
+  </nav>
+
+  <div class="detail-hero">
+    <div class="detail-week-badge">Week 3 · Quiz</div>
+    <div class="detail-header">
+      <div class="detail-icon">🔮</div>
+      <div>
+        <div class="detail-category">Web App · Quiz</div>
+        <div class="detail-title">Dream Future<br>Quiz</div>
+      </div>
+    </div>
+    <p class="detail-tagline">
+      A personality quiz that maps your dreams and ambitions to a future career path.
+      Built with Next.js and deployed on Vercel in one week.
+    </p>
+    <div class="meta-row">
+      <div class="meta-item">
+        <span class="meta-label">Built in</span>
+        <span class="meta-value">1 week</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Stack</span>
+        <div class="meta-tags">
+          <span class="meta-tag">Next.js</span>
+          <span class="meta-tag">Vercel</span>
+          <span class="meta-tag">JavaScript</span>
+        </div>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Status</span>
+        <span class="meta-value live">● Live</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Build Cost</span>
+        <span class="meta-value">~$20</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Monthly Cost</span>
+        <span class="meta-value">$0</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="vote-bar">
+    <button class="vote-btn" id="vote-btn">
+      <span id="vote-emoji">👍</span>
+      <span id="vote-text">Want this developed further?</span>
+    </button>
+    <div class="vote-count-wrap">
+      <div class="vote-count" id="votes-dream-future-quiz">—</div>
+      <div class="vote-live">
+        <div class="vote-live-dot-green"></div>
+        <span class="vote-live-label">people want this</span>
+      </div>
+    </div>
+    <div class="vote-context">
+      <strong>Vote to show your interest.</strong>
+      I use this to gauge which projects are worth developing further — no guarantees, just real signal.
+    </div>
+  </div>
+
+  <div class="mockup-section">
+    <div class="mockup-frame">
+      <div class="mockup-titlebar">
+        <div class="mockup-dot" style="background:#ff5f57"></div>
+        <div class="mockup-dot" style="background:#febc2e"></div>
+        <div class="mockup-dot" style="background:#28c840"></div>
+        <span class="mockup-label">dream-future-quiz — mockup</span>
+      </div>
+      <div class="mockup-body">
+        <p>📸 Drop your screenshot or mockup image here</p>
+        <small>Replace this div with an &lt;img&gt; tag</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-grid">
+    <div class="content-block">
+      <h3>The Problem</h3>
+      <p>Most career quizzes are generic and forget your answers the moment you leave. People want a personalised, honest assessment that connects their personality and aspirations to real career paths — not just a list of job titles.</p>
+    </div>
+    <div class="content-block">
+      <h3>How It Works</h3>
+      <ul>
+        <li>User answers a series of personality and ambition questions</li>
+        <li>Responses are scored across multiple trait dimensions</li>
+        <li>Results map to curated career paths with honest fit explanations</li>
+        <li>Fully client-side — no data stored, no accounts needed</li>
+        <li>Deployed on Vercel, zero running cost</li>
+      </ul>
+    </div>
+    <div class="content-block">
+      <h3>What I Learned</h3>
+      <p>Designing a quiz flow that feels conversational rather than clinical. Getting the scoring logic right so results are meaningful and not just random — this required more thought than the code itself.</p>
+    </div>
+    <div class="content-block">
+      <h3>Built With Claude</h3>
+      <p>Used Claude Code to scaffold the Next.js project, design the scoring algorithm, and build the multi-step quiz flow. Vercel deployment was set up in minutes. Week 3 was the first time I shipped a full front-end app with no prior Next.js experience.</p>
+    </div>
+  </div>
+
+  <div class="skills-section">
+    <div class="skills-divider"><span>Skills &amp; Stack</span></div>
+    <div class="skills-grid">
+      <div class="skills-card">
+        <h4>Skills Demonstrated</h4>
+        <span class="skill-tag confident"><span class="skill-dot confident"></span>Next.js</span>
+        <span class="skill-tag confident"><span class="skill-dot confident"></span>React</span>
+        <span class="skill-tag confident"><span class="skill-dot confident"></span>Vercel Deployment</span>
+        <span class="skill-tag learning"><span class="skill-dot learning"></span>UX Flow Design</span>
+        <div class="skill-legend">
+          <span><span class="skill-dot confident"></span>Confident</span>
+          <span><span class="skill-dot learning"></span>Still learning</span>
+        </div>
+      </div>
+      <div class="skills-card">
+        <h4>Complexity Breakdown</h4>
+        <div class="complexity-bar">
+          <div class="complexity-label"><span>Backend / Systems</span><strong style="color:var(--text-muted)">Beginner</strong></div>
+          <div class="bar-track"><div class="bar-fill" style="width:10%"></div></div>
+        </div>
+        <div class="complexity-bar">
+          <div class="complexity-label"><span>Frontend / UI</span><strong style="color:var(--accent)">Advanced</strong></div>
+          <div class="bar-track"><div class="bar-fill" style="width:75%"></div></div>
+        </div>
+        <div class="complexity-bar">
+          <div class="complexity-label"><span>AI Integration</span><strong style="color:var(--text-muted)">Beginner</strong></div>
+          <div class="bar-track"><div class="bar-fill" style="width:30%"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="detail-nav" id="detail-nav"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/projects.js"></script>
+  <script src="js/votes.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    const PROJECT_ID = 'dream-future-quiz';
+    document.addEventListener('DOMContentLoaded', () => {
+      initDetailVoteButton(PROJECT_ID);
+      renderDetailNav(PROJECT_ID);
+    });
+  </script>
+</body>
+</html>
