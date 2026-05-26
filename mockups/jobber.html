@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Jobber — Mockup</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,'SF Pro Display','Segoe UI',sans-serif;background:#f2f3f7;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:32px 16px}
+
+.phone{width:375px;background:#f2f3f7;border-radius:48px;overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,0.18),0 0 0 10px #1a1a1a,0 0 0 12px #333;position:relative;min-height:780px;display:flex;flex-direction:column}
+
+/* Status bar */
+.status-bar{background:#f2f3f7;padding:14px 28px 6px;display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:600}
+.status-time{font-size:15px;font-weight:700}
+.status-icons{display:flex;gap:5px;align-items:center}
+
+/* Top bar */
+.top-bar{padding:8px 20px 12px;display:flex;justify-content:space-between;align-items:center;background:#f2f3f7}
+.top-title{font-size:22px;font-weight:800;letter-spacing:-0.5px;color:#111}
+.top-sub{font-size:12px;color:#999;margin-top:1px}
+.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#60a5fa);display:flex;align-items:center;justify-content:center;color:white;font-size:13px;font-weight:700}
+
+/* Counter */
+.counter-row{padding:0 20px 14px;display:flex;gap:16px}
+.counter{background:white;border-radius:12px;padding:10px 14px;flex:1;border:1px solid #e8e8f0;box-shadow:0 2px 8px rgba(0,0,0,0.04)}
+.counter-num{font-size:20px;font-weight:800;color:#111}
+.counter-label{font-size:10px;color:#999;font-weight:500;margin-top:1px}
+.counter.green .counter-num{color:#16a34a}
+.counter.blue .counter-num{color:#2563eb}
+
+/* Card stack */
+.card-stack{flex:1;padding:0 20px;position:relative}
+.card{background:white;border-radius:24px;padding:20px;border:1px solid #e8e8f0;box-shadow:0 8px 32px rgba(0,0,0,0.08)}
+
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.company-row{display:flex;align-items:center;gap:10px}
+.company-logo{width:44px;height:44px;border-radius:10px;background:#f0f4ff;border:1px solid #e0e8ff;display:flex;align-items:center;justify-content:center;font-size:18px}
+.company-name{font-size:14px;font-weight:600;color:#111}
+.company-location{font-size:11px;color:#999;margin-top:2px}
+.remote-badge{display:inline-block;background:#eff6ff;border-radius:100px;padding:1px 7px;font-size:9px;color:#2563eb;font-weight:600;margin-left:4px}
+.match-badge{background:#2563eb;border-radius:10px;padding:6px 10px;text-align:center;min-width:52px}
+.match-score{font-size:15px;font-weight:800;color:white;line-height:1}
+.match-label{font-size:8px;color:rgba(255,255,255,0.8);font-weight:500;letter-spacing:0.5px;margin-top:1px}
+
+.job-title{font-size:21px;font-style:italic;color:#111;line-height:1.25;margin-bottom:12px;font-weight:500}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{display:flex;align-items:center;gap:4px;background:#f8f8fc;border:1px solid #e8e8f0;border-radius:100px;padding:4px 10px;font-size:11px;color:#555}
+.chip.apply{background:#eff6ff;border-color:#bfdbfe;color:#2563eb}
+
+.skills{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px}
+.skill{background:#f8f8fc;border:1px solid #e8e8f0;border-radius:100px;padding:3px 9px;font-size:11px;color:#666}
+.skill.match{background:#eff6ff;border-color:#bfdbfe;color:#2563eb;font-weight:600}
+
+.description{font-size:13px;color:#666;line-height:1.6;margin-bottom:4px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.read-more{font-size:11px;color:#2563eb;font-weight:600;margin-bottom:10px}
+
+.why-strip{background:#eff6ff;border-radius:10px;padding:10px 12px;display:flex;gap:6px;align-items:flex-start;margin-bottom:8px}
+.why-icon{font-size:12px;margin-top:1px}
+.why-text{font-size:11px;color:#111;line-height:1.5;flex:1}
+
+.via{font-size:10px;color:#bbb;text-align:right}
+
+/* Swipe actions */
+.swipe-actions{padding:16px 20px 28px;display:flex;justify-content:center;gap:20px;background:#f2f3f7}
+.swipe-btn{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;border:none;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.12);transition:transform 0.15s}
+.swipe-btn.skip{background:white;color:#ef4444}
+.swipe-btn.apply{background:#2563eb;color:white}
+.swipe-btn.super{background:white;color:#f59e0b}
+
+/* Tab bar */
+.tab-bar{background:white;border-top:1px solid #e8e8f0;padding:8px 0 16px;display:flex;justify-content:space-around}
+.tab{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;color:#bbb;padding:4px 14px}
+.tab.active{color:#2563eb}
+.tab-icon{font-size:20px}
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <!-- Status bar -->
+  <div class="status-bar">
+    <span class="status-time">9:41</span>
+    <div class="status-icons">
+      <span>●●●</span>
+      <span>WiFi</span>
+      <span>🔋</span>
+    </div>
+  </div>
+
+  <!-- Top bar -->
+  <div class="top-bar">
+    <div>
+      <div class="top-title">Find Jobs</div>
+      <div class="top-sub">12 new matches today</div>
+    </div>
+    <div class="avatar">ID</div>
+  </div>
+
+  <!-- Counters -->
+  <div class="counter-row">
+    <div class="counter blue">
+      <div class="counter-num">47</div>
+      <div class="counter-label">Applied</div>
+    </div>
+    <div class="counter green">
+      <div class="counter-num">6</div>
+      <div class="counter-label">Responses</div>
+    </div>
+    <div class="counter">
+      <div class="counter-num">91%</div>
+      <div class="counter-label">Avg Match</div>
+    </div>
+  </div>
+
+  <!-- Job card -->
+  <div class="card-stack">
+    <div class="card">
+      <div class="card-header">
+        <div class="company-row">
+          <div class="company-logo">🏢</div>
+          <div>
+            <div class="company-name">Stripe</div>
+            <div class="company-location">📍 Singapore <span class="remote-badge">Remote</span></div>
+          </div>
+        </div>
+        <div class="match-badge">
+          <div class="match-score">94%</div>
+          <div class="match-label">MATCH</div>
+        </div>
+      </div>
+
+      <div class="job-title">Senior Software Engineer, Payments Infrastructure</div>
+
+      <div class="chips">
+        <div class="chip">💼 $8,000 – $12,000/mo</div>
+        <div class="chip">🕐 Today</div>
+        <div class="chip apply">↗ Easy Apply</div>
+      </div>
+
+      <div class="skills">
+        <div class="skill match">Python</div>
+        <div class="skill match">React</div>
+        <div class="skill match">Supabase</div>
+        <div class="skill">Go</div>
+        <div class="skill">Kubernetes</div>
+        <div class="skill">PostgreSQL</div>
+      </div>
+
+      <div class="description">We're looking for engineers to help build the financial infrastructure that powers millions of businesses worldwide. You'll work on distributed systems handling billions in transactions...</div>
+      <div class="read-more">Read full description →</div>
+
+      <div class="why-strip">
+        <div class="why-icon">✨</div>
+        <div class="why-text">Your React and Python background aligns well with Stripe's full-stack infra team. Your Supabase experience maps to their database engineering work.</div>
+      </div>
+
+      <div class="via">via MyCareersFuture</div>
+    </div>
+  </div>
+
+  <!-- Swipe buttons -->
+  <div class="swipe-actions">
+    <button class="swipe-btn skip">✕</button>
+    <button class="swipe-btn super">★</button>
+    <button class="swipe-btn apply">✓</button>
+  </div>
+
+  <!-- Tab bar -->
+  <div class="tab-bar">
+    <div class="tab active">
+      <div class="tab-icon">💼</div>
+      Jobs
+    </div>
+    <div class="tab">
+      <div class="tab-icon">📋</div>
+      Applied
+    </div>
+    <div class="tab">
+      <div class="tab-icon">📄</div>
+      Resume
+    </div>
+    <div class="tab">
+      <div class="tab-icon">👤</div>
+      Profile
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
