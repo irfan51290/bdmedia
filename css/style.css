@@ -111,3 +111,83 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 140px 48px 80px;
+  position: relative; overflow: hidden;
+}
+.hero-blob {
+  position: absolute; right: -100px; top: 50%; transform: translateY(-50%);
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(37,99,235,0.07) 0%, transparent 65%);
+  border-radius: 50%;
+  animation: float 7s ease-in-out infinite;
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-size: 11px; font-weight: 600; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 22px;
+}
+.hero-title {
+  font-size: clamp(52px, 7vw, 96px);
+  font-weight: 800; letter-spacing: -3px; line-height: 1.0;
+  color: var(--text-primary); margin-bottom: 24px;
+}
+.hero-accent { color: var(--accent); }
+.hero-subtitle {
+  font-size: 17px; color: var(--text-secondary); max-width: 460px;
+  line-height: 1.75; margin-bottom: 40px;
+}
+.hero-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--text-primary); color: white;
+  padding: 14px 28px; border-radius: var(--radius-pill);
+  font-size: 14px; font-weight: 600;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  width: fit-content;
+}
+.hero-cta:hover {
+  background: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(37,99,235,0.3);
+}
+
+/* ============================================================
+   ABOUT STRIP
+   ============================================================ */
+.about-strip {
+  background: var(--dark-bg); color: white;
+  padding: 80px 48px;
+  display: flex; align-items: center; gap: 80px;
+}
+.about-name {
+  font-size: 44px; font-weight: 800; letter-spacing: -1.5px;
+  white-space: nowrap; line-height: 1.1; flex-shrink: 0;
+}
+.about-name span { color: var(--accent); }
+.about-body p {
+  font-size: 15px; color: #999; line-height: 1.8;
+  max-width: 480px; margin-bottom: 24px;
+}
+.about-contact {
+  font-size: 13px; font-weight: 600; color: var(--accent);
+  border-bottom: 1px solid rgba(37,99,235,0.4); padding-bottom: 2px;
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: opacity 0.2s;
+}
+.about-contact:hover { opacity: 0.75; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  padding: 28px 48px;
+  display: flex; justify-content: space-between;
+  border-top: 1px solid var(--border);
+  font-size: 12px; color: var(--text-dim);
+}
