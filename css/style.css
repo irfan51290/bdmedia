@@ -129,18 +129,19 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
   width: 900px; height: 900px;
   background: radial-gradient(circle, rgba(37,99,235,0.09) 0%, transparent 60%);
   border-radius: 50%;
+  transform: translate(-50%, -50%);
   animation: floatBlob 8s ease-in-out infinite;
-  pointer-events: none; z-index: 0;
+  pointer-events: none;
 }
 .hero-blob-2 {
-  position: absolute; left: 60%; top: 30%;
+  position: absolute; left: 65%; top: 25%;
   width: 500px; height: 500px;
   background: radial-gradient(circle, rgba(37,99,235,0.05) 0%, transparent 65%);
   border-radius: 50%;
+  transform: translate(-50%, -50%);
   animation: floatBlob 11s ease-in-out 2s infinite reverse;
-  pointer-events: none; z-index: 0;
+  pointer-events: none;
 }
-.hero > * { position: relative; z-index: 1; }
 .hero-eyebrow {
   font-size: 11px; font-weight: 600; letter-spacing: 2.5px;
   text-transform: uppercase; color: var(--accent); margin-bottom: 28px;
