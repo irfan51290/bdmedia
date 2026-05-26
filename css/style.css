@@ -499,4 +499,60 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
   letter-spacing: 1.5px; color: var(--text-dim);
 }
 .detail-nav-name { font-size: 16px; font-weight: 700; color: var(--text-primary); }
+
+/* ============================================================
+   RESPONSIVE — TABLET (< 900px)
+   ============================================================ */
+@media (max-width: 900px) {
+  .content-grid  { grid-template-columns: 1fr; }
+  .skills-grid   { grid-template-columns: 1fr; }
+  .about-strip   { flex-direction: column; gap: 32px; }
+}
+
+/* ============================================================
+   RESPONSIVE — MOBILE (< 768px)
+   ============================================================ */
+@media (max-width: 768px) {
+  .nav          { padding: 16px 20px; }
+  .nav-links    { display: none; }
+
+  .hero         { padding: 100px 20px 60px; }
+  .hero-title   { font-size: clamp(40px, 11vw, 64px); letter-spacing: -2px; }
+
+  .timeline-section { padding: 48px 20px 80px; }
+  .timeline::before { display: none; }
+  .week-col     { display: none; }
+  .project-card { margin-left: 0; }
+
+  .vote-bar {
+    flex-wrap: wrap; padding: 18px 20px; gap: 16px;
+  }
+  .vote-context {
+    margin-left: 0; max-width: 100%;
+    border-left: none; padding-left: 0;
+    border-top: 1px solid var(--border); padding-top: 12px;
+  }
+
+  .detail-hero  { padding: 100px 20px 40px; }
+  .detail-title { font-size: clamp(32px, 9vw, 48px); }
+  .meta-row     { gap: 16px; }
+
+  .mockup-section { padding: 24px 20px 0; }
+  .content-grid   { padding: 24px 20px; }
+  .skills-section { padding: 0 20px 40px; }
+  .detail-nav     { padding: 28px 20px; }
+
+  .about-strip  { padding: 56px 20px; }
+  .about-name   { font-size: 32px; }
+  .footer       { padding: 20px; flex-direction: column; gap: 8px; }
+}
+
+/* ============================================================
+   RESPONSIVE — SMALL MOBILE (< 480px)
+   ============================================================ */
+@media (max-width: 480px) {
+  .hero-title    { font-size: clamp(36px, 12vw, 52px); }
+  .detail-header { flex-direction: column; }
+  .vote-btn      { padding: 12px 18px; font-size: 13px; }
+}
 .detail-nav-btn.next { text-align: right; }
