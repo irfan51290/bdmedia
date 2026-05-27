@@ -687,14 +687,21 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
   .nav          { padding: 16px 20px; }
   .nav-links    { display: none; }
 
-  .hero         { padding: 100px 20px 60px; }
+  /* Hero — hide floating cards, centre text */
+  .hero         { padding: 100px 20px 60px; text-align: center; }
+  .hero-cards   { display: none; }
   .hero-title   { font-size: clamp(40px, 11vw, 64px); letter-spacing: -2px; }
+  .hero-subtitle { font-size: 15px; }
+  .hero-cta     { margin: 0 auto; }
 
+  /* Timeline */
   .timeline-section { padding: 48px 20px 80px; }
   .timeline::before { display: none; }
   .week-col     { display: none; }
   .project-card { margin-left: 0; }
+  .card-desc    { display: none; }
 
+  /* Vote bar */
   .vote-bar {
     flex-wrap: wrap; padding: 18px 20px; gap: 16px;
   }
@@ -704,19 +711,36 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
     border-top: 1px solid var(--border); padding-top: 12px;
   }
 
+  /* Detail pages */
   .detail-hero  { padding: 100px 20px 40px; }
   .detail-title { font-size: clamp(32px, 9vw, 48px); }
-  .meta-row     { gap: 16px; }
-
+  .meta-row     { flex-wrap: wrap; gap: 16px; }
   .mockup-section { padding: 24px 20px 0; }
+  .mockup-frame iframe { height: 320px; }
   .content-grid   { padding: 24px 20px; }
   .skills-section { padding: 0 20px 40px; }
   .detail-nav     { padding: 28px 20px; }
 
-  .ideas-modal  { padding: 28px 24px; }
-  .about-strip  { padding: 56px 20px; }
+  /* Ideas modal */
+  .ideas-modal  { padding: 28px 20px; }
+  .ideas-modal-title { font-size: 20px; }
+
+  /* About strip */
+  .about-strip  { padding: 56px 20px; flex-direction: column; gap: 40px; }
   .about-name   { font-size: 32px; }
-  .footer       { padding: 20px; flex-direction: column; gap: 8px; }
+  .about-nav    { margin-left: 0; }
+
+  /* Leaderboard */
+  .lb-hero      { padding: 100px 20px 40px; }
+  .lb-stats     { padding: 0 20px 40px; flex-direction: column; }
+  .lb-section   { padding: 0 20px 60px; }
+  .lb-bar-wrap  { display: none; }
+  .lb-row       { padding: 16px; gap: 12px; }
+
+  /* About page */
+  .about-page   { padding: 100px 20px 60px; }
+
+  .footer       { padding: 20px; flex-direction: column; gap: 8px; text-align: center; }
 }
 
 /* ============================================================
@@ -726,4 +750,8 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
   .hero-title    { font-size: clamp(36px, 12vw, 52px); }
   .detail-header { flex-direction: column; }
   .vote-btn      { padding: 12px 18px; font-size: 13px; }
+  .card-name     { font-size: 16px; }
+  .card-arrow    { display: none; }
+  .lb-vote-num   { font-size: 20px; }
+  .lb-icon       { width: 40px; height: 40px; font-size: 18px; }
 }
