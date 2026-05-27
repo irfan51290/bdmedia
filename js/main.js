@@ -74,10 +74,45 @@ function renderDetailNav(projectId) {
   `;
 }
 
+function initMobileNav() {
+  const navLinks = document.querySelector('.nav-links');
+  if (!navLinks) return;
+
+  // Inject hamburger button
+  const burger = document.createElement('button');
+  burger.className = 'nav-burger';
+  burger.setAttribute('aria-label', 'Menu');
+  burger.innerHTML = `<span></span><span></span><span></span>`;
+  navLinks.parentElement.appendChild(burger);
+
+  // Inject mobile drawer
+  const drawer = document.createElement('div');
+  drawer.className = 'nav-drawer';
+  drawer.innerHTML = navLinks.innerHTML;
+  document.body.appendChild(drawer);
+
+  // Toggle
+  burger.addEventListener('click', () => {
+    const open = drawer.classList.toggle('open');
+    burger.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+
+  // Close on link click
+  drawer.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      drawer.classList.remove('open');
+      burger.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+}
+
 // Entry point — runs on every page
 document.addEventListener('DOMContentLoaded', () => {
   renderTimeline();  // no-op on detail pages (no #timeline-list)
   if (typeof initVotes === 'function') initVotes();  // defined in votes.js
+  initMobileNav();
 
   // If page loaded with a hash targeting a project, make it visible immediately
   if (location.hash) {

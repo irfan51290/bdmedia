@@ -79,6 +79,43 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
 }
 .nav-links a:hover { color: var(--text-primary); }
 .nav-highlight { color: var(--accent) !important; font-weight: 700; }
+
+/* ── Mobile hamburger ── */
+.nav-burger {
+  display: none;
+  flex-direction: column; justify-content: center; gap: 5px;
+  width: 36px; height: 36px; padding: 4px;
+  background: none; border: none; cursor: pointer;
+}
+.nav-burger span {
+  display: block; height: 2px; width: 22px;
+  background: var(--text-primary); border-radius: 2px;
+  transition: transform 0.25s, opacity 0.25s;
+}
+.nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { opacity: 0; }
+.nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── Mobile drawer ── */
+.nav-drawer {
+  display: none;
+  position: fixed; inset: 0; z-index: 99;
+  background: rgba(248,248,244,0.97);
+  backdrop-filter: blur(12px);
+  flex-direction: column; align-items: center; justify-content: center;
+  gap: 36px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s;
+}
+.nav-drawer.open {
+  opacity: 1; pointer-events: all;
+}
+.nav-drawer a {
+  font-size: 28px; font-weight: 800; letter-spacing: -0.5px;
+  color: var(--text-primary); transition: color 0.2s;
+}
+.nav-drawer a:hover { color: var(--accent); }
+.nav-drawer .nav-highlight { color: var(--accent) !important; }
 .nav-back {
   font-size: 13px; color: var(--text-muted);
   transition: color 0.2s;
@@ -686,6 +723,8 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
 @media (max-width: 768px) {
   .nav          { padding: 16px 20px; }
   .nav-links    { display: none; }
+  .nav-burger   { display: flex; }
+  .nav-drawer   { display: flex; }
 
   /* Hero — hide floating cards, centre text */
   .hero         { padding: 100px 20px 60px; text-align: center; }
