@@ -22,7 +22,7 @@ const PROJECTS = [
     id:          'color-fit',
     week:        2,
     title:       'Color-Fit',
-    category:    'Web App · AI',
+    category:    'Mobile App · AI',
     description: 'Upload a selfie, discover your color season, then let AI build outfits from your actual wardrobe — with Pantone-coded color stories for every look.',
     icon:        '🎨',
     tags:        ['Next.js 15', 'Claude API', 'SQLite', 'Railway'],
