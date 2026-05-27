@@ -7,7 +7,7 @@ function renderTimeline() {
   container.innerHTML = PROJECTS.map((p, i) => {
     const isFeatured = i === PROJECTS.length - 1;
     return `
-      <div class="timeline-item reveal" data-delay="${i * 100}" data-id="${p.id}">
+      <div class="timeline-item reveal" id="project-${p.id}" data-delay="${i * 100}" data-id="${p.id}">
         <div class="week-col">
           <div class="week-dot"></div>
           <div class="week-badge ${isFeatured ? 'featured' : ''}">Wk ${p.week}</div>
@@ -78,4 +78,12 @@ function renderDetailNav(projectId) {
 document.addEventListener('DOMContentLoaded', () => {
   renderTimeline();  // no-op on detail pages (no #timeline-list)
   if (typeof initVotes === 'function') initVotes();  // defined in votes.js
+
+  // If page loaded with a hash targeting a project, make it visible immediately
+  if (location.hash) {
+    const target = document.querySelector(location.hash);
+    if (target && target.classList.contains('reveal')) {
+      target.classList.add('visible');
+    }
+  }
 });

@@ -12,9 +12,10 @@
   <nav class="nav">
     <a class="nav-logo" href="index.html">irfan<span class="dot">.</span></a>
     <div class="nav-links">
-      <a href="#timeline">Work</a>
-      <a href="#about">About</a>
-      <a href="mailto:irfan51290@gmail.com">Contact</a>
+      <a href="index.html">Home</a>
+      <a href="leaderboard.html" class="nav-highlight">Projects</a>
+      <a href="about.html">About</a>
+      <a href="index.html#about">Contact</a>
     </div>
   </nav>
 
@@ -25,37 +26,37 @@
 
     <!-- Floating project cards (decorative) -->
     <div class="hero-cards">
-      <div class="hero-card-float">
+      <a href="#project-finance-tracker" class="hero-card-float">
         <div class="hero-card-icon">💰</div>
         <div class="hero-card-title">Finance Tracker</div>
         <div class="hero-card-sub">Python · Claude AI</div>
         <div class="hero-card-bar"><div class="hero-card-bar-fill" style="width:80%"></div></div>
-      </div>
-      <div class="hero-card-float">
+      </a>
+      <a href="#project-watch-hunter" class="hero-card-float">
         <div class="hero-card-icon">⌚</div>
         <div class="hero-card-title">Watch Hunter</div>
         <div class="hero-card-sub">Playwright · Telegram</div>
         <div class="hero-card-bar"><div class="hero-card-bar-fill" style="width:85%"></div></div>
-      </div>
-      <div class="hero-card-float">
+      </a>
+      <a href="#project-stocks-manager" class="hero-card-float">
         <div class="hero-card-icon">📈</div>
         <div class="hero-card-title">Stocks Manager</div>
         <div class="hero-card-sub">React · Claude AI</div>
         <div class="hero-card-bar"><div class="hero-card-bar-fill" style="width:90%"></div></div>
-      </div>
-      <div class="hero-card-float">
+      </a>
+      <a href="#project-jobber" class="hero-card-float">
         <div class="hero-card-icon">💼</div>
         <div class="hero-card-title">Jobber</div>
         <div class="hero-card-sub">React Native · GPT-4</div>
         <div class="hero-card-bar"><div class="hero-card-bar-fill" style="width:70%"></div></div>
-      </div>
+      </a>
     </div>
 
     <div class="hero-eyebrow fade-up-1">Irfan Dhamiry · Singapore</div>
     <h1 class="hero-title">
-      <span class="line fade-up-2">1 app.</span>
-      <span class="line fade-up-3">1 week.</span>
-      <span class="line hero-accent fade-up-4">1 real problem.</span>
+      <span class="line fade-up-2">1 real problem.</span>
+      <span class="line hero-accent fade-up-3">1 app.</span>
+      <span class="line fade-up-4">1 week.</span>
     </h1>
     <p class="hero-subtitle fade-up-5">
       Building AI-powered tools to solve real-world problems — one week at a time.
@@ -69,13 +70,64 @@
     <div class="timeline" id="timeline-list"></div>
   </section>
 
+  <!-- IDEAS MODAL -->
+  <div class="ideas-overlay" id="ideas-overlay">
+    <div class="ideas-modal">
+      <button class="ideas-close" id="ideas-close" aria-label="Close">✕</button>
+      <div class="ideas-modal-eyebrow">Quick question</div>
+      <h2 class="ideas-modal-title">Got a problem worth solving?</h2>
+      <p class="ideas-modal-sub">I'm always looking for the next real-world challenge. Tell me what's annoying, broken, or missing in your life.</p>
+      <form class="ideas-form" id="ideas-form">
+        <input
+          type="text"
+          class="ideas-input"
+          id="ideas-name"
+          placeholder="Your name (optional)"
+          maxlength="80"
+        />
+        <textarea
+          class="ideas-textarea"
+          id="ideas-message"
+          placeholder="Describe the problem…"
+          maxlength="500"
+          rows="4"
+          required
+        ></textarea>
+        <button type="submit" class="ideas-submit" id="ideas-btn">
+          <span id="ideas-btn-text">Submit →</span>
+        </button>
+      </form>
+      <div class="ideas-thanks" id="ideas-thanks" style="display:none;">
+        <div class="ideas-thanks-icon">🙌</div>
+        <div class="ideas-thanks-title">Got it, thanks!</div>
+        <div class="ideas-thanks-sub">I'll keep this in mind for the next build.</div>
+      </div>
+    </div>
+  </div>
+
   <!-- ABOUT -->
   <div class="about-strip" id="about">
     <div class="about-name">Irfan<br><span>Dhamiry.</span></div>
     <div class="about-body">
       <p>Based in Singapore. I build AI-powered tools that solve real problems — one week at a time. Everything here was made with Claude as my co-builder.</p>
-      <a href="mailto:irfan51290@gmail.com" class="about-contact">Get in touch →</a>
+      <div class="about-contacts">
+        <a href="mailto:irfan51290@gmail.com" class="about-contact-item">
+          <span class="about-contact-label">Email</span>
+          <span>irfan51290@gmail.com</span>
+        </a>
+        <a href="tel:+6593862012" class="about-contact-item">
+          <span class="about-contact-label">Phone</span>
+          <span>+65 9386 2012</span>
+        </a>
+      </div>
     </div>
+    <nav class="about-nav">
+      <div class="about-nav-label">Quick Links</div>
+      <a href="index.html">Home</a>
+      <a href="leaderboard.html">Projects</a>
+      <a href="about.html">About</a>
+      <a href="index.html#about">Contact</a>
+    </nav>
   </div>
 
   <!-- FOOTER -->
@@ -88,5 +140,69 @@
   <script src="js/projects.js"></script>
   <script src="js/votes.js"></script>
   <script src="js/main.js"></script>
+  <script>
+    const overlay  = document.getElementById('ideas-overlay');
+    const closeBtn = document.getElementById('ideas-close');
+
+    function openIdeasModal() {
+      if (sessionStorage.getItem('ideas_shown')) return;
+      sessionStorage.setItem('ideas_shown', '1');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeIdeasModal() {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Trigger when user scrolls past the midpoint of the journey section
+    function checkScrollTrigger() {
+      const timeline = document.getElementById('timeline-list');
+      if (!timeline) return;
+      const rect = timeline.getBoundingClientRect();
+      const midpoint = rect.top + rect.height / 2;
+      if (midpoint < window.innerHeight) {
+        setTimeout(openIdeasModal, 600);
+        window.removeEventListener('scroll', checkScrollTrigger);
+      }
+    }
+    window.addEventListener('scroll', checkScrollTrigger, { passive: true });
+
+    // Close on button or backdrop click
+    closeBtn.addEventListener('click', closeIdeasModal);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeIdeasModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeIdeasModal();
+    });
+
+    // Form submission
+    document.getElementById('ideas-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn     = document.getElementById('ideas-btn');
+      const message = document.getElementById('ideas-message').value.trim();
+      const name    = document.getElementById('ideas-name').value.trim();
+      if (!message) return;
+
+      btn.disabled = true;
+      document.getElementById('ideas-btn-text').textContent = 'Sending…';
+
+      const { error } = await db.from('ideas').insert({
+        message,
+        name: name || null,
+        user_agent: navigator.userAgent,
+      });
+
+      if (!error) {
+        document.getElementById('ideas-form').style.display   = 'none';
+        document.getElementById('ideas-thanks').style.display = 'flex';
+      } else {
+        document.getElementById('ideas-btn-text').textContent = 'Submit →';
+        btn.disabled = false;
+      }
+    });
+  </script>
 </body>
 </html>

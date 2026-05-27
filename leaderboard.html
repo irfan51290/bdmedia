@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Leaderboard — Irfan Dhamiry</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    /* ── Page layout ── */
+    .lb-hero {
+      padding: 140px 48px 56px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .lb-hero-eyebrow {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 2px; color: var(--accent); margin-bottom: 16px;
+    }
+    .lb-hero-title {
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 800; letter-spacing: -2px;
+      line-height: 1.05; margin-bottom: 14px;
+    }
+    .lb-hero-sub {
+      font-size: 16px; color: var(--text-secondary); line-height: 1.6;
+    }
+
+    /* ── Stats row ── */
+    .lb-stats {
+      max-width: 860px; margin: 0 auto;
+      padding: 0 48px 56px;
+      display: flex; gap: 16px;
+    }
+    .lb-stat {
+      flex: 1; background: var(--bg-card);
+      border: 1px solid var(--border); border-radius: var(--radius-lg);
+      padding: 24px 28px;
+    }
+    .lb-stat-label {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 10px;
+    }
+    .lb-stat-value {
+      font-size: 36px; font-weight: 800; letter-spacing: -1px;
+      color: var(--text-primary);
+    }
+    .lb-stat-value span { color: var(--accent); }
+    .lb-stat-sub {
+      font-size: 12px; color: var(--text-muted); margin-top: 4px;
+    }
+
+    /* ── Leaderboard table ── */
+    .lb-section {
+      max-width: 860px; margin: 0 auto;
+      padding: 0 48px 100px;
+    }
+    .lb-row {
+      display: flex; align-items: center; gap: 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px 28px;
+      margin-bottom: 12px;
+      transition: box-shadow 0.2s, border-color 0.2s;
+      text-decoration: none; color: inherit;
+    }
+    .lb-row:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      border-color: var(--accent-border);
+    }
+    .lb-row.gold   { border-color: #f59e0b; background: #fffbeb; }
+    .lb-row.silver { border-color: #94a3b8; background: #f8fafc; }
+    .lb-row.bronze { border-color: #c97c4a; background: #fdf6f0; }
+
+    .lb-rank {
+      font-size: 18px; font-weight: 800; width: 32px;
+      text-align: center; flex-shrink: 0;
+      color: var(--text-dim);
+    }
+    .lb-row.gold   .lb-rank { color: #f59e0b; }
+    .lb-row.silver .lb-rank { color: #94a3b8; }
+    .lb-row.bronze .lb-rank { color: #c97c4a; }
+
+    .lb-icon {
+      width: 48px; height: 48px; border-radius: 14px;
+      background: var(--accent-light); display: flex;
+      align-items: center; justify-content: center;
+      font-size: 22px; flex-shrink: 0;
+    }
+    .lb-row.gold   .lb-icon { background: #fef3c7; }
+    .lb-row.silver .lb-icon { background: #f1f5f9; }
+    .lb-row.bronze .lb-icon { background: #fef0e6; }
+
+    .lb-info { flex: 1; min-width: 0; }
+    .lb-name {
+      font-size: 16px; font-weight: 700;
+      color: var(--text-primary); margin-bottom: 2px;
+    }
+    .lb-meta {
+      font-size: 12px; color: var(--text-muted);
+    }
+
+    .lb-bar-wrap { flex: 1; max-width: 220px; }
+    .lb-bar-track {
+      height: 6px; background: var(--border);
+      border-radius: 3px; overflow: hidden; margin-bottom: 4px;
+    }
+    .lb-bar-fill {
+      height: 100%; border-radius: 3px;
+      background: var(--accent);
+      transition: width 0.8s cubic-bezier(0.16,1,0.3,1);
+    }
+    .lb-row.gold   .lb-bar-fill { background: #f59e0b; }
+    .lb-row.silver .lb-bar-fill { background: #94a3b8; }
+    .lb-row.bronze .lb-bar-fill { background: #c97c4a; }
+    .lb-bar-pct {
+      font-size: 10px; color: var(--text-muted); text-align: right;
+    }
+
+    .lb-votes {
+      text-align: right; flex-shrink: 0; min-width: 60px;
+    }
+    .lb-vote-num {
+      font-size: 24px; font-weight: 800; letter-spacing: -0.5px;
+      color: var(--text-primary); display: block;
+    }
+    .lb-vote-label {
+      font-size: 10px; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+
+    /* ── Live dot ── */
+    .live-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.5px; color: var(--green);
+    }
+    .live-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(1.3); }
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .lb-hero, .lb-stats, .lb-section { padding-left: 20px; padding-right: 20px; }
+      .lb-stats { flex-direction: column; }
+      .lb-bar-wrap { display: none; }
+      .lb-row { padding: 18px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a class="nav-logo" href="index.html">irfan<span class="dot">.</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="leaderboard.html" class="nav-highlight">Projects</a>
+      <a href="about.html">About</a>
+      <a href="index.html#about">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="lb-hero">
+    <div class="lb-hero-eyebrow">Community</div>
+    <h1 class="lb-hero-title">Which app do people<br>want most?</h1>
+    <p class="lb-hero-sub">
+      Votes cast by real visitors — updated live. The top project gets priority for the next iteration.
+    </p>
+  </div>
+
+  <!-- STATS ROW -->
+  <div class="lb-stats">
+    <div class="lb-stat">
+      <div class="lb-stat-label">Total votes cast</div>
+      <div class="lb-stat-value" id="stat-total">—</div>
+      <div class="lb-stat-sub">across all projects</div>
+    </div>
+    <div class="lb-stat">
+      <div class="lb-stat-label">Leading project</div>
+      <div class="lb-stat-value" id="stat-leader-name">—</div>
+      <div class="lb-stat-sub" id="stat-leader-votes">loading…</div>
+    </div>
+    <div class="lb-stat">
+      <div class="lb-stat-label">Projects tracked</div>
+      <div class="lb-stat-value" id="stat-count">—</div>
+      <div class="lb-stat-sub">and growing weekly</div>
+    </div>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <div class="lb-section">
+    <div class="section-rule label" style="margin-bottom:32px;">
+      <span class="live-badge"><span class="live-dot"></span>Live standings</span>
+    </div>
+    <div id="lb-list">
+      <!-- rendered by JS -->
+      <div style="color:var(--text-muted);font-size:14px;">Loading…</div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <span>Irfan Dhamiry © 2026</span>
+    <span>Built with Claude</span>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/projects.js"></script>
+  <script src="js/votes.js"></script>
+  <script>
+    const MEDAL = ['gold', 'silver', 'bronze'];
+
+    function renderLeaderboard(voteCounts) {
+      const ranked = PROJECTS
+        .map(p => ({ ...p, votes: voteCounts[p.id] ?? 0 }))
+        .sort((a, b) => b.votes - a.votes);
+
+      const maxVotes = ranked[0]?.votes || 1;
+      const total    = ranked.reduce((s, p) => s + p.votes, 0);
+
+      // Update stats
+      document.getElementById('stat-total').textContent  = total;
+      document.getElementById('stat-count').textContent  = ranked.length;
+      document.getElementById('stat-leader-name').innerHTML =
+        `<span>${ranked[0]?.icon || ''}</span> ${ranked[0]?.title || '—'}`;
+      document.getElementById('stat-leader-votes').textContent =
+        `${ranked[0]?.votes ?? 0} vote${ranked[0]?.votes !== 1 ? 's' : ''}`;
+
+      const list = document.getElementById('lb-list');
+      list.innerHTML = ranked.map((p, i) => {
+        const medalClass = MEDAL[i] || '';
+        const pct = maxVotes > 0 ? Math.round((p.votes / maxVotes) * 100) : 0;
+        const sharePct = total > 0 ? Math.round((p.votes / total) * 100) : 0;
+        return `
+          <a href="${p.page}" class="lb-row ${medalClass}">
+            <div class="lb-rank">${i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : i + 1}</div>
+            <div class="lb-icon">${p.icon}</div>
+            <div class="lb-info">
+              <div class="lb-name">${p.title}</div>
+              <div class="lb-meta">Week ${p.week} · ${p.category}</div>
+            </div>
+            <div class="lb-bar-wrap">
+              <div class="lb-bar-track">
+                <div class="lb-bar-fill" style="width:${pct}%"></div>
+              </div>
+              <div class="lb-bar-pct">${sharePct}% of all votes</div>
+            </div>
+            <div class="lb-votes">
+              <span class="lb-vote-num" id="lb-votes-${p.id}">${p.votes}</span>
+              <span class="lb-vote-label">votes</span>
+            </div>
+          </a>
+        `;
+      }).join('');
+    }
+
+    async function initLeaderboard() {
+      const { data, error } = await db.from('projects').select('id, vote_count');
+      if (error) { console.error(error); return; }
+
+      const voteCounts = {};
+      (data || []).forEach(r => { voteCounts[r.id] = r.vote_count; });
+      renderLeaderboard(voteCounts);
+
+      // Live updates — re-render on any vote change
+      db.channel('lb-channel')
+        .on('postgres_changes',
+          { event: 'UPDATE', schema: 'public', table: 'projects' },
+          async () => {
+            const { data: fresh } = await db.from('projects').select('id, vote_count');
+            const updated = {};
+            (fresh || []).forEach(r => { updated[r.id] = r.vote_count; });
+            renderLeaderboard(updated);
+          }
+        )
+        .subscribe();
+    }
+
+    document.addEventListener('DOMContentLoaded', initLeaderboard);
+  </script>
+</body>
+</html>

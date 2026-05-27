@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Color Fit — Interactive Mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:      #1C1C2E;
+    --teal:      #4DB8C8;
+    --cream:     #F5EDE0;
+    --red:       #E8473F;
+    --bg:        #FAF8F5;
+    --border:    #F0E8E0;
+    --text:      #1C1C2E;
+    --text-sec:  #7A6B5E;
+    --text-muted:#B8A99A;
+  }
+
+  body {
+    font-family: 'Quicksand', sans-serif;
+    background: #0d0d1a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    gap: 28px;
+  }
+
+  .hero-label {
+    text-align: center;
+    color: #fff;
+  }
+  .hero-label h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+  }
+  .hero-label p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    margin-top: 4px;
+  }
+
+  .phone-wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .phone {
+    width: 375px;
+    height: 780px;
+    background: var(--bg);
+    border-radius: 50px;
+    border: 10px solid #2a2a2a;
+    box-shadow: 0 0 0 2px #444, 0 40px 80px rgba(0,0,0,0.6);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 28px;
+    background: #2a2a2a;
+    border-radius: 0 0 20px 20px;
+    z-index: 100;
+  }
+
+  .screen {
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    background: var(--bg);
+    overflow: hidden;
+  }
+  .screen.active { display: flex; }
+
+  .status-bar {
+    height: 42px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 0 24px 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--navy);
+    z-index: 10;
+  }
+  .status-bar .time { font-weight: 700; font-size: 12px; }
+  .status-icons { display: flex; align-items: center; gap: 4px; }
+  .status-icons svg { width: 14px; height: 14px; }
+
+  .screen-content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+  }
+  .screen-content::-webkit-scrollbar { display: none; }
+
+  .tab-bar {
+    height: 64px;
+    flex-shrink: 0;
+    border-top: 1px solid var(--border);
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 4px 8px;
+  }
+  .tab-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+    padding: 6px 2px 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .tab-item .tab-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+  }
+  .tab-item.active .tab-icon { background: var(--navy); }
+  .tab-item svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--text-muted);
+    stroke-width: 1.5;
+    fill: none;
+    transition: stroke 0.15s;
+  }
+  .tab-item.active svg { stroke: #fff; }
+  .tab-item span {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--text-muted);
+    transition: color 0.15s;
+  }
+  .tab-item.active span { color: var(--navy); }
+
+  .dots {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .dot.active {
+    background: var(--teal);
+    width: 22px;
+    border-radius: 4px;
+  }
+
+  /* SCREEN 1 — Season Reveal */
+  #screen-season { background: var(--navy); }
+  #screen-season .status-bar { color: rgba(255,255,255,0.7); }
+  .season-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 32px 32px;
+    gap: 20px;
+    text-align: center;
+  }
+  .season-badge {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #CC5500, #8B6914);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    box-shadow: 0 0 0 8px rgba(204,85,0,0.15);
+  }
+  .season-label {
+    color: rgba(255,255,255,0.55);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .season-title {
+    color: #fff;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .season-desc {
+    color: rgba(255,255,255,0.55);
+    font-size: 13px;
+    line-height: 1.6;
+    max-width: 260px;
+  }
+  .palette-row {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .palette-swatch {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.12);
+    transition: transform 0.15s;
+  }
+  .palette-swatch:hover { transform: scale(1.1); }
+  .season-cta {
+    width: 100%;
+    padding: 14px;
+    background: var(--teal);
+    color: #fff;
+    border: none;
+    border-radius: 100px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.2px;
+    transition: opacity 0.15s;
+  }
+  .season-cta:hover { opacity: 0.9; }
+
+  /* SCREEN 2 — Wardrobe */
+  .page-header {
+    padding: 14px 18px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .page-title { font-size: 20px; font-weight: 700; color: var(--navy); }
+  .page-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 1px; }
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--navy);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .icon-btn svg { width: 16px; height: 16px; stroke: #fff; fill: none; stroke-width: 2; }
+
+  .search-bar {
+    margin: 0 18px 12px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 14px;
+  }
+  .search-bar svg { width: 14px; height: 14px; stroke: var(--text-muted); fill: none; stroke-width: 2; flex-shrink: 0; }
+  .search-bar span { font-size: 12px; color: var(--text-muted); }
+
+  .filter-pills {
+    display: flex;
+    gap: 7px;
+    padding: 0 18px 14px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .filter-pills::-webkit-scrollbar { display: none; }
+  .pill {
+    flex-shrink: 0;
+    padding: 5px 13px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    background: #fff;
+    color: var(--text-sec);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+  }
+  .pill.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+  .wardrobe-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 0 18px 16px;
+  }
+  .wardrobe-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .wardrobe-thumb {
+    width: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 38px;
+  }
+  .wardrobe-info { padding: 8px 10px 10px; }
+  .wardrobe-name { font-size: 11px; font-weight: 700; color: var(--navy); line-height: 1.3; }
+  .wardrobe-cat { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+  .wardrobe-colors { display: flex; gap: 4px; margin-top: 6px; }
+  .color-dot { width: 10px; height: 10px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.08); }
+
+  /* SCREEN 3 — Style Me */
+  .tabs {
+    display: flex;
+    margin: 0 18px 14px;
+    background: #fff;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    padding: 3px;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 7px 4px;
+    border-radius: 100px;
+    border: none;
+    background: transparent;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .tab-btn.active { background: var(--navy); color: #fff; }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    padding: 0 18px;
+    margin-bottom: 8px;
+  }
+
+  .vibe-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 7px;
+    padding: 0 18px 14px;
+  }
+  .vibe-chip {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .vibe-chip.active { background: var(--cream); border-color: var(--navy); }
+  .vibe-chip span:first-child { font-size: 18px; }
+  .vibe-chip span:last-child { font-size: 9px; font-weight: 600; color: var(--text-sec); }
+
+  .occasion-input {
+    margin: 0 18px 14px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .occasion-input svg { width: 14px; height: 14px; stroke: var(--teal); fill: none; stroke-width: 2; flex-shrink: 0; }
+  .occasion-input span { font-size: 12px; color: var(--text-sec); }
+
+  .generate-btn {
+    margin: 0 18px 18px;
+    width: calc(100% - 36px);
+    padding: 13px;
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    border-radius: 100px;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+  }
+  .generate-btn svg { width: 14px; height: 14px; stroke: #fff; fill: none; stroke-width: 2; }
+
+  .outfit-card {
+    margin: 0 18px 12px;
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .outfit-card-header {
+    padding: 12px 14px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .outfit-name { font-size: 13px; font-weight: 700; color: var(--navy); }
+  .outfit-vibe-tag {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--teal);
+    background: rgba(77,184,200,0.1);
+    padding: 3px 8px;
+    border-radius: 100px;
+  }
+  .outfit-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--border);
+  }
+  .outfit-items-col { padding: 10px 12px; border-right: 1px solid var(--border); }
+  .outfit-items-title {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 7px;
+  }
+  .outfit-item-row { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+  .outfit-item-thumb {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .outfit-item-name { font-size: 10px; font-weight: 600; color: var(--navy); line-height: 1.3; }
+  .color-story-col { padding: 10px 12px; }
+  .color-story-title {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 7px;
+  }
+  .pantone-chip { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+  .pantone-block {
+    width: 28px;
+    height: 36px;
+    border-radius: 3px;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .pantone-block::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 9px;
+    background: rgba(255,255,255,0.85);
+    border-radius: 0 0 3px 3px;
+  }
+  .pantone-code { font-size: 9px; font-weight: 700; color: var(--navy); display: block; line-height: 1; }
+  .pantone-name { font-size: 9px; color: var(--text-muted); display: block; }
+
+  .save-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 14px;
+    border-top: 1px solid var(--border);
+    background: var(--cream);
+    border: none;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--navy);
+    cursor: pointer;
+    width: 100%;
+  }
+  .save-btn svg { width: 13px; height: 13px; stroke: var(--navy); fill: none; stroke-width: 2; }
+
+  /* SCREEN 4 — Inspire */
+  .season-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(204,85,0,0.1);
+    border: 1px solid rgba(204,85,0,0.25);
+    border-radius: 100px;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #CC5500;
+    margin: 0 18px 12px;
+  }
+  .inspire-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 0 18px 16px;
+  }
+  .inspire-card { border-radius: 14px; overflow: hidden; position: relative; }
+  .inspire-card.tall { grid-row: span 2; }
+  .inspire-photo {
+    width: 100%;
+    border-radius: 14px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+  .inspire-card .inspire-photo { height: 120px; }
+  .inspire-card.tall .inspire-photo { height: 248px; }
+  .inspire-photo-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(28,28,46,0.6) 0%, transparent 50%);
+  }
+  .inspire-tag {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    font-size: 9px;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(4px);
+    padding: 3px 7px;
+    border-radius: 100px;
+  }
+
+  /* SCREEN 5 — Score */
+  .upload-preview {
+    margin: 10px 18px 14px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .upload-photo {
+    width: 100%;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    background: linear-gradient(135deg, #c49a6c, #8B6914);
+  }
+  .upload-label {
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .upload-name { font-size: 13px; font-weight: 700; color: var(--navy); }
+  .upload-sub { font-size: 11px; color: var(--text-muted); }
+  .reupload-btn {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--teal);
+    border: 1px solid var(--teal);
+    border-radius: 100px;
+    padding: 4px 10px;
+    background: none;
+    cursor: pointer;
+    font-family: 'Quicksand', sans-serif;
+  }
+  .score-result {
+    margin: 0 18px 14px;
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+  }
+  .score-ring {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 5px solid var(--teal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .score-num { font-size: 24px; font-weight: 700; color: var(--navy); line-height: 1; }
+  .score-denom { font-size: 11px; color: var(--text-muted); }
+  .score-verdict { font-size: 15px; font-weight: 700; color: var(--navy); }
+  .score-reason { font-size: 11px; color: var(--text-sec); line-height: 1.5; }
+  .pairs-section { padding: 0 18px 14px; }
+  .pairs-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    margin-bottom: 8px;
+  }
+  .pairs-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pair-chip {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--navy);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .pair-chip .pair-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .gap-card {
+    margin: 0 18px 16px;
+    background: rgba(204,85,0,0.07);
+    border: 1px solid rgba(204,85,0,0.2);
+    border-radius: 14px;
+    padding: 12px 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .gap-icon { font-size: 20px; flex-shrink: 0; }
+  .gap-title { font-size: 12px; font-weight: 700; color: #CC5500; }
+  .gap-desc { font-size: 11px; color: var(--text-sec); margin-top: 2px; line-height: 1.4; }
+
+  /* SCREEN 6 — Profile */
+  .profile-hero {
+    margin: 10px 18px 14px;
+    background: var(--navy);
+    border-radius: 20px;
+    padding: 20px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .profile-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal), #2a8a96);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .profile-name { font-size: 16px; font-weight: 700; color: #fff; }
+  .profile-email { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 2px; }
+  .profile-edit {
+    margin-left: auto;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .profile-edit svg { width: 14px; height: 14px; stroke: #fff; fill: none; stroke-width: 2; }
+  .season-card {
+    margin: 0 18px 14px;
+    background: linear-gradient(135deg, #CC5500 0%, #8B6914 100%);
+    border-radius: 16px;
+    padding: 14px 16px;
+    color: #fff;
+  }
+  .season-card-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.7;
+    margin-bottom: 4px;
+  }
+  .season-card-title { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+  .season-swatches { display: flex; gap: 6px; }
+  .season-swatch {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.3);
+  }
+  .stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin: 0 18px 14px;
+  }
+  .stat-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 10px;
+    text-align: center;
+  }
+  .stat-num { font-size: 22px; font-weight: 700; color: var(--navy); }
+  .stat-lbl { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+  .settings-list {
+    margin: 0 18px 14px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .settings-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+  .settings-item:last-child { border-bottom: none; }
+  .settings-icon { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .settings-icon svg { width: 15px; height: 15px; fill: none; stroke-width: 2; }
+  .settings-lbl { font-size: 13px; font-weight: 600; color: var(--navy); flex: 1; }
+  .settings-chevron svg { width: 14px; height: 14px; stroke: var(--text-muted); fill: none; stroke-width: 2; }
+  .settings-item.danger .settings-lbl { color: var(--red); }
+  .settings-item.danger .settings-icon { background: rgba(232,71,63,0.08); }
+  .settings-item.danger .settings-icon svg { stroke: var(--red); }
+</style>
+</head>
+<body>
+
+<div class="hero-label">
+  <h1>Color Fit</h1>
+  <p>Your AI-powered color season stylist</p>
+</div>
+
+<div class="phone-wrap">
+  <div class="phone">
+
+    <!-- SCREEN 1 — Season Reveal -->
+    <div id="screen-season" class="screen active">
+      <div class="status-bar">
+        <span class="time">9:41</span>
+        <div class="status-icons">
+          <svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.7)"><path d="M1 6l5 5 5-5 5 5 5-5 2 2-7 7-5-5-5 5L1 8z"/></svg>
+          <svg viewBox="0 0 24 24" fill="rgba(255,255,255,0.7)"><rect x="2" y="7" width="20" height="11" rx="2"/><path d="M22 11h1v4h-1"/></svg>
+        </div>
+      </div>
+      <div class="season-body">
+        <div class="season-badge">🍂</div>
+        <div>
+          <div class="season-label">Your Color Season</div>
+          <div class="season-title">True Autumn</div>
+        </div>
+        <div class="season-desc">
+          You radiate warmth. Your palette is rich, earthy, and grounded — think burnt sienna, olive, and cognac.
+        </div>
+        <div class="palette-row">
+          <div class="palette-swatch" style="background:#CC5500"></div>
+          <div class="palette-swatch" style="background:#8B3A2F"></div>
+          <div class="palette-swatch" style="background:#C49A00"></div>
+          <div class="palette-swatch" style="background:#6B7C3B"></div>
+          <div class="palette-swatch" style="background:#8B6914"></div>
+          <div class="palette-swatch" style="background:#2D6B5A"></div>
+          <div class="palette-swatch" style="background:#C49A6C"></div>
+          <div class="palette-swatch" style="background:#5C3D2E"></div>
+        </div>
+        <button class="season-cta" onclick="goTo('screen-wardrobe')">Start Styling →</button>
+      </div>
+    </div>
+
+    <!-- SCREEN 2 — Wardrobe -->
+    <div id="screen-wardrobe" class="screen">
+      <div class="status-bar">
+        <span class="time">9:41</span>
+        <div class="status-icons">
+          <svg viewBox="0 0 24 24" fill="rgba(28,28,46,0.4)"><path d="M1 6l5 5 5-5 5 5 5-5 2 2-7 7-5-5-5 5L1 8z"/></svg>
+          <svg viewBox="0 0 24 24" fill="rgba(28,28,46,0.4)"><rect x="2" y="7" width="20" height="11" rx="2"/><path d="M22 11h1v4h-1"/></svg>
+        </div>
+      </div>
+      <div class="screen-content">
+        <div class="page-header">
+          <div>
+            <div class="page-title">My Wardrobe</div>
+            <div class="page-subtitle">24 items · True Autumn curated</div>
+          </div>
+          <button class="icon-btn">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          </button>
+        </div>
+        <div class="search-bar">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span>Search your wardrobe…</span>
+        </div>
+        <div class="filter-pills">
+          <div class="pill active">All</div>
+          <div class="pill">Tops</div>
+          <div class="pill">Bottoms</div>
+          <div class="pill">Dresses</div>
+          <div class="pill">Outerwear</div>
+          <div class="pill">Shoes</div>
+          <div class="pill">Bags</div>
+        </div>
+        <div class="wardrobe-grid">
+          <div class="wardrobe-card">
+            <div class="wardrobe-thumb" style="background:#F5EDE0;">🧥</div>
+            <div class="wardrobe-info">
+              <div class="wardrobe-name">Cream Knit Cardigan</div>
+              <div class="wardrobe-cat">Outerwear</div>
+              <div class="wardrobe-colors">
+                <div class="color-dot" style="background:#F5EDE0;"></div>
+                <div class="color-dot" style="background:#C49A6C;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="wardrobe-card">
+            <div class="wardrobe-thumb" style="background:#1a1a2e;">👗</div>
+            <div class="wardrobe-info">
+              <div class="wardrobe-name">Black Midi Dress</div>
+              <div class="wardrobe-cat">Dresses</div>
+              <div class="wardrobe-colors">
+                <div class="color-dot" style="background:#1C1C2E;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="wardrobe-card">
+            <div class="wardrobe-thumb" style="background:#3d5a80;">👖</div>
+            <div class="wardrobe-info">
+              <div class="wardrobe-name">Mid-Wash Jeans</div>
+              <div class="wardrobe-cat">Bottoms</div>
+              <div class="wardrobe-colors">
+                <div class="color-dot" style="background:#3d5a80;"></div>
+                <div class="color-dot" style="background:#d4c5b0;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="wardrobe-card">
+            <div class="wardrobe-thumb" style="background:#f0ede8;">👟</div>
+            <div class="wardrobe-info">
+              <div class="wardrobe-name">White Canvas Sneakers</div>
+              <div class="wardrobe-cat">Shoes</div>
+              <div class="wardrobe-colors">
+                <div class="color-dot" style="background:#f8f6f2;"></div>
+                <div class="color-dot" style="background:#e8e0d8;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="wardrobe-card">
+            <div class="wardrobe-thumb" style="background:#c49a6c;">🧥</div>
+            <div class="wardrobe-info">
+              <div class="wardrobe-name">Camel Blazer</div>
+              <div class="wardrobe-cat">Outerwear</div>
+              <div class="wardrobe-colors">
+                <div class="color-dot" style="background:#C49A6C;"></div>
+                <div class="color-dot" style="background:#8B6914;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="wardrobe-card">
+            <div class="wardrobe-thumb" style="background:#6B2135;">👗</div>
+            <div class="wardrobe-info">
+              <div class="wardrobe-name">Burgundy Midi Skirt</div>
+              <div class="wardrobe-cat">Bottoms</div>
+              <div class="wardrobe-colors">
+                <div class="color-dot" style="background:#6B2135;"></div>
+                <div class="color-dot" style="background:#3d0f1c;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="wardrobe-card">
+            <div class="wardrobe-thumb" style="background:#f8f6f2;">👕</div>
+            <div class="wardrobe-info">
+              <div class="wardrobe-name">White Linen Tee</div>
+              <div class="wardrobe-cat">Tops</div>
+              <div class="wardrobe-colors">
+                <div class="color-dot" style="background:#f8f6f2;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="wardrobe-card">
+            <div class="wardrobe-thumb" style="background:#C4820A;">👠</div>
+            <div class="wardrobe-info">
+              <div class="wardrobe-name">Gold Strappy Heels</div>
+              <div class="wardrobe-cat">Shoes</div>
+              <div class="wardrobe-colors">
+                <div class="color-dot" style="background:#C4820A;"></div>
+                <div class="color-dot" style="background:#8B6914;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-bar" id="tabs-wardrobe"></div>
+    </div>
+
+    <!-- SCREEN 3 — Style Me -->
+    <div id="screen-style" class="screen">
+      <div class="status-bar">
+        <span class="time">9:41</span>
+        <div class="status-icons">
+          <svg viewBox="0 0 24 24" fill="rgba(28,28,46,0.4)"><path d="M1 6l5 5 5-5 5 5 5-5 2 2-7 7-5-5-5 5L1 8z"/></svg>
+          <svg viewBox="0 0 24 24" fill="rgba(28,28,46,0.4)"><rect x="2" y="7" width="20" height="11" rx="2"/><path d="M22 11h1v4h-1"/></svg>
+        </div>
+      </div>
+      <div class="screen-content">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Style Me</div>
+            <div class="page-subtitle">AI-generated outfits from your wardrobe</div>
+          </div>
+        </div>
+        <div class="tabs">
+          <button class="tab-btn active">Generate</button>
+          <button class="tab-btn">Build Around</button>
+          <button class="tab-btn">Saved</button>
+        </div>
+        <div class="section-label">Pick a vibe</div>
+        <div class="vibe-grid">
+          <div class="vibe-chip active"><span>✨</span><span>Classy</span></div>
+          <div class="vibe-chip"><span>🌙</span><span>Night Out</span></div>
+          <div class="vibe-chip"><span>☕</span><span>Casual</span></div>
+          <div class="vibe-chip"><span>💼</span><span>Work</span></div>
+          <div class="vibe-chip"><span>🌹</span><span>Romantic</span></div>
+          <div class="vibe-chip"><span>🌿</span><span>Boho</span></div>
+          <div class="vibe-chip"><span>🏙️</span><span>Street</span></div>
+          <div class="vibe-chip"><span>🏃</span><span>Athleisure</span></div>
+        </div>
+        <div class="occasion-input">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span>Dinner at Nobu, Saturday evening</span>
+        </div>
+        <button class="generate-btn">
+          <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Generate Outfits
+        </button>
+
+        <div class="outfit-card">
+          <div class="outfit-card-header">
+            <div class="outfit-name">Saturday Night Look</div>
+            <div class="outfit-vibe-tag">Classy</div>
+          </div>
+          <div class="outfit-layout">
+            <div class="outfit-items-col">
+              <div class="outfit-items-title">Your Items</div>
+              <div class="outfit-item-row">
+                <div class="outfit-item-thumb" style="background:#1a1a2e;">👗</div>
+                <div class="outfit-item-name">Black Midi Dress</div>
+              </div>
+              <div class="outfit-item-row">
+                <div class="outfit-item-thumb" style="background:#C4820A;">👠</div>
+                <div class="outfit-item-name">Gold Strappy Heels</div>
+              </div>
+              <div class="outfit-item-row">
+                <div class="outfit-item-thumb" style="background:#5C3D2E;">👜</div>
+                <div class="outfit-item-name">Espresso Clutch</div>
+              </div>
+            </div>
+            <div class="color-story-col">
+              <div class="color-story-title">Color Story</div>
+              <div class="pantone-chip">
+                <div class="pantone-block" style="background:#1C1C2E;"></div>
+                <div>
+                  <span class="pantone-code">19-3911</span>
+                  <span class="pantone-name">Deep Midnight</span>
+                </div>
+              </div>
+              <div class="pantone-chip">
+                <div class="pantone-block" style="background:#C4820A;"></div>
+                <div>
+                  <span class="pantone-code">14-0846</span>
+                  <span class="pantone-name">Golden Hour</span>
+                </div>
+              </div>
+              <div class="pantone-chip">
+                <div class="pantone-block" style="background:#5C3D2E;"></div>
+                <div>
+                  <span class="pantone-code">18-1048</span>
+                  <span class="pantone-name">Espresso</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="save-btn">
+            <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            Save Outfit
+          </button>
+        </div>
+
+        <div class="outfit-card">
+          <div class="outfit-card-header">
+            <div class="outfit-name">Sunday Brunch</div>
+            <div class="outfit-vibe-tag">Casual</div>
+          </div>
+          <div class="outfit-layout">
+            <div class="outfit-items-col">
+              <div class="outfit-items-title">Your Items</div>
+              <div class="outfit-item-row">
+                <div class="outfit-item-thumb" style="background:#f8f6f2; border:1px solid #e8e0d8;">👕</div>
+                <div class="outfit-item-name">White Linen Tee</div>
+              </div>
+              <div class="outfit-item-row">
+                <div class="outfit-item-thumb" style="background:#D4B896;">👖</div>
+                <div class="outfit-item-name">Beige Trousers</div>
+              </div>
+              <div class="outfit-item-row">
+                <div class="outfit-item-thumb" style="background:#C49A6C;">🧥</div>
+                <div class="outfit-item-name">Camel Blazer</div>
+              </div>
+            </div>
+            <div class="color-story-col">
+              <div class="color-story-title">Color Story</div>
+              <div class="pantone-chip">
+                <div class="pantone-block" style="background:#F5EDE0;"></div>
+                <div>
+                  <span class="pantone-code">12-0712</span>
+                  <span class="pantone-name">Ivory Sand</span>
+                </div>
+              </div>
+              <div class="pantone-chip">
+                <div class="pantone-block" style="background:#D4B896;"></div>
+                <div>
+                  <span class="pantone-code">14-1118</span>
+                  <span class="pantone-name">Warm Sand</span>
+                </div>
+              </div>
+              <div class="pantone-chip">
+                <div class="pantone-block" style="background:#C49A6C;"></div>
+                <div>
+                  <span class="pantone-code">16-1439</span>
+                  <span class="pantone-name">Camel</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="save-btn">
+            <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            Save Outfit
+          </button>
+        </div>
+      </div>
+      <div class="tab-bar" id="tabs-style"></div>
+    </div>
+
+    <!-- SCREEN 4 — Inspire -->
+    <div id="screen-inspire" class="screen">
+      <div class="status-bar">
+        <span class="time">9:41</span>
+        <div class="status-icons">
+          <svg viewBox="0 0 24 24" fill="rgba(28,28,46,0.4)"><path d="M1 6l5 5 5-5 5 5 5-5 2 2-7 7-5-5-5 5L1 8z"/></svg>
+          <svg viewBox="0 0 24 24" fill="rgba(28,28,46,0.4)"><rect x="2" y="7" width="20" height="11" rx="2"/><path d="M22 11h1v4h-1"/></svg>
+        </div>
+      </div>
+      <div class="screen-content">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Inspire</div>
+            <div class="page-subtitle">Curated for True Autumn</div>
+          </div>
+        </div>
+        <div class="season-chip">🍂 True Autumn Palette</div>
+        <div class="filter-pills">
+          <div class="pill active">All</div>
+          <div class="pill">Casual</div>
+          <div class="pill">Work</div>
+          <div class="pill">Night Out</div>
+          <div class="pill">Boho</div>
+          <div class="pill">Classy</div>
+        </div>
+        <div class="inspire-grid">
+          <div class="inspire-card tall">
+            <div class="inspire-photo" style="height:248px; background:linear-gradient(160deg,#8B3A2F 0%,#5C3D2E 50%,#C49A6C 100%);">
+              <div class="inspire-photo-overlay"></div>
+              <div class="inspire-tag">Classy</div>
+            </div>
+          </div>
+          <div class="inspire-card">
+            <div class="inspire-photo" style="background:linear-gradient(135deg,#CC5500 0%,#8B6914 100%);">
+              <div class="inspire-photo-overlay"></div>
+              <div class="inspire-tag">Boho</div>
+            </div>
+          </div>
+          <div class="inspire-card">
+            <div class="inspire-photo" style="background:linear-gradient(135deg,#6B7C3B 0%,#2D6B5A 100%);">
+              <div class="inspire-photo-overlay"></div>
+              <div class="inspire-tag">Casual</div>
+            </div>
+          </div>
+          <div class="inspire-card" style="grid-column:span 2;">
+            <div class="inspire-photo" style="height:110px; background:linear-gradient(135deg,#C49A00 0%,#CC5500 50%,#8B3A2F 100%);">
+              <div class="inspire-photo-overlay"></div>
+              <div class="inspire-tag">Work Wear</div>
+            </div>
+          </div>
+          <div class="inspire-card">
+            <div class="inspire-photo" style="background:linear-gradient(135deg,#5C3D2E 0%,#8B3A2F 100%);">
+              <div class="inspire-photo-overlay"></div>
+              <div class="inspire-tag">Night Out</div>
+            </div>
+          </div>
+          <div class="inspire-card">
+            <div class="inspire-photo" style="background:linear-gradient(135deg,#C49A6C 0%,#C49A00 100%);">
+              <div class="inspire-photo-overlay"></div>
+              <div class="inspire-tag">Romantic</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-bar" id="tabs-inspire"></div>
+    </div>
+
+    <!-- SCREEN 5 — Score -->
+    <div id="screen-score" class="screen">
+      <div class="status-bar">
+        <span class="time">9:41</span>
+        <div class="status-icons">
+          <svg viewBox="0 0 24 24" fill="rgba(28,28,46,0.4)"><path d="M1 6l5 5 5-5 5 5 5-5 2 2-7 7-5-5-5 5L1 8z"/></svg>
+          <svg viewBox="0 0 24 24" fill="rgba(28,28,46,0.4)"><rect x="2" y="7" width="20" height="11" rx="2"/><path d="M22 11h1v4h-1"/></svg>
+        </div>
+      </div>
+      <div class="screen-content">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Score</div>
+            <div class="page-subtitle">Does it match your season?</div>
+          </div>
+        </div>
+        <div class="upload-preview">
+          <div class="upload-photo">🧥</div>
+          <div class="upload-label">
+            <div>
+              <div class="upload-name">Camel Blazer</div>
+              <div class="upload-sub">Uploaded just now</div>
+            </div>
+            <button class="reupload-btn">Change</button>
+          </div>
+        </div>
+        <div class="score-result">
+          <div class="score-ring">
+            <div class="score-num">4</div>
+            <div class="score-denom">/ 5</div>
+          </div>
+          <div class="score-verdict">Great Addition ✨</div>
+          <div class="score-reason">This camel blazer is a True Autumn dream. The warm golden undertones align perfectly with your season palette.</div>
+        </div>
+        <div class="pairs-section">
+          <div class="pairs-title">Pairs beautifully with</div>
+          <div class="pairs-row">
+            <div class="pair-chip"><div class="pair-dot" style="background:#1C1C2E;"></div>Black Midi Dress</div>
+            <div class="pair-chip"><div class="pair-dot" style="background:#6B2135;"></div>Burgundy Skirt</div>
+            <div class="pair-chip"><div class="pair-dot" style="background:#f8f6f2;border:1px solid #e8e0d8;"></div>White Linen Tee</div>
+            <div class="pair-chip"><div class="pair-dot" style="background:#C4820A;"></div>Gold Heels</div>
+          </div>
+        </div>
+        <div class="gap-card">
+          <div class="gap-icon">💡</div>
+          <div>
+            <div class="gap-title">Wardrobe Gap Spotted</div>
+            <div class="gap-desc">You're missing a warm rust or terracotta top — it would round out your autumn capsule perfectly.</div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-bar" id="tabs-score"></div>
+    </div>
+
+    <!-- SCREEN 6 — Profile -->
+    <div id="screen-profile" class="screen">
+      <div class="status-bar">
+        <span class="time">9:41</span>
+        <div class="status-icons">
+          <svg viewBox="0 0 24 24" fill="rgba(28,28,46,0.4)"><path d="M1 6l5 5 5-5 5 5 5-5 2 2-7 7-5-5-5 5L1 8z"/></svg>
+          <svg viewBox="0 0 24 24" fill="rgba(28,28,46,0.4)"><rect x="2" y="7" width="20" height="11" rx="2"/><path d="M22 11h1v4h-1"/></svg>
+        </div>
+      </div>
+      <div class="screen-content">
+        <div class="page-header">
+          <div class="page-title">Profile</div>
+        </div>
+        <div class="profile-hero">
+          <div class="profile-avatar">👩🏽</div>
+          <div>
+            <div class="profile-name">Sophia R.</div>
+            <div class="profile-email">sophia@email.com</div>
+          </div>
+          <button class="profile-edit">
+            <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+        </div>
+        <div class="season-card">
+          <div class="season-card-label">Color Season</div>
+          <div class="season-card-title">🍂 True Autumn</div>
+          <div class="season-swatches">
+            <div class="season-swatch" style="background:#CC5500;"></div>
+            <div class="season-swatch" style="background:#8B3A2F;"></div>
+            <div class="season-swatch" style="background:#C49A00;"></div>
+            <div class="season-swatch" style="background:#6B7C3B;"></div>
+            <div class="season-swatch" style="background:#8B6914;"></div>
+            <div class="season-swatch" style="background:#C49A6C;"></div>
+          </div>
+        </div>
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-num">24</div>
+            <div class="stat-lbl">Items</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">8</div>
+            <div class="stat-lbl">Outfits</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">12</div>
+            <div class="stat-lbl">Scored</div>
+          </div>
+        </div>
+        <div class="settings-list">
+          <div class="settings-item">
+            <div class="settings-icon" style="background:rgba(77,184,200,0.1);">
+              <svg viewBox="0 0 24 24" style="stroke:#4DB8C8;fill:none;stroke-width:2;"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            </div>
+            <span class="settings-lbl">Account Settings</span>
+            <div class="settings-chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+          <div class="settings-item">
+            <div class="settings-icon" style="background:rgba(28,28,46,0.06);">
+              <svg viewBox="0 0 24 24" style="stroke:#1C1C2E;fill:none;stroke-width:2;"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            </div>
+            <span class="settings-lbl">Retake Style Quiz</span>
+            <div class="settings-chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+          <div class="settings-item">
+            <div class="settings-icon" style="background:rgba(28,28,46,0.06);">
+              <svg viewBox="0 0 24 24" style="stroke:#1C1C2E;fill:none;stroke-width:2;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <span class="settings-lbl">Privacy Policy</span>
+            <div class="settings-chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+          <div class="settings-item danger">
+            <div class="settings-icon">
+              <svg viewBox="0 0 24 24" style="fill:none;stroke-width:2;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            </div>
+            <span class="settings-lbl">Sign Out</span>
+            <div class="settings-chevron"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-bar" id="tabs-profile"></div>
+    </div>
+
+  </div><!-- /phone -->
+
+  <!-- Nav Dots -->
+  <div class="dots">
+    <div class="dot active" onclick="goTo('screen-season')"></div>
+    <div class="dot" onclick="goTo('screen-wardrobe')"></div>
+    <div class="dot" onclick="goTo('screen-style')"></div>
+    <div class="dot" onclick="goTo('screen-inspire')"></div>
+    <div class="dot" onclick="goTo('screen-score')"></div>
+    <div class="dot" onclick="goTo('screen-profile')"></div>
+  </div>
+</div><!-- /phone-wrap -->
+
+<script>
+  const screens = [
+    'screen-season',
+    'screen-wardrobe',
+    'screen-style',
+    'screen-inspire',
+    'screen-score',
+    'screen-profile'
+  ];
+
+  const tabs = [
+    { id: 'wardrobe', label: 'Wardrobe', screen: 'screen-wardrobe',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H4v10a2 2 0 002 2h12a2 2 0 002-2V10h.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>' },
+    { id: 'style', label: 'Style Me', screen: 'screen-style',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' },
+    { id: 'inspire', label: 'Inspire', screen: 'screen-inspire',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>' },
+    { id: 'score', label: 'Score', screen: 'screen-score',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>' },
+    { id: 'profile', label: 'Profile', screen: 'screen-profile',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' },
+  ];
+
+  ['wardrobe','style','inspire','score','profile'].forEach(sid => {
+    const bar = document.getElementById('tabs-' + sid);
+    if (!bar) return;
+    tabs.forEach(t => {
+      const btn = document.createElement('div');
+      btn.className = 'tab-item' + (t.id === sid ? ' active' : '');
+      btn.onclick = () => goTo(t.screen);
+      btn.innerHTML = `<div class="tab-icon">${t.icon}</div><span>${t.label}</span>`;
+      bar.appendChild(btn);
+    });
+  });
+
+  function goTo(targetId) {
+    const dots = document.querySelectorAll('.dot');
+    screens.forEach((s, i) => {
+      const el = document.getElementById(s);
+      const isActive = s === targetId;
+      el.classList.toggle('active', isActive);
+      dots[i].classList.toggle('active', isActive);
+    });
+    ['wardrobe','style','inspire','score','profile'].forEach(sid => {
+      const bar = document.getElementById('tabs-' + sid);
+      if (!bar) return;
+      bar.querySelectorAll('.tab-item').forEach((item, i) => {
+        item.classList.toggle('active', tabs[i].screen === targetId);
+      });
+    });
+  }
+</script>
+</body>
+</html>

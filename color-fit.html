@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Color-Fit — Irfan Dhamiry</title>
+  <title>Color Fit — Irfan Dhamiry</title>
   <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
@@ -14,16 +14,16 @@
   </nav>
 
   <div class="detail-hero">
-    <div class="detail-week-badge">Week 2 · Design</div>
+    <div class="detail-week-badge">Week 2 · AI</div>
     <div class="detail-header">
       <div class="detail-icon">🎨</div>
       <div>
-        <div class="detail-category">Web App · Design</div>
+        <div class="detail-category">Web App · AI</div>
         <div class="detail-title">Color-Fit</div>
       </div>
     </div>
     <p class="detail-tagline">
-      Details coming soon. Check back after launch.
+      Upload a selfie, discover your color season, then let AI build outfits from your actual wardrobe — with Pantone-coded color stories for every look.
     </p>
     <div class="meta-row">
       <div class="meta-item">
@@ -31,8 +31,18 @@
         <span class="meta-value">1 week</span>
       </div>
       <div class="meta-item">
+        <span class="meta-label">Stack</span>
+        <div class="meta-tags">
+          <span class="meta-tag">Next.js 15</span>
+          <span class="meta-tag">Claude API</span>
+          <span class="meta-tag">SQLite</span>
+          <span class="meta-tag">Railway</span>
+          <span class="meta-tag">Tailwind</span>
+        </div>
+      </div>
+      <div class="meta-item">
         <span class="meta-label">Status</span>
-        <span class="meta-value live">● Live</span>
+        <span class="meta-value beta-testing">● Beta Testing</span>
       </div>
       <div class="meta-item">
         <span class="meta-label">Build Cost</span>
@@ -69,11 +79,10 @@
         <div class="mockup-dot" style="background:#ff5f57"></div>
         <div class="mockup-dot" style="background:#febc2e"></div>
         <div class="mockup-dot" style="background:#28c840"></div>
-        <span class="mockup-label">color-fit — mockup</span>
+        <span class="mockup-label">color-fit — interactive mockup</span>
       </div>
-      <div class="mockup-body">
-        <p>📸 Drop your screenshot or mockup image here</p>
-        <small>Replace this div with an &lt;img&gt; tag</small>
+      <div class="mockup-body" style="padding:0;background:#0d0d1a;">
+        <iframe src="mockups/color-fit.html" style="width:100%;height:960px;border:none;display:block;" scrolling="no" title="Color Fit — interactive mockup"></iframe>
       </div>
     </div>
   </div>
@@ -81,19 +90,26 @@
   <div class="content-grid">
     <div class="content-block">
       <h3>The Problem</h3>
-      <p>Details coming soon.</p>
+      <p>Most people don't know which colors actually suit them — not just personal taste, but which shades genuinely flatter their skin tone, hair, and eyes. Color season analysis exists (Spring, Summer, Autumn, Winter) but it's buried behind expensive consultants or vague online quizzes that give you no actionable next step. Even if you know your season, your existing wardrobe is a mystery: does this blazer actually work for you?</p>
     </div>
     <div class="content-block">
       <h3>How It Works</h3>
-      <p>Details coming soon.</p>
+      <ul>
+        <li>Upload a selfie — Claude AI analyzes your skin undertones, hair, and eye color</li>
+        <li>Get mapped to 1 of 12 color seasons with your personalized palette</li>
+        <li>Add wardrobe items — each piece is scored against your season</li>
+        <li>AI generates full outfits from your existing clothes using only season-friendly colors</li>
+        <li>Every outfit comes with a Pantone-coded color story</li>
+        <li>Inspiration feed curated to your season and chosen vibes</li>
+      </ul>
     </div>
     <div class="content-block">
       <h3>What I Learned</h3>
-      <p>Details coming soon.</p>
+      <p>Multi-modal AI prompting is a craft — getting Claude to return consistent, structured color analysis from a photo took many prompt iterations. I also had to genuinely understand color theory (Itten's seasonal system, warm vs cool undertones) before I could prompt for it accurately. Building full-stack with Next.js 15, Railway, and SQLite in a week meant making fast architectural decisions and living with them.</p>
     </div>
     <div class="content-block">
       <h3>Built With Claude</h3>
-      <p>Details coming soon.</p>
+      <p>Claude API (claude-3-5-sonnet) powers all image analysis — a single photo returns a structured JSON with undertone classification, season match, and confidence score. Claude Code scaffolded the entire Next.js + SQLite stack in hours. The outfit generation prompt chains the user's season palette against their wardrobe inventory to pick harmonious combinations and generate the Pantone color story.</p>
     </div>
   </div>
 
@@ -102,11 +118,32 @@
     <div class="skills-grid">
       <div class="skills-card">
         <h4>Skills Demonstrated</h4>
-        <p style="font-size:13px;color:var(--text-dim)">Details coming soon.</p>
+        <span class="skill-tag confident"><span class="skill-dot confident"></span>Next.js 15</span>
+        <span class="skill-tag confident"><span class="skill-dot confident"></span>Claude API</span>
+        <span class="skill-tag confident"><span class="skill-dot confident"></span>Full-Stack Development</span>
+        <span class="skill-tag confident"><span class="skill-dot confident"></span>AI Prompting</span>
+        <span class="skill-tag learning"><span class="skill-dot learning"></span>Color Theory UX</span>
+        <span class="skill-tag learning"><span class="skill-dot learning"></span>Multi-modal AI</span>
+        <span class="skill-tag learning"><span class="skill-dot learning"></span>PDPA Compliance</span>
+        <div class="skill-legend">
+          <span><span class="skill-dot confident"></span>Confident</span>
+          <span><span class="skill-dot learning"></span>Still learning</span>
+        </div>
       </div>
       <div class="skills-card">
         <h4>Complexity Breakdown</h4>
-        <p style="font-size:13px;color:var(--text-dim)">Details coming soon.</p>
+        <div class="complexity-bar">
+          <div class="complexity-label"><span>Backend / Systems</span><strong style="color:var(--accent)">Advanced</strong></div>
+          <div class="bar-track"><div class="bar-fill" style="width:75%"></div></div>
+        </div>
+        <div class="complexity-bar">
+          <div class="complexity-label"><span>Frontend / UI</span><strong style="color:var(--accent)">Advanced</strong></div>
+          <div class="bar-track"><div class="bar-fill" style="width:85%"></div></div>
+        </div>
+        <div class="complexity-bar">
+          <div class="complexity-label"><span>AI Integration</span><strong style="color:var(--accent)">Advanced</strong></div>
+          <div class="bar-track"><div class="bar-fill" style="width:85%"></div></div>
+        </div>
       </div>
     </div>
   </div>

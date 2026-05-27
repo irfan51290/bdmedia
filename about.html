@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About — Irfan Dhamiry</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .about-page {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 140px 48px 100px;
+    }
+    .about-page-eyebrow {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 2px; color: var(--accent); margin-bottom: 20px;
+    }
+    .about-page-hero {
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 48px;
+      margin-bottom: 56px;
+    }
+    .about-page-title {
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 800; letter-spacing: -2px;
+      line-height: 1.05; margin-bottom: 0;
+    }
+    .about-page-title span { color: var(--accent); }
+    .about-page-photo {
+      width: 200px; height: 200px; flex-shrink: 0;
+      border-radius: 24px; overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+    }
+    .about-page-photo img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    @media (max-width: 600px) {
+      .about-page-hero { flex-direction: column-reverse; align-items: flex-start; }
+      .about-page-photo { width: 140px; height: 140px; }
+    }
+    .about-section { margin-bottom: 56px; }
+    .about-section h2 {
+      font-size: 13px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 2px; color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .about-section p {
+      font-size: 16px; color: var(--text-secondary);
+      line-height: 1.8; margin-bottom: 16px;
+    }
+    .about-section p:last-child { margin-bottom: 0; }
+    .about-divider {
+      height: 1px; background: var(--border); margin: 56px 0;
+    }
+    .about-contact-row {
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .about-contact-row a {
+      display: flex; align-items: center; gap: 16px;
+      font-size: 15px; color: var(--text-primary);
+      font-weight: 600; transition: color 0.2s;
+    }
+    .about-contact-row a:hover { color: var(--accent); }
+    .about-contact-row span {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.5px; color: var(--text-muted); width: 52px;
+    }
+    @media (max-width: 768px) {
+      .about-page { padding: 100px 20px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a class="nav-logo" href="index.html">irfan<span class="dot">.</span></a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="leaderboard.html" class="nav-highlight">Projects</a>
+      <a href="about.html" style="color:var(--text-primary);">About</a>
+      <a href="index.html#about">Contact</a>
+    </div>
+  </nav>
+
+  <div class="about-page">
+    <div class="about-page-eyebrow">About me</div>
+    <div class="about-page-hero">
+      <h1 class="about-page-title">Irfan<br><span>Dhamiry.</span></h1>
+      <div class="about-page-photo">
+        <img src="images/irfan.jpg" alt="Irfan Dhamiry"/>
+      </div>
+    </div>
+
+    <!-- Add your sections below — example structure provided -->
+
+    <div class="about-section">
+      <h2>Who I am</h2>
+      <p>A few months ago I walked away from my role as co-founder of a marketing company. No safety net, no next job lined up — just a clear feeling that I wanted to build something more geared towards the future.</p>
+      <p>I spent time experimenting with every AI tool I could find — Claude, Gemini, Codex, Perplexity. Claude stood out for one reason: it could actually build things. So I went deeper. Learned how to use it properly, then discovered Claude Code — and that changed everything.</p>
+      <p>I studied Python and C++ at university, but I'll be honest, I wasn't good at either. The idea of having to write real code again was genuinely intimidating. Then I tried Claude Code and realised I didn't have to touch a single line. I just described what I wanted, and it built it. That was the moment this whole thing started.</p>
+    </div>
+
+    <div class="about-divider"></div>
+
+    <div class="about-section">
+      <h2>What I do</h2>
+      <p>I build one app per week — each one solving a real problem, each one shipped from scratch in seven days. The first was a Finance Tracker, because I'd just left my job and needed to know exactly where my money was going. After that, I just kept going. It turns out building things is addictive when you're not stuck on the code.</p>
+      <p>Every project on this site was built entirely with Claude as my co-builder — including the site itself. Some are live, some are in testing, some are just for me. But all of them started with a real problem worth solving.</p>
+      <p>If anything here catches your eye, vote for it. I use the votes to decide what gets built out further. And yes — this site was made with Claude too.</p>
+    </div>
+
+    <div class="about-divider"></div>
+
+    <div class="about-section">
+      <h2>Get in touch</h2>
+      <div class="about-contact-row">
+        <a href="mailto:irfan51290@gmail.com">
+          <span>Email</span>irfan51290@gmail.com
+        </a>
+        <a href="tel:+6593862012">
+          <span>Phone</span>+65 9386 2012
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <span>Irfan Dhamiry © 2026</span>
+    <span>Built with Claude</span>
+  </footer>
+
+</body>
+</html>
