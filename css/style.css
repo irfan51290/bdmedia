@@ -698,13 +698,13 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
   .timeline-section { padding: 48px 20px 80px; }
   .timeline::before { display: none; }
   .week-col     { display: none; }
-  .project-card { margin-left: 0; }
+  .project-card { margin-left: 0; padding: 20px 16px; }
   .card-desc    { display: none; }
+  .card-name    { font-size: 17px; }
 
-  /* Vote bar */
-  .vote-bar {
-    flex-wrap: wrap; padding: 18px 20px; gap: 16px;
-  }
+  /* Vote bar — stack vertically */
+  .vote-bar     { flex-direction: column; align-items: flex-start; padding: 20px; gap: 16px; }
+  .vote-count   { font-size: 24px; }
   .vote-context {
     margin-left: 0; max-width: 100%;
     border-left: none; padding-left: 0;
@@ -713,16 +713,24 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
 
   /* Detail pages */
   .detail-hero  { padding: 100px 20px 40px; }
+  .detail-week-badge { font-size: 11px; }
   .detail-title { font-size: clamp(32px, 9vw, 48px); }
-  .meta-row     { flex-wrap: wrap; gap: 16px; }
+  .detail-icon  { width: 52px; height: 52px; font-size: 24px; border-radius: 14px; }
+  .detail-tagline { font-size: 14px; }
+  .meta-row     { flex-wrap: wrap; gap: 12px; }
+  .meta-item    { min-width: calc(50% - 6px); }
   .mockup-section { padding: 24px 20px 0; }
-  .mockup-frame iframe { height: 320px; }
-  .content-grid   { padding: 24px 20px; }
+  .mockup-titlebar { padding: 10px 14px; }
+  .mockup-frame iframe { height: 280px; }
+  .content-grid   { padding: 20px; gap: 12px; }
+  .content-block  { padding: 20px; }
   .skills-section { padding: 0 20px 40px; }
-  .detail-nav     { padding: 28px 20px; }
+  .skills-card    { padding: 18px; }
+  .detail-nav     { padding: 24px 20px; flex-direction: column; gap: 20px; }
+  .detail-nav-btn.next { text-align: left; }
 
   /* Ideas modal */
-  .ideas-modal  { padding: 28px 20px; }
+  .ideas-modal       { padding: 28px 20px; }
   .ideas-modal-title { font-size: 20px; }
 
   /* About strip */
@@ -732,13 +740,19 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
 
   /* Leaderboard */
   .lb-hero      { padding: 100px 20px 40px; }
+  .lb-hero-title { font-size: clamp(28px, 8vw, 40px); }
   .lb-stats     { padding: 0 20px 40px; flex-direction: column; }
+  .lb-stat      { padding: 20px; }
+  .lb-stat-value { font-size: 28px; }
   .lb-section   { padding: 0 20px 60px; }
   .lb-bar-wrap  { display: none; }
-  .lb-row       { padding: 16px; gap: 12px; }
+  .lb-row       { padding: 14px 16px; gap: 12px; }
+  .lb-name      { font-size: 14px; }
 
   /* About page */
-  .about-page   { padding: 100px 20px 60px; }
+  .about-page         { padding: 100px 20px 60px; }
+  .about-page-title   { font-size: clamp(36px, 10vw, 52px); }
+  .about-section p    { font-size: 15px; }
 
   .footer       { padding: 20px; flex-direction: column; gap: 8px; text-align: center; }
 }
