@@ -115,7 +115,7 @@ const PROJECTS = [
     category:    'Web · Design',
     description: 'This site itself. A weekly-updated portfolio showcasing AI-powered builds — with live voting, a leaderboard, and interactive project mockups.',
     icon:        '🌐',
-    tags:        ['HTML', 'CSS', 'JavaScript', 'Supabase'],
+    tags:        ['HTML', 'CSS', 'JavaScript', 'Supabase', 'Netlify'],
     status:      'Live',
     buildCost:   '~$0',
     monthlyCost: '$0',
