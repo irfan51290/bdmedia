@@ -59,7 +59,7 @@
       <span class="line fade-up-4">1 week.</span>
     </h1>
     <p class="hero-subtitle fade-up-5">
-      Building AI-powered tools to solve real-world problems — one week at a time.
+      Every week I build something new. You decide what gets built.
     </p>
     <a href="#timeline" class="hero-cta fade-up-6">See the journey ↓</a>
   </section>
@@ -156,14 +156,13 @@
       document.body.style.overflow = '';
     }
 
-    // Trigger when user scrolls past the midpoint of the journey section
+    // Trigger after user scrolls past the bottom of the journey section
     function checkScrollTrigger() {
       const timeline = document.getElementById('timeline-list');
       if (!timeline) return;
       const rect = timeline.getBoundingClientRect();
-      const midpoint = rect.top + rect.height / 2;
-      if (midpoint < window.innerHeight) {
-        setTimeout(openIdeasModal, 600);
+      if (rect.bottom < window.innerHeight) {
+        setTimeout(openIdeasModal, 800);
         window.removeEventListener('scroll', checkScrollTrigger);
       }
     }
