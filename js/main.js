@@ -108,11 +108,56 @@ function initMobileNav() {
   });
 }
 
+function fillCard(card, p) {
+  const complexity = Math.round((p.complexity.backend + p.complexity.frontend + p.complexity.ai) / 3);
+  card.href = `#project-${p.id}`;
+  card.innerHTML = `
+    <div class="hero-card-icon">${p.icon}</div>
+    <div class="hero-card-title">${p.title}</div>
+    <div class="hero-card-sub">${p.tagline}</div>
+    <div class="hero-card-bar"><div class="hero-card-bar-fill" style="width:${complexity}%"></div></div>
+  `;
+}
+
+function initFloatingCards() {
+  const cards = Array.from(document.querySelectorAll('.hero-card-float'));
+  if (!cards.length) return;
+
+  const slotProjects = [];
+  for (let i = 0; i < cards.length; i++) {
+    slotProjects.push(i % PROJECTS.length);
+    fillCard(cards[i], PROJECTS[slotProjects[i]]);
+  }
+
+  let rotateIdx = 0;
+  setInterval(() => {
+    const slot = rotateIdx % cards.length;
+    rotateIdx++;
+
+    const usedIndices = new Set(slotProjects);
+    let nextIdx = (slotProjects[slot] + 1) % PROJECTS.length;
+    let attempts = 0;
+    while (usedIndices.has(nextIdx) && attempts < PROJECTS.length) {
+      nextIdx = (nextIdx + 1) % PROJECTS.length;
+      attempts++;
+    }
+
+    const card = cards[slot];
+    card.classList.add('fading');
+    setTimeout(() => {
+      slotProjects[slot] = nextIdx;
+      fillCard(card, PROJECTS[nextIdx]);
+      card.classList.remove('fading');
+    }, 450);
+  }, 4500);
+}
+
 // Entry point — runs on every page
 document.addEventListener('DOMContentLoaded', () => {
   renderTimeline();  // no-op on detail pages (no #timeline-list)
   if (typeof initVotes === 'function') initVotes();  // defined in votes.js
   initMobileNav();
+  initFloatingCards();
 
   // If page loaded with a hash targeting a project, make it visible immediately
   if (location.hash) {
