@@ -110,7 +110,7 @@ function initMobileNav() {
 
 function fillCard(card, p) {
   const complexity = Math.round((p.complexity.backend + p.complexity.frontend + p.complexity.ai) / 3);
-  card.href = `#project-${p.id}`;
+  card.href = p.page;
   card.innerHTML = `
     <div class="hero-card-icon">${p.icon}</div>
     <div class="hero-card-title">${p.title}</div>

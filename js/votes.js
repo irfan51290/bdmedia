@@ -61,7 +61,7 @@ function initDetailVoteButton(projectId) {
     if (voted) {
       btn.classList.add('voted');
       emoji.textContent = '✅';
-      text.textContent  = 'Thanks for the vote!';
+      text.textContent  = 'Voted — I review the standings every Sunday.';
     } else {
       btn.classList.remove('voted');
       emoji.textContent = '👍';
