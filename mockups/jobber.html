@@ -911,7 +911,7 @@
   <div class="dot" onclick="goTo('screen-profile')"></div>
 </div>
 
-<div class="tap-hint">tap the card or buttons to navigate · dots to jump to any screen</div>
+<div class="tap-hint">tap buttons or use ← → arrow keys to navigate · dots to jump to any screen</div>
 
 <script>
   const screens = ['screen-onboard','screen-swipe','screen-review','screen-applied','screen-resume','screen-profile'];
@@ -929,6 +929,16 @@
       }
     });
   }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    const currentIdx = screens.findIndex(s => document.getElementById(s).classList.contains('active'));
+    if (currentIdx === -1) return;
+    const nextIdx = e.key === 'ArrowRight'
+      ? Math.min(currentIdx + 1, screens.length - 1)
+      : Math.max(currentIdx - 1, 0);
+    if (nextIdx !== currentIdx) goTo(screens[nextIdx]);
+  });
 </script>
 </body>
 </html>

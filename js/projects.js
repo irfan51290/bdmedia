@@ -21,7 +21,7 @@ const PROJECTS = [
   },
   {
     id:          'color-fit',
-    week:        2,
+    week:        4,
     title:       'Color-Fit',
     category:    'Mobile App · AI',
     tagline:     'AI builds outfits from your wardrobe',
@@ -59,7 +59,7 @@ const PROJECTS = [
   },
   {
     id:          'watch-hunter',
-    week:        4,
+    week:        2,
     title:       'Carousell Watch Hunter',
     category:    'Automation · Bot',
     tagline:     'Alerts you to undervalued watches',
