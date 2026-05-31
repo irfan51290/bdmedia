@@ -4,36 +4,14 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Irfan Dhamiry — AI Builder</title>
+  <meta name="description" content="Every week I build a new AI-powered app from scratch. Vote on your favourites and suggest what gets built next."/>
+  <meta property="og:title" content="Irfan Dhamiry — AI Builder"/>
+  <meta property="og:description" content="1 real problem. 1 app. 1 week. Vote on projects and shape what gets built next."/>
+  <meta property="og:url" content="https://bdmedia.net/"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="https://bdmedia.net/images/og-image.jpg"/>
+  <meta name="twitter:card" content="summary_large_image"/>
   <link rel="stylesheet" href="css/style.css"/>
-  <style>
-    .ideas-fab {
-      position: fixed;
-      bottom: 28px;
-      right: 28px;
-      z-index: 95;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: 100px;
-      padding: 12px 20px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 4px 20px rgba(37,99,235,0.25);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .ideas-fab:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(37,99,235,0.38);
-    }
-    @media (max-width: 600px) {
-      .ideas-fab span { display: none; }
-      .ideas-fab { padding: 14px; font-size: 18px; }
-    }
-  </style>
 </head>
 <body>
 
@@ -162,6 +140,13 @@
   <script>
     const overlay  = document.getElementById('ideas-overlay');
     const closeBtn = document.getElementById('ideas-close');
+
+    // Auto-open when navigated from a detail page FAB
+    if (new URLSearchParams(location.search).get('suggest') === 'true') {
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      sessionStorage.setItem('ideas_shown', '1');
+    }
 
     function openIdeasModal() {
       if (sessionStorage.getItem('ideas_shown')) return;

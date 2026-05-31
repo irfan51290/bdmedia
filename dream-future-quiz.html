@@ -4,6 +4,13 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dream Future Quiz — Irfan Dhamiry</title>
+  <meta name="description" content="10 questions map your ambitions to a future career path. Airtable captures responses, automations score leads, and highest-fit profiles get a personal follow-up."/>
+  <meta property="og:title" content="Dream Future Quiz — Irfan Dhamiry"/>
+  <meta property="og:description" content="A career quiz that secretly functions as a lead gen tool — with Airtable + automations behind the scenes."/>
+  <meta property="og:url" content="https://bdmedia.net/dream-future-quiz.html"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="https://bdmedia.net/images/og-image.jpg"/>
+  <meta name="twitter:card" content="summary_large_image"/>
   <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
@@ -23,8 +30,8 @@
       </div>
     </div>
     <p class="detail-tagline">
-      A personality quiz that maps your dreams and ambitions to a future career path.
-      Built with Next.js and deployed on Vercel in one week.
+      10 questions map your ambitions to a future career path. Behind the scenes,
+      every response feeds into Airtable — and the highest-fit profiles get a personal follow-up, not a generic email blast.
     </p>
     <div class="meta-row">
       <div class="meta-item">
@@ -35,8 +42,9 @@
         <span class="meta-label">Stack</span>
         <div class="meta-tags">
           <span class="meta-tag">Next.js</span>
+          <span class="meta-tag">Airtable</span>
           <span class="meta-tag">Vercel</span>
-          <span class="meta-tag">JavaScript</span>
+          <span class="meta-tag">Automations</span>
         </div>
       </div>
       <div class="meta-item">
@@ -87,25 +95,25 @@
   <div class="content-grid">
     <div class="content-block">
       <h3>The Problem</h3>
-      <p>Most career quizzes are generic and forget your answers the moment you leave. People want a personalised, honest assessment that connects their personality and aspirations to real career paths — not just a list of job titles.</p>
+      <p>Career quizzes are a dime a dozen — most spit out a generic result and forget you the moment you close the tab. I needed a way to identify people who are genuinely stuck on their career direction and want real guidance, not just a personality label.</p>
     </div>
     <div class="content-block">
       <h3>How It Works</h3>
       <ul>
-        <li>User answers a series of personality and ambition questions</li>
-        <li>Responses are scored across multiple trait dimensions</li>
-        <li>Results map to curated career paths with honest fit explanations</li>
-        <li>Fully client-side — no data stored, no accounts needed</li>
-        <li>Deployed on Vercel, zero running cost</li>
+        <li>User answers 10 questions about goals, ambitions, and work style</li>
+        <li>Responses are scored and mapped to a curated future career path</li>
+        <li>Every submission is captured in Airtable with full response data</li>
+        <li>Automations score each lead based on profile fit</li>
+        <li>Highest-fit profiles get a personal outreach — not a mass email</li>
       </ul>
     </div>
     <div class="content-block">
       <h3>What I Learned</h3>
-      <p>Designing a quiz flow that feels conversational rather than clinical. Getting the scoring logic right so results are meaningful and not just random — this required more thought than the code itself.</p>
+      <p>Building lead gen into a quiz flow without it feeling like lead gen. The scoring logic took the most time — getting it to produce results that feel insightful rather than random. Connecting Airtable automations to trigger personal follow-ups was the part that made it actually useful as a business tool.</p>
     </div>
     <div class="content-block">
       <h3>Built With Claude</h3>
-      <p>Used Claude Code to scaffold the Next.js project, design the scoring algorithm, and build the multi-step quiz flow. Vercel deployment was set up in minutes. Week 3 was the first time I shipped a full front-end app with no prior Next.js experience.</p>
+      <p>Used Claude Code to scaffold the Next.js project, design the scoring algorithm, and wire up the Airtable integration. Vercel deployment was live in minutes. Week 3 was the first time I shipped a full front-end app with no prior Next.js experience — and it doubled as a real business tool.</p>
     </div>
   </div>
 
@@ -117,7 +125,9 @@
         <span class="skill-tag confident"><span class="skill-dot confident"></span>Next.js</span>
         <span class="skill-tag confident"><span class="skill-dot confident"></span>React</span>
         <span class="skill-tag confident"><span class="skill-dot confident"></span>Vercel Deployment</span>
+        <span class="skill-tag confident"><span class="skill-dot confident"></span>Airtable Integration</span>
         <span class="skill-tag learning"><span class="skill-dot learning"></span>UX Flow Design</span>
+        <span class="skill-tag learning"><span class="skill-dot learning"></span>Lead Scoring</span>
         <div class="skill-legend">
           <span><span class="skill-dot confident"></span>Confident</span>
           <span><span class="skill-dot learning"></span>Still learning</span>
@@ -154,5 +164,9 @@
       renderDetailNav(PROJECT_ID);
     });
   </script>
+  <a class="ideas-fab" href="index.html?suggest=true" aria-label="Suggest a build">
+    💡 <span>Suggest a build</span>
+  </a>
+
 </body>
 </html>

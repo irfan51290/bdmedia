@@ -37,6 +37,41 @@ function renderTimeline() {
     `;
   }).join('');
 
+  // Coming-soon teaser for next week
+  const nextWeek = PROJECTS.length + 1;
+  const teaserLines = [
+    `Week ${nextWeek} is in the works. Dropping this Friday.`,
+    `Something new is brewing for Week ${nextWeek}.`,
+    `A new problem. A new build. Week ${nextWeek} coming soon.`,
+    `The next one's already underway. Watch this space.`,
+  ];
+  const teaserEl = document.createElement('div');
+  teaserEl.className = 'timeline-item coming-card reveal';
+  teaserEl.dataset.delay = String(PROJECTS.length * 100);
+  teaserEl.innerHTML = `
+    <div class="week-col">
+      <div class="week-dot coming-week-dot"></div>
+      <div class="week-badge coming-week-badge">Wk ${nextWeek}</div>
+    </div>
+    <div class="coming-inner">
+      <div class="coming-live"><span class="coming-dot"></span>In progress</div>
+      <div class="coming-teaser" id="coming-teaser">${teaserLines[0]}</div>
+    </div>
+  `;
+  container.appendChild(teaserEl);
+
+  let teaserIdx = 0;
+  setInterval(() => {
+    teaserIdx = (teaserIdx + 1) % teaserLines.length;
+    const el = document.getElementById('coming-teaser');
+    if (!el) return;
+    el.style.opacity = '0';
+    setTimeout(() => {
+      el.textContent = teaserLines[teaserIdx];
+      el.style.opacity = '1';
+    }, 300);
+  }, 3500);
+
   initScrollReveal();
 }
 

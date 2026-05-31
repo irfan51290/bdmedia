@@ -512,6 +512,33 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
 }
 .vote-num { font-weight: 700; color: var(--text-primary); font-size: 14px; }
 
+/* Coming-soon teaser card */
+.coming-card { display: flex; align-items: flex-start; }
+.coming-inner {
+  flex: 1; margin-left: 28px; margin-bottom: 40px;
+  background: var(--bg-card); border-radius: var(--radius-lg);
+  border: 2px dashed var(--border);
+  padding: 22px 28px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.coming-live {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1.5px; color: var(--amber);
+}
+.coming-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--amber);
+  animation: pulse 1.8s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.coming-teaser {
+  font-size: 16px; font-weight: 700; color: var(--text-secondary);
+  transition: opacity 0.3s ease;
+}
+.coming-week-dot { background: var(--border); }
+.coming-week-badge { color: var(--text-dim); border-color: var(--border); background: transparent; }
+
 /* ============================================================
    DETAIL PAGE — HERO BAND
    ============================================================ */
@@ -809,4 +836,37 @@ button { font-family: var(--font); cursor: pointer; border: none; background: no
   .card-arrow    { display: none; }
   .lb-vote-num   { font-size: 20px; }
   .lb-icon       { width: 40px; height: 40px; font-size: 18px; }
+}
+
+/* ============================================================
+   IDEAS FAB — shared across all pages
+   ============================================================ */
+.ideas-fab {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 95;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 100px;
+  padding: 12px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 20px rgba(37,99,235,0.25);
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-decoration: none;
+}
+.ideas-fab:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(37,99,235,0.38);
+  color: #fff;
+}
+@media (max-width: 600px) {
+  .ideas-fab span { display: none; }
+  .ideas-fab { padding: 14px; font-size: 18px; }
 }
