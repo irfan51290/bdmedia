@@ -5,6 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Irfan Dhamiry — AI Builder</title>
   <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .ideas-fab {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 95;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 100px;
+      padding: 12px 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 20px rgba(37,99,235,0.25);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .ideas-fab:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(37,99,235,0.38);
+    }
+    @media (max-width: 600px) {
+      .ideas-fab span { display: none; }
+      .ideas-fab { padding: 14px; font-size: 18px; }
+    }
+  </style>
 </head>
 <body>
 
@@ -114,6 +143,11 @@
     </nav>
   </div>
 
+  <!-- SUGGEST A BUILD FAB -->
+  <button class="ideas-fab" id="ideas-fab" aria-label="Suggest a build">
+    💡 <span>Suggest a build</span>
+  </button>
+
   <!-- FOOTER -->
   <footer class="footer">
     <span>Irfan Dhamiry © 2026</span>
@@ -140,6 +174,12 @@
       overlay.classList.remove('active');
       document.body.style.overflow = '';
     }
+
+    // FAB — always opens modal regardless of session state
+    document.getElementById('ideas-fab').addEventListener('click', () => {
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
 
     // Trigger after user scrolls past the bottom of the journey section
     function checkScrollTrigger() {

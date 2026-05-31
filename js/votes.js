@@ -65,7 +65,7 @@ function initDetailVoteButton(projectId) {
     } else {
       btn.classList.remove('voted');
       emoji.textContent = '👍';
-      text.textContent  = 'Want this developed further?';
+      text.textContent  = 'I want to see this built out';
     }
   };
 
