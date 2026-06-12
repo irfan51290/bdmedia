@@ -165,6 +165,11 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton
               tooltip="Sign out"
+              onClick={async () => {
+                const { createClient } = await import("@/lib/supabase/client");
+                await createClient().auth.signOut();
+                window.location.href = "/login";
+              }}
               className="h-10 rounded-sm border-[2px] border-transparent cursor-pointer hover:border-black hover:shadow-[2px_2px_0_#000] hover:bg-sidebar-accent transition-all duration-100"
             >
               <LogOut className="w-4 h-4 text-sidebar-foreground/60" />
