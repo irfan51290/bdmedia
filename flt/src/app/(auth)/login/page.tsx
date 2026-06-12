@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -10,6 +10,14 @@ import { Label } from "@/components/ui/label";
 import { Eye, EyeOff, ArrowRight, AlertCircle } from "lucide-react";
 
 export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginContent />
+    </Suspense>
+  );
+}
+
+function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const next = searchParams.get("next") ?? "/dashboard";
@@ -164,6 +172,7 @@ export default function LoginPage() {
   );
 }
 
+// ── Magic link form ────────────────────────────────────────────
 function MagicLinkForm({
   email,
   setEmail,
