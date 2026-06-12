@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
+  Users,
   TrendingUp,
   DollarSign,
   FolderKanban,
@@ -33,6 +34,12 @@ const navItems = [
     href: "/dashboard",
     icon: LayoutDashboard,
     accent: "bg-brand-yellow",
+  },
+  {
+    title: "Clients",
+    href: "/clients",
+    icon: Users,
+    accent: "bg-brand-teal",
   },
   {
     title: "Sales",
