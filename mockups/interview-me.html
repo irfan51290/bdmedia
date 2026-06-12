@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview Me — Mockup</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:        #1e3a8a;
+  --navy-dark:   #1e3069;
+  --slate-900:   #0f172a;
+  --slate-700:   #334155;
+  --slate-600:   #475569;
+  --slate-500:   #64748b;
+  --slate-400:   #94a3b8;
+  --slate-200:   #e2e8f0;
+  --slate-100:   #f1f5f9;
+  --gray-50:     #f9fafb;
+  --gray-100:    #f3f4f6;
+  --gray-200:    #e5e7eb;
+  --white:       #ffffff;
+  --amber-50:    #fffbeb;
+  --amber-200:   #fde68a;
+  --amber-600:   #d97706;
+  --amber-700:   #b45309;
+  --green-50:    #f0fdf4;
+  --green-600:   #16a34a;
+  --green-700:   #15803d;
+  --green-800:   #166534;
+  --red-600:     #dc2626;
+  --blue-50:     #eff6ff;
+  --blue-200:    #bfdbfe;
+  --blue-600:    #2563eb;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--gray-50);
+  color: var(--slate-900);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ── SCREEN SYSTEM ─────────────────────────────────────────── */
+.screen        { display: none; min-height: 100vh; flex-direction: column; }
+.screen.active { display: flex; }
+
+/* ── NAV ───────────────────────────────────────────────────── */
+.nav { border-bottom: 1px solid var(--gray-200); background: var(--white); padding: 12px 0; flex-shrink: 0; }
+.nav-inner { max-width: 960px; margin: 0 auto; padding: 0 16px; display: flex; align-items: center; justify-content: space-between; }
+.nav-left { display: flex; align-items: center; gap: 24px; }
+.nav-brand { font-size: 14px; font-weight: 700; color: var(--navy); cursor: pointer; }
+.nav-links { display: flex; gap: 16px; }
+.nav-link { font-size: 14px; color: var(--slate-600); text-decoration: none; cursor: pointer; }
+.nav-link:hover { color: var(--navy); }
+.nav-link.active { color: var(--navy); font-weight: 600; }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.nav-user { font-size: 14px; color: var(--slate-500); }
+.btn-signout { font-size: 14px; color: var(--slate-500); cursor: pointer; background: none; border: none; padding: 0; font-family: inherit; }
+.btn-signout:hover { color: var(--slate-900); }
+
+/* ── LAYOUT ────────────────────────────────────────────────── */
+.main        { max-width: 960px; margin: 0 auto; padding: 32px 16px; flex: 1; width: 100%; }
+.main-narrow { max-width: 672px; margin: 0 auto; padding: 32px 16px; flex: 1; width: 100%; }
+
+/* ── AUTH ──────────────────────────────────────────────────── */
+.auth-wrap  { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
+.auth-logo  { font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 32px; cursor: pointer; }
+.auth-card  { background: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; padding: 32px; width: 100%; max-width: 400px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+.auth-title { font-size: 20px; font-weight: 700; color: var(--slate-900); margin-bottom: 24px; }
+.auth-foot  { margin-top: 20px; font-size: 14px; color: var(--slate-500); text-align: center; }
+.auth-foot a { color: var(--navy); cursor: pointer; text-decoration: none; }
+.auth-foot a:hover { text-decoration: underline; }
+
+/* ── FORMS ─────────────────────────────────────────────────── */
+.form-group    { margin-bottom: 16px; }
+.form-label    { display: block; font-size: 13px; font-weight: 500; color: var(--slate-700); margin-bottom: 6px; }
+.form-input    { width: 100%; padding: 8px 12px; border: 1px solid var(--gray-200); border-radius: 6px; font-size: 14px; color: var(--slate-900); background: var(--white); outline: none; font-family: inherit; }
+.form-input:focus { border-color: var(--navy); box-shadow: 0 0 0 2px rgba(30,58,138,.1); }
+.form-textarea { width: 100%; padding: 8px 12px; border: 1px solid var(--gray-200); border-radius: 6px; font-size: 14px; color: var(--slate-900); background: var(--white); resize: vertical; min-height: 160px; outline: none; font-family: inherit; line-height: 1.6; }
+.form-textarea:focus { border-color: var(--navy); box-shadow: 0 0 0 2px rgba(30,58,138,.1); }
+
+/* ── BUTTONS ───────────────────────────────────────────────── */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 8px 20px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; text-decoration: none; font-family: inherit; transition: background .15s; }
+.btn-primary   { background: var(--navy); color: var(--white); }
+.btn-primary:hover { background: var(--navy-dark); }
+.btn-secondary { background: var(--white); color: var(--slate-700); border: 1px solid var(--gray-200); }
+.btn-secondary:hover { background: var(--gray-100); }
+.btn-amber     { background: var(--amber-600); color: var(--white); }
+.btn-amber:hover { background: var(--amber-700); }
+.btn-full { width: 100%; }
+.btn-lg   { padding: 12px 24px; font-size: 15px; }
+.btn-sm   { padding: 5px 12px; font-size: 12px; }
+
+/* ── CARD ──────────────────────────────────────────────────── */
+.card { background: var(--white); border: 1px solid var(--gray-200); border-radius: 8px; padding: 24px; }
+
+/* ── TYPOGRAPHY ────────────────────────────────────────────── */
+.page-title    { font-size: 24px; font-weight: 700; color: var(--slate-900); }
+.page-subtitle { font-size: 14px; color: var(--slate-500); margin-top: 4px; }
+.step-label    { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--slate-400); margin-bottom: 8px; }
+.step-num      { font-weight: 600; color: var(--navy); }
+.section-title { font-size: 15px; font-weight: 600; color: var(--slate-900); margin-bottom: 12px; }
+.label-caps    { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--slate-400); margin-bottom: 6px; }
+
+/* ── SPACING HELPERS ───────────────────────────────────────── */
+.sy-6 > * + * { margin-top: 24px; }
+.sy-4 > * + * { margin-top: 16px; }
+.sy-3 > * + * { margin-top: 12px; }
+.sy-2 > * + * { margin-top: 8px; }
+.sy-1 > * + * { margin-top: 4px; }
+.divider { height: 1px; background: var(--gray-200); margin: 4px 0; }
+
+/* ── SESSION ROWS ──────────────────────────────────────────── */
+.session-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border: 1px solid var(--gray-200); border-radius: 8px; background: var(--white); }
+.session-inprogress { border-color: var(--amber-200); background: var(--amber-50); }
+
+/* ── CV STATUS ─────────────────────────────────────────────── */
+.cv-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; background: var(--green-50); flex-shrink: 0; }
+
+/* ── RADIO OPTIONS ─────────────────────────────────────────── */
+.radio-group { display: flex; flex-direction: column; gap: 8px; }
+.radio-opt { display: flex; align-items: flex-start; gap: 10px; padding: 12px 16px; border: 1px solid var(--gray-200); border-radius: 6px; cursor: pointer; }
+.radio-opt.selected { border-color: var(--navy); background: var(--blue-50); }
+.radio-opt input { margin-top: 3px; accent-color: var(--navy); flex-shrink: 0; }
+.radio-opt-label { font-weight: 600; font-size: 14px; color: var(--slate-900); }
+.radio-opt-desc  { font-size: 12px; color: var(--slate-500); margin-top: 2px; }
+
+/* ── PROGRESS BAR ──────────────────────────────────────────── */
+.prog-wrap { height: 4px; background: var(--gray-200); border-radius: 9999px; overflow: hidden; }
+.prog-fill { height: 100%; background: var(--navy); border-radius: 9999px; }
+
+/* ── INTERVIEW ─────────────────────────────────────────────── */
+.iv-wrap  { flex: 1; background: var(--gray-50); display: flex; align-items: center; justify-content: center; padding: 24px; }
+.iv-inner { width: 100%; max-width: 520px; display: flex; flex-direction: column; gap: 20px; }
+.q-type-badge { display: inline-block; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--navy); background: var(--blue-50); padding: 2px 8px; border-radius: 4px; margin-bottom: 10px; }
+.q-text { font-size: 16px; font-weight: 600; color: var(--slate-900); line-height: 1.5; }
+
+/* ── MIC BUTTON ────────────────────────────────────────────── */
+.mic-btn { width: 72px; height: 72px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 28px; transition: transform .1s; }
+.mic-btn.recording { background: var(--red-600); box-shadow: 0 4px 16px rgba(220,38,38,.35); }
+.mic-btn.idle      { background: var(--navy); box-shadow: 0 4px 16px rgba(30,58,138,.3); }
+.mic-btn:hover     { transform: scale(1.06); }
+.waveform { display: flex; gap: 3px; align-items: flex-end; height: 28px; }
+.waveform span { width: 4px; background: var(--red-600); border-radius: 2px; display: inline-block; animation: wave .6s ease-in-out infinite; }
+
+/* ── SCORES ────────────────────────────────────────────────── */
+.score-big   { font-size: 48px; font-weight: 700; line-height: 1; }
+.score-unit  { font-size: 24px; font-weight: 400; color: var(--slate-400); }
+.score-green { color: var(--green-600); }
+.score-amber { color: var(--amber-600); }
+.score-red   { color: var(--red-600); }
+.score-box { flex: 1; padding: 12px; border-radius: 6px; border: 1px solid var(--gray-200); text-align: center; }
+.score-box-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--slate-400); margin-bottom: 4px; }
+.score-box-val   { font-size: 28px; font-weight: 700; line-height: 1.1; }
+
+/* ── INFO / BRIEFING ───────────────────────────────────────── */
+.info-box      { padding: 12px; border-radius: 6px; border: 1px solid var(--blue-200); background: var(--blue-50); }
+.info-box-label{ font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--blue-600); margin-bottom: 4px; }
+.info-box-text { font-size: 14px; color: #1e40af; line-height: 1.5; }
+.briefing-text { font-size: 14px; color: var(--slate-700); line-height: 1.6; }
+.briefing-list { font-size: 14px; color: var(--slate-700); padding-left: 20px; }
+.briefing-list li { margin-bottom: 4px; }
+.strength-item    { font-size: 14px; color: var(--green-700); padding: 2px 0; }
+.improvement-item { font-size: 14px; color: var(--amber-600); padding: 2px 0; }
+
+/* ── EXPAND TOGGLE ─────────────────────────────────────────── */
+.expand-btn { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--navy); cursor: pointer; background: none; border: none; font-family: inherit; padding: 8px 16px; width: 100%; text-align: left; border-top: 1px solid var(--gray-100); }
+.expand-btn:hover { background: var(--blue-50); }
+.expand-arrow { font-size: 10px; transition: transform .15s; display: inline-block; }
+.model-box   { border-top: 1px solid var(--gray-100); background: var(--green-50); padding: 12px 16px; }
+.model-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--green-700); margin-bottom: 6px; }
+.model-text  { font-size: 14px; color: var(--green-800); line-height: 1.5; }
+
+/* ── UPLOAD ZONE ───────────────────────────────────────────── */
+.upload-zone { border: 2px dashed var(--gray-200); border-radius: 8px; padding: 28px; text-align: center; cursor: pointer; transition: border-color .15s, background .15s; }
+.upload-zone:hover { border-color: var(--navy); background: var(--blue-50); }
+
+/* ── ANIMATIONS ────────────────────────────────────────────── */
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes wave { 0%,100% { transform: scaleY(.4); } 50% { transform: scaleY(1.1); } }
+.spin { animation: spin .8s linear infinite; }
+
+/* ── SCREEN NAV BAR ────────────────────────────────────────── */
+.screen-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(15,23,42,.88); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; gap: 5px; padding: 8px 12px; flex-wrap: wrap; z-index: 100; }
+.screen-pill { font-size: 11px; padding: 4px 10px; border-radius: 9999px; cursor: pointer; border: 1px solid rgba(255,255,255,.15); color: rgba(255,255,255,.6); background: transparent; font-family: inherit; transition: background .12s, color .12s; white-space: nowrap; }
+.screen-pill:hover   { background: rgba(255,255,255,.12); color: var(--white); }
+.screen-pill.current { background: var(--navy); color: var(--white); border-color: var(--navy); }
+
+/* ── SIDE ARROW BUTTONS ────────────────────────────────────── */
+.arrow-btn { position: fixed; top: 50%; transform: translateY(-50%); z-index: 200; background: rgba(15,23,42,.75); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,.15); color: var(--white); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; transition: background .15s, transform .15s; font-family: inherit; line-height: 1; }
+.arrow-btn:hover { background: var(--navy); transform: translateY(-50%) scale(1.1); }
+.arrow-btn.left  { left: 10px; }
+.arrow-btn.right { right: 10px; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     LOGIN
+════════════════════════════════════════════════ -->
+<div id="s-login" class="screen active">
+  <div class="auth-wrap">
+    <div class="auth-logo" onclick="goto('s-login')">Interview Me</div>
+    <div class="auth-card">
+      <div class="auth-title">Sign in to your account</div>
+      <div class="form-group">
+        <label class="form-label">Email address</label>
+        <input class="form-input" type="email" value="irfan51290@gmail.com">
+      </div>
+      <div class="form-group" style="margin-bottom:20px">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" value="••••••••">
+      </div>
+      <button class="btn btn-primary btn-full" onclick="goto('s-dashboard')">Sign in</button>
+    </div>
+    <div class="auth-foot">Don't have an account? <a onclick="goto('s-signup')">Sign up</a></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SIGNUP
+════════════════════════════════════════════════ -->
+<div id="s-signup" class="screen">
+  <div class="auth-wrap">
+    <div class="auth-logo" onclick="goto('s-login')">Interview Me</div>
+    <div class="auth-card">
+      <div class="auth-title">Create your account</div>
+      <div class="form-group">
+        <label class="form-label">Full name</label>
+        <input class="form-input" type="text" placeholder="Irfan Ahmed">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email address</label>
+        <input class="form-input" type="email" placeholder="you@example.com">
+      </div>
+      <div class="form-group" style="margin-bottom:20px">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" placeholder="••••••••">
+      </div>
+      <button class="btn btn-primary btn-full" onclick="goto('s-dashboard')">Create account</button>
+    </div>
+    <div class="auth-foot">Already have an account? <a onclick="goto('s-login')">Sign in</a></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     DASHBOARD
+════════════════════════════════════════════════ -->
+<div id="s-dashboard" class="screen">
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <span class="nav-brand" onclick="goto('s-dashboard')">Interview Me</span>
+        <div class="nav-links">
+          <a class="nav-link active">Dashboard</a>
+          <a class="nav-link" onclick="goto('s-profile')">Profile &amp; CV</a>
+        </div>
+      </div>
+      <div class="nav-right">
+        <span class="nav-user">Irfan Ahmed</span>
+        <button class="btn-signout" onclick="goto('s-login')">Sign out</button>
+      </div>
+    </div>
+  </nav>
+  <div class="main">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:32px">
+      <div>
+        <h1 class="page-title">Hello, Irfan</h1>
+        <p class="page-subtitle">Preparing for: Senior Product Manager</p>
+      </div>
+      <button class="btn btn-primary" onclick="goto('s-jd')">Start new session</button>
+    </div>
+
+    <!-- CV status card -->
+    <div class="card" style="margin-bottom:24px">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div class="cv-icon">✅</div>
+          <div>
+            <div style="font-weight:600;color:var(--slate-900)">CV uploaded</div>
+            <div style="font-size:12px;color:var(--slate-500)">Updated 2 Jun 2026 · Used in all new sessions</div>
+          </div>
+        </div>
+        <button class="btn btn-secondary btn-sm" onclick="goto('s-profile')">Update CV</button>
+      </div>
+    </div>
+
+    <!-- In-progress session -->
+    <div style="margin-bottom:24px">
+      <div class="section-title">Continue where you left off</div>
+      <div class="session-row session-inprogress">
+        <div>
+          <div style="font-size:14px;font-weight:500;color:var(--slate-900)">
+            Product Manager <span style="font-weight:400;color:var(--slate-500)">· Acme Corp</span>
+          </div>
+          <div style="font-size:12px;color:var(--slate-500)">Setup step · 1 Jun</div>
+        </div>
+        <button class="btn btn-amber btn-sm" onclick="goto('s-company')">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Past sessions -->
+    <div>
+      <div class="section-title">Past sessions</div>
+      <div class="sy-2">
+        <div class="session-row" style="cursor:pointer" onclick="goto('s-results')">
+          <div>
+            <div style="font-size:14px;font-weight:500;color:var(--slate-900)">Senior PM <span style="font-weight:400;color:var(--slate-500)">· TechCo</span></div>
+            <div style="font-size:12px;color:var(--slate-500)">Hiring manager · Mock · 28 May</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:18px;font-weight:700" class="score-green">7.4</div>
+            <div style="font-size:11px;color:var(--slate-400)">/10</div>
+          </div>
+        </div>
+        <div class="session-row" style="cursor:pointer" onclick="goto('s-results')">
+          <div>
+            <div style="font-size:14px;font-weight:500;color:var(--slate-900)">Product Lead <span style="font-weight:400;color:var(--slate-500)">· Startup X</span></div>
+            <div style="font-size:12px;color:var(--slate-500)">Technical · Practice · 24 May</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:18px;font-weight:700" class="score-amber">5.8</div>
+            <div style="font-size:11px;color:var(--slate-400)">/10</div>
+          </div>
+        </div>
+        <div class="session-row" style="cursor:pointer" onclick="goto('s-results')">
+          <div>
+            <div style="font-size:14px;font-weight:500;color:var(--slate-900)">Growth PM <span style="font-weight:400;color:var(--slate-500)">· ScaleUp Ltd</span></div>
+            <div style="font-size:12px;color:var(--slate-500)">HR Screening · Mock · 19 May</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:18px;font-weight:700" class="score-green">8.1</div>
+            <div style="font-size:11px;color:var(--slate-400)">/10</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     PROFILE & CV
+════════════════════════════════════════════════ -->
+<div id="s-profile" class="screen">
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <span class="nav-brand" onclick="goto('s-dashboard')">Interview Me</span>
+        <div class="nav-links">
+          <a class="nav-link" onclick="goto('s-dashboard')">Dashboard</a>
+          <a class="nav-link active">Profile &amp; CV</a>
+        </div>
+      </div>
+      <div class="nav-right">
+        <span class="nav-user">Irfan Ahmed</span>
+        <button class="btn-signout" onclick="goto('s-login')">Sign out</button>
+      </div>
+    </div>
+  </nav>
+  <div class="main-narrow">
+    <h1 class="page-title" style="margin-bottom:4px">Profile &amp; CV</h1>
+    <p class="page-subtitle" style="margin-bottom:32px">Your details personalise every interview session.</p>
+
+    <div class="card sy-4" style="margin-bottom:20px">
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">Full name</label>
+        <input class="form-input" type="text" value="Irfan Ahmed">
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label class="form-label">Target role</label>
+        <input class="form-input" type="text" value="Senior Product Manager">
+      </div>
+      <button class="btn btn-primary">Save changes</button>
+    </div>
+
+    <div class="card">
+      <div class="section-title" style="margin-bottom:4px">Your CV</div>
+      <p style="font-size:14px;color:var(--slate-500);margin-bottom:16px">Upload a PDF or Word document. We extract the text to tailor your interviews.</p>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border:1px solid var(--gray-200);border-radius:6px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:20px">📄</span>
+          <div>
+            <div style="font-size:14px;font-weight:600;color:var(--slate-900)">CV_Irfan_Ahmed_2026.pdf</div>
+            <div style="font-size:12px;color:var(--slate-500)">Updated 2 Jun 2026</div>
+          </div>
+        </div>
+        <button class="btn btn-secondary btn-sm">Replace</button>
+      </div>
+      <div class="upload-zone">
+        <div style="font-size:26px;margin-bottom:8px">⬆️</div>
+        <div style="font-size:14px;font-weight:600;color:var(--slate-700)">Drop a file here, or click to browse</div>
+        <div style="font-size:12px;color:var(--slate-500);margin-top:4px">PDF, DOC, or DOCX · Max 10 MB</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     STEP 1 — JOB DESCRIPTION
+════════════════════════════════════════════════ -->
+<div id="s-jd" class="screen">
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <span class="nav-brand" onclick="goto('s-dashboard')">Interview Me</span>
+        <div class="nav-links">
+          <a class="nav-link" onclick="goto('s-dashboard')">Dashboard</a>
+          <a class="nav-link" onclick="goto('s-profile')">Profile &amp; CV</a>
+        </div>
+      </div>
+      <div class="nav-right">
+        <span class="nav-user">Irfan Ahmed</span>
+        <button class="btn-signout" onclick="goto('s-login')">Sign out</button>
+      </div>
+    </div>
+  </nav>
+  <div class="main-narrow">
+    <div style="margin-bottom:24px">
+      <div class="step-label"><span class="step-num">Step 1 of 4</span><span>·</span><span>Job Description</span></div>
+      <h1 class="page-title">Job description</h1>
+      <p class="page-subtitle">Paste or upload the job description you are interviewing for.</p>
+    </div>
+    <div class="card">
+      <div style="display:flex;gap:8px;margin-bottom:16px">
+        <button class="btn btn-primary btn-sm" style="flex:1">Paste text</button>
+        <button class="btn btn-secondary btn-sm" style="flex:1">Upload file</button>
+        <button class="btn btn-secondary btn-sm" style="flex:1">Enter URL</button>
+      </div>
+      <div class="form-group" style="margin-bottom:16px">
+        <label class="form-label">Job description</label>
+        <textarea class="form-textarea">We are looking for a Senior Product Manager to join the growing team at Acme Corp. You will own the product roadmap for our procurement automation platform, working closely with engineering, design, and data teams to ship high-impact features for our enterprise customers.
+
+Key responsibilities:
+• Define and communicate product vision and roadmap
+• Lead cross-functional teams of engineers, designers, and analysts
+• Conduct user research and translate insights into requirements
+• Monitor key metrics and drive continuous product improvement
+
+Requirements:
+• 5+ years of product management experience in B2B SaaS
+• Strong analytical and communication skills
+• Proven track record of shipping features at scale</textarea>
+      </div>
+      <div style="display:flex;justify-content:flex-end">
+        <button class="btn btn-primary" onclick="goto('s-company')">Continue →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     STEP 2 — COMPANY CONTEXT
+════════════════════════════════════════════════ -->
+<div id="s-company" class="screen">
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <span class="nav-brand" onclick="goto('s-dashboard')">Interview Me</span>
+        <div class="nav-links">
+          <a class="nav-link" onclick="goto('s-dashboard')">Dashboard</a>
+          <a class="nav-link" onclick="goto('s-profile')">Profile &amp; CV</a>
+        </div>
+      </div>
+      <div class="nav-right">
+        <span class="nav-user">Irfan Ahmed</span>
+        <button class="btn-signout" onclick="goto('s-login')">Sign out</button>
+      </div>
+    </div>
+  </nav>
+  <div class="main-narrow">
+    <div style="margin-bottom:24px">
+      <div class="step-label"><span class="step-num">Step 2 of 4</span><span>·</span><span>Company Context</span></div>
+      <h1 class="page-title">Company context</h1>
+      <p class="page-subtitle">We research the company so your questions are tailored to the actual role.</p>
+    </div>
+    <div class="card sy-4">
+      <div>
+        <label class="form-label">Company name or website</label>
+        <div style="display:flex;gap:8px">
+          <input class="form-input" type="text" value="Acme Corp" style="flex:1">
+          <button class="btn btn-secondary btn-sm">Research →</button>
+        </div>
+      </div>
+
+      <div style="padding:16px;border:1px solid var(--green-600);border-radius:8px;background:var(--green-50)">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:12px">
+          <span>✅</span>
+          <span style="font-size:13px;font-weight:600;color:var(--green-700)">Company research complete</span>
+        </div>
+        <div class="label-caps">About Acme Corp</div>
+        <p class="briefing-text" style="margin-bottom:10px">Acme Corp is a B2B SaaS company specialising in workflow automation for mid-market enterprises. Founded in 2018, they have raised $120M in Series C funding and serve over 800 enterprise customers globally.</p>
+        <div class="label-caps">Products &amp; market</div>
+        <p class="briefing-text">Their flagship platform streamlines procurement and approvals. Key competitors include Coupa, Procurify, and Zip.</p>
+      </div>
+
+      <div>
+        <label class="form-label">Additional context <span style="font-weight:400;color:var(--slate-400)">(optional)</span></label>
+        <textarea class="form-textarea" style="min-height:72px" placeholder="Add anything else about this company or role…"></textarea>
+      </div>
+
+      <div style="display:flex;justify-content:space-between">
+        <button class="btn btn-secondary btn-sm" onclick="goto('s-jd')">← Back</button>
+        <button class="btn btn-primary" onclick="goto('s-setup')">Continue →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     STEP 3 — INTERVIEW SETUP
+════════════════════════════════════════════════ -->
+<div id="s-setup" class="screen">
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <span class="nav-brand" onclick="goto('s-dashboard')">Interview Me</span>
+        <div class="nav-links">
+          <a class="nav-link" onclick="goto('s-dashboard')">Dashboard</a>
+          <a class="nav-link" onclick="goto('s-profile')">Profile &amp; CV</a>
+        </div>
+      </div>
+      <div class="nav-right">
+        <span class="nav-user">Irfan Ahmed</span>
+        <button class="btn-signout" onclick="goto('s-login')">Sign out</button>
+      </div>
+    </div>
+  </nav>
+  <div class="main-narrow">
+    <div style="margin-bottom:24px">
+      <div class="step-label"><span class="step-num">Step 3 of 4</span><span>·</span><span>Interview Setup</span></div>
+      <h1 class="page-title">Interview setup</h1>
+      <p class="page-subtitle">Choose the round type and mode for your session.</p>
+    </div>
+    <div class="card sy-6">
+      <div>
+        <div class="form-label" style="margin-bottom:10px">Round type</div>
+        <div class="radio-group">
+          <label class="radio-opt selected" onclick="pickRadio(this,'round')">
+            <input type="radio" name="round" checked>
+            <div>
+              <div class="radio-opt-label">Hiring Manager</div>
+              <div class="radio-opt-desc">Behavioural questions, motivations, team fit</div>
+            </div>
+          </label>
+          <label class="radio-opt" onclick="pickRadio(this,'round')">
+            <input type="radio" name="round">
+            <div>
+              <div class="radio-opt-label">Technical / Skills-based</div>
+              <div class="radio-opt-desc">Role-specific knowledge and problem solving</div>
+            </div>
+          </label>
+          <label class="radio-opt" onclick="pickRadio(this,'round')">
+            <input type="radio" name="round">
+            <div>
+              <div class="radio-opt-label">HR / Culture Screening</div>
+              <div class="radio-opt-desc">Values, culture fit, compensation expectations</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div>
+        <div class="form-label" style="margin-bottom:10px">Mode</div>
+        <div class="radio-group">
+          <label class="radio-opt selected" onclick="pickRadio(this,'mode')">
+            <input type="radio" name="mode" checked>
+            <div>
+              <div class="radio-opt-label">Mock Mode</div>
+              <div class="radio-opt-desc">No feedback during the interview — full results at the end</div>
+            </div>
+          </label>
+          <label class="radio-opt" onclick="pickRadio(this,'mode')">
+            <input type="radio" name="mode">
+            <div>
+              <div class="radio-opt-label">Practice Mode</div>
+              <div class="radio-opt-desc">Scores and model answers after each question</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between">
+        <button class="btn btn-secondary btn-sm" onclick="goto('s-company')">← Back</button>
+        <button class="btn btn-primary" onclick="goto('s-briefing')">Continue →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     STEP 4 — BRIEFING
+════════════════════════════════════════════════ -->
+<div id="s-briefing" class="screen">
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <span class="nav-brand" onclick="goto('s-dashboard')">Interview Me</span>
+        <div class="nav-links">
+          <a class="nav-link" onclick="goto('s-dashboard')">Dashboard</a>
+          <a class="nav-link" onclick="goto('s-profile')">Profile &amp; CV</a>
+        </div>
+      </div>
+      <div class="nav-right">
+        <span class="nav-user">Irfan Ahmed</span>
+        <button class="btn-signout" onclick="goto('s-login')">Sign out</button>
+      </div>
+    </div>
+  </nav>
+  <div class="main-narrow">
+    <div style="margin-bottom:24px">
+      <div class="step-label"><span class="step-num">Step 4 of 4</span><span>·</span><span>Pre-Interview Briefing</span></div>
+      <h1 class="page-title">Your briefing</h1>
+      <p class="page-subtitle">Review this before entering the interview. The session lasts up to 15 minutes.</p>
+    </div>
+    <div class="card sy-4">
+      <div>
+        <div class="label-caps">Session</div>
+        <p class="briefing-text"><strong>Senior PM at Acme Corp</strong> — Hiring Manager round · Mock Mode · 8 questions</p>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div class="label-caps">Company snapshot</div>
+        <p class="briefing-text">Acme Corp is a B2B SaaS company in workflow automation. Series C ($120M), ~800 enterprise customers. Competes with Coupa and Procurify in the procurement space.</p>
+      </div>
+      <div>
+        <div class="label-caps">Key themes to prepare</div>
+        <ul class="briefing-list">
+          <li>Cross-functional collaboration and stakeholder management</li>
+          <li>Data-driven prioritisation and roadmap trade-offs</li>
+          <li>Metrics ownership and continuous improvement</li>
+          <li>Experience with B2B SaaS and enterprise customers</li>
+        </ul>
+      </div>
+      <div>
+        <div class="label-caps">Your background to highlight</div>
+        <p class="briefing-text">6 years of PM experience in B2B SaaS. Strong track record shipping enterprise features, led cross-functional teams of 8+. Your procurement experience aligns directly with Acme's core product.</p>
+      </div>
+      <div class="info-box">
+        <div class="info-box-label">Tip</div>
+        <div class="info-box-text">Use the STAR method for behavioural questions. Have 3–4 concrete examples from recent roles — ideally with quantified results.</div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <button class="btn btn-secondary btn-sm" onclick="goto('s-setup')">← Back</button>
+        <button class="btn btn-primary btn-lg" onclick="goto('s-iv-intro')">Start interview →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     INTERVIEW — INTRO
+════════════════════════════════════════════════ -->
+<div id="s-iv-intro" class="screen">
+  <div class="iv-wrap">
+    <div style="max-width:440px;width:100%">
+      <div style="text-align:center;margin-bottom:24px">
+        <h1 class="page-title">Ready to begin?</h1>
+        <p class="page-subtitle" style="margin-top:8px">8 questions · Mock Mode — no feedback during interview</p>
+      </div>
+      <div class="card" style="margin-bottom:24px">
+        <ul style="list-style:none;padding:0">
+          <li style="font-size:14px;color:var(--slate-600);padding:8px 0;border-bottom:1px solid var(--gray-100)">🔊 Your interviewer will speak each question aloud</li>
+          <li style="font-size:14px;color:var(--slate-600);padding:8px 0;border-bottom:1px solid var(--gray-100)">🎙️ Click the microphone to start recording your answer</li>
+          <li style="font-size:14px;color:var(--slate-600);padding:8px 0;border-bottom:1px solid var(--gray-100)">⏹ Click again to stop when you are done</li>
+          <li style="font-size:14px;color:var(--slate-600);padding:8px 0">📊 No feedback until the results page</li>
+        </ul>
+      </div>
+      <button class="btn btn-primary btn-full btn-lg" onclick="goto('s-iv-question')">Start Interview →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     INTERVIEW — QUESTION / RECORDING
+════════════════════════════════════════════════ -->
+<div id="s-iv-question" class="screen">
+  <div style="flex:1;background:var(--gray-50);display:flex;flex-direction:column;align-items:center;padding:24px 24px 80px">
+    <div class="iv-inner" style="justify-content:center;flex:1">
+
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+          <span style="font-size:12px;color:var(--slate-400);font-weight:600">Question 3 of 8</span>
+          <span style="font-size:12px;color:var(--slate-400)">Hiring Manager · Mock Mode</span>
+        </div>
+        <div class="prog-wrap"><div class="prog-fill" style="width:37.5%"></div></div>
+      </div>
+
+      <div class="card">
+        <span class="q-type-badge">Behavioural</span>
+        <p class="q-text">Tell me about a time you had to manage competing priorities from multiple stakeholders. How did you decide what to work on?</p>
+      </div>
+
+      <div style="display:flex;flex-direction:column;align-items:center;gap:16px;padding:8px 0">
+        <button class="mic-btn recording" onclick="goto('s-iv-processing')">🎙️</button>
+        <p style="font-size:14px;color:var(--slate-500)">Recording… click to stop</p>
+        <div class="waveform">
+          <span style="height:40%;animation-delay:0s"></span>
+          <span style="height:75%;animation-delay:.08s"></span>
+          <span style="height:55%;animation-delay:.16s"></span>
+          <span style="height:90%;animation-delay:.24s"></span>
+          <span style="height:40%;animation-delay:.32s"></span>
+          <span style="height:65%;animation-delay:.40s"></span>
+          <span style="height:80%;animation-delay:.48s"></span>
+          <span style="height:50%;animation-delay:.56s"></span>
+          <span style="height:70%;animation-delay:.64s"></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     INTERVIEW — PROCESSING
+════════════════════════════════════════════════ -->
+<div id="s-iv-processing" class="screen">
+  <div class="iv-wrap" style="text-align:center">
+    <div>
+      <div style="display:inline-flex;align-items:center;gap:10px;font-size:15px;color:var(--slate-600);margin-bottom:10px">
+        <div style="width:20px;height:20px;border-radius:50%;border:2px solid var(--navy);border-top-color:transparent" class="spin"></div>
+        Processing your answer…
+      </div>
+      <p style="font-size:12px;color:var(--slate-400);margin-bottom:32px">Evaluating content and delivery quality</p>
+      <button class="btn btn-secondary btn-sm" onclick="goto('s-iv-feedback')">See feedback →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     INTERVIEW — FEEDBACK (PRACTICE MODE)
+════════════════════════════════════════════════ -->
+<div id="s-iv-feedback" class="screen">
+  <div style="flex:1;background:var(--gray-50);display:flex;flex-direction:column;align-items:center;padding:24px 24px 80px">
+    <div class="iv-inner" style="flex:1;justify-content:center">
+
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+          <span style="font-size:12px;color:var(--slate-400);font-weight:600">Question 3 of 8</span>
+          <span style="font-size:12px;color:var(--slate-400)">Practice Mode</span>
+        </div>
+        <div class="prog-wrap"><div class="prog-fill" style="width:37.5%"></div></div>
+      </div>
+
+      <div class="card">
+        <span class="q-type-badge">Behavioural</span>
+        <p class="q-text">Tell me about a time you had to manage competing priorities from multiple stakeholders. How did you decide what to work on?</p>
+      </div>
+
+      <div style="display:flex;gap:12px">
+        <div class="score-box">
+          <div class="score-box-label">Content</div>
+          <div class="score-box-val score-green">7.5</div>
+          <div style="font-size:12px;color:var(--slate-400)">/10</div>
+        </div>
+        <div class="score-box">
+          <div class="score-box-label">Delivery</div>
+          <div class="score-box-val score-amber">6.0</div>
+          <div style="font-size:12px;color:var(--slate-400)">/10</div>
+        </div>
+      </div>
+
+      <div class="card" style="padding:0;overflow:hidden">
+        <div style="padding:20px 20px 16px" class="sy-3">
+          <div>
+            <div class="label-caps">What worked well</div>
+            <p class="briefing-text">Good use of the STAR framework. You clearly described the situation and your decision-making process. The result was quantified — 20% reduction in delivery time.</p>
+          </div>
+          <div>
+            <div class="label-caps">To improve</div>
+            <p class="briefing-text">Work on pacing — some long pauses between thoughts. Be more concise in the situation setup and get to your action sooner.</p>
+          </div>
+        </div>
+        <button class="expand-btn" id="t-fb" onclick="toggleExpand('b-fb','t-fb')">
+          <span class="expand-arrow" id="arr-fb">▶</span>&nbsp;Show model answer
+        </button>
+        <div id="b-fb" class="model-box" style="display:none">
+          <div class="model-label">Model answer</div>
+          <p class="model-text">I ran an ICE scoring workshop with all stakeholders to surface trade-offs transparently. We agreed to prioritise the sales integration (highest revenue impact), defer the onboarding redesign to Q3, and ring-fence 20% of engineering capacity for tech debt each sprint. The integration shipped 2 weeks early and the transparent process reduced friction going into the next planning cycle.</p>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px">
+        <button class="btn btn-secondary" style="flex:1" onclick="goto('s-iv-question')">Retry answer</button>
+        <button class="btn btn-primary" style="flex:1" onclick="goto('s-iv-completing')">Next question →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     INTERVIEW — COMPLETING
+════════════════════════════════════════════════ -->
+<div id="s-iv-completing" class="screen">
+  <div class="iv-wrap" style="text-align:center">
+    <div>
+      <div style="font-size:48px;margin-bottom:16px">🎉</div>
+      <h1 class="page-title" style="margin-bottom:8px">Interview complete!</h1>
+      <p class="page-subtitle" style="margin-bottom:28px">Generating your personalised results report…</p>
+      <div style="display:inline-flex;align-items:center;gap:10px;font-size:14px;color:var(--slate-500);margin-bottom:32px">
+        <div style="width:18px;height:18px;border-radius:50%;border:2px solid var(--navy);border-top-color:transparent" class="spin"></div>
+        Analysing 8 answers
+      </div>
+      <br>
+      <button class="btn btn-secondary btn-sm" onclick="goto('s-results')" style="margin-top:8px">View results →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     RESULTS
+════════════════════════════════════════════════ -->
+<div id="s-results" class="screen">
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <span class="nav-brand" onclick="goto('s-dashboard')">Interview Me</span>
+        <div class="nav-links">
+          <a class="nav-link" onclick="goto('s-dashboard')">Dashboard</a>
+          <a class="nav-link" onclick="goto('s-profile')">Profile &amp; CV</a>
+        </div>
+      </div>
+      <div class="nav-right">
+        <span class="nav-user">Irfan Ahmed</span>
+        <button class="btn-signout" onclick="goto('s-login')">Sign out</button>
+      </div>
+    </div>
+  </nav>
+  <div class="main-narrow">
+    <h1 class="page-title" style="margin-bottom:4px">Interview results</h1>
+    <p class="page-subtitle" style="margin-bottom:24px">Hiring manager · Mock Mode</p>
+
+    <div class="sy-6">
+
+      <!-- Score card -->
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <div class="label-caps" style="margin-bottom:6px">Overall score</div>
+            <div class="score-big score-green">7.4<span class="score-unit">/10</span></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px;text-align:right">
+            <div>
+              <div style="font-size:12px;color:var(--slate-400)">Content</div>
+              <div style="font-size:18px;font-weight:600;color:var(--slate-700)">7.8/10</div>
+            </div>
+            <div>
+              <div style="font-size:12px;color:var(--slate-400)">Delivery</div>
+              <div style="font-size:18px;font-weight:600;color:var(--slate-700)">7.0/10</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Report -->
+      <div class="card sy-4">
+        <div>
+          <div class="label-caps">Summary</div>
+          <p class="briefing-text">Strong product thinking and solid use of the STAR framework throughout. Examples were specific and results-oriented. Delivery was confident overall, though pacing varied — some answers ran long while others could have included more concrete evidence.</p>
+        </div>
+        <div>
+          <div class="label-caps">Strengths</div>
+          <div class="sy-1">
+            <div class="strength-item">✓ Quantified results in behavioural answers</div>
+            <div class="strength-item">✓ Clear articulation of product strategy and roadmap thinking</div>
+            <div class="strength-item">✓ Strong stakeholder communication examples</div>
+          </div>
+        </div>
+        <div>
+          <div class="label-caps">Areas to improve</div>
+          <div class="sy-1">
+            <div class="improvement-item">→ Reduce filler words and long pauses mid-answer</div>
+            <div class="improvement-item">→ Sharpen the Task element of STAR — ownership sometimes unclear</div>
+            <div class="improvement-item">→ Use more Acme-specific language to show research depth</div>
+          </div>
+        </div>
+        <div class="info-box">
+          <div class="info-box-label">Key focus</div>
+          <div class="info-box-text">Work on delivery pacing — record yourself answering behavioural questions and aim for 90–120 seconds per answer with no filler pauses.</div>
+        </div>
+      </div>
+
+      <!-- Answer breakdown -->
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div class="section-title" style="margin-bottom:0">Answer breakdown</div>
+          <button class="btn btn-secondary btn-sm">⬇ Cheat sheet</button>
+        </div>
+
+        <div class="sy-3">
+
+          <div style="border:1px solid var(--gray-200);border-radius:8px;background:var(--white);overflow:hidden">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:16px">
+              <div style="flex:1;min-width:0">
+                <div style="font-size:12px;color:var(--slate-400)">Q1 · Behavioural</div>
+                <p style="font-size:14px;font-weight:500;color:var(--slate-700);margin-top:4px">Tell me about yourself and why you're interested in this role at Acme Corp.</p>
+                <p style="font-size:12px;color:var(--slate-400);margin-top:6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">I'm a Senior PM with 6 years in B2B SaaS. I've led product at two growth-stage companies and I'm excited about Acme's trajectory…</p>
+              </div>
+              <div style="text-align:right;flex-shrink:0">
+                <div style="font-size:12px;color:var(--slate-500)">C: 8.0</div>
+                <div style="font-size:12px;color:var(--slate-500)">D: 7.5</div>
+              </div>
+            </div>
+            <button class="expand-btn" id="t-a1" onclick="toggleExpand('b-a1','t-a1')">
+              <span class="expand-arrow" id="arr-a1">▶</span>&nbsp;Show model answer
+            </button>
+            <div id="b-a1" class="model-box" style="display:none">
+              <div class="model-label">Model answer</div>
+              <p class="model-text">I'm a PM with 6 years of experience building B2B SaaS for enterprise customers. At my last company I led a procurement integration that cut customers' approval cycles by 40%. I'm drawn to Acme because you're solving a real operational pain point at scale, and the Series C stage means the roadmap I'd be shaping has meaningful business impact.</p>
+            </div>
+          </div>
+
+          <div style="border:1px solid var(--gray-200);border-radius:8px;background:var(--white);overflow:hidden">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:16px">
+              <div style="flex:1;min-width:0">
+                <div style="font-size:12px;color:var(--slate-400)">Q2 · Behavioural</div>
+                <p style="font-size:14px;font-weight:500;color:var(--slate-700);margin-top:4px">Describe a time you failed and what you learned from it.</p>
+                <p style="font-size:12px;color:var(--slate-400);margin-top:6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">We launched a feature that flopped because we didn't do enough user research upfront. I learned to always validate with at least 10 customer interviews before committing…</p>
+              </div>
+              <div style="text-align:right;flex-shrink:0">
+                <div style="font-size:12px;color:var(--slate-500)">C: 7.0</div>
+                <div style="font-size:12px;color:var(--slate-500)">D: 6.5</div>
+              </div>
+            </div>
+            <button class="expand-btn" id="t-a2" onclick="toggleExpand('b-a2','t-a2')">
+              <span class="expand-arrow" id="arr-a2">▶</span>&nbsp;Show model answer
+            </button>
+            <div id="b-a2" class="model-box" style="display:none">
+              <div class="model-label">Model answer</div>
+              <p class="model-text">I championed a self-serve onboarding redesign we shipped without including a free trial option. Conversion dropped 12% in two weeks. I owned the miss, ran rapid user testing, and shipped a free trial within 6 weeks — recovery brought conversion back to baseline. I now mandate a go/no-go checklist that includes at least one live user session before any onboarding change ships.</p>
+            </div>
+          </div>
+
+          <div style="border:1px solid var(--gray-200);border-radius:8px;background:var(--white);overflow:hidden">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:16px">
+              <div style="flex:1;min-width:0">
+                <div style="font-size:12px;color:var(--slate-400)">Q3 · Behavioural</div>
+                <p style="font-size:14px;font-weight:500;color:var(--slate-700);margin-top:4px">Tell me about a time you had to manage competing priorities from multiple stakeholders.</p>
+                <p style="font-size:12px;color:var(--slate-400);margin-top:6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical">Sales wanted a new integration, design wanted to overhaul onboarding, and engineering was pushing to reduce tech debt. I ran an ICE scoring workshop…</p>
+              </div>
+              <div style="text-align:right;flex-shrink:0">
+                <div style="font-size:12px;color:var(--slate-500)">C: 7.5</div>
+                <div style="font-size:12px;color:var(--slate-500)">D: 6.0</div>
+              </div>
+            </div>
+            <button class="expand-btn" id="t-a3" onclick="toggleExpand('b-a3','t-a3')">
+              <span class="expand-arrow" id="arr-a3">▶</span>&nbsp;Show model answer
+            </button>
+            <div id="b-a3" class="model-box" style="display:none">
+              <div class="model-label">Model answer</div>
+              <p class="model-text">I ran an ICE scoring workshop with all stakeholders to surface trade-offs transparently. We agreed to prioritise the integration (highest revenue impact), defer onboarding to Q3, and ring-fence 20% of eng for tech debt each sprint. The integration shipped 2 weeks early and the transparent process reduced stakeholder friction going into the next planning cycle.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div style="text-align:center;padding:8px 0 40px">
+        <a style="font-size:14px;color:var(--navy);cursor:pointer;text-decoration:none" onclick="goto('s-dashboard')">← Back to dashboard</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     SIDE ARROWS
+════════════════════════════════════════════════ -->
+<button class="arrow-btn left"  onclick="prevScreen()" title="Previous screen">&#8592;</button>
+<button class="arrow-btn right" onclick="nextScreen()" title="Next screen">&#8594;</button>
+
+<!-- ═══════════════════════════════════════════════
+     BOTTOM NAV BAR
+════════════════════════════════════════════════ -->
+<div class="screen-bar" id="screen-bar">
+  <button class="screen-pill current" data-target="s-login"       onclick="goto('s-login')">Login</button>
+  <button class="screen-pill"         data-target="s-signup"      onclick="goto('s-signup')">Signup</button>
+  <button class="screen-pill"         data-target="s-dashboard"   onclick="goto('s-dashboard')">Dashboard</button>
+  <button class="screen-pill"         data-target="s-profile"     onclick="goto('s-profile')">Profile</button>
+  <button class="screen-pill"         data-target="s-jd"          onclick="goto('s-jd')">1&thinsp;JD</button>
+  <button class="screen-pill"         data-target="s-company"     onclick="goto('s-company')">2&thinsp;Company</button>
+  <button class="screen-pill"         data-target="s-setup"       onclick="goto('s-setup')">3&thinsp;Setup</button>
+  <button class="screen-pill"         data-target="s-briefing"    onclick="goto('s-briefing')">4&thinsp;Briefing</button>
+  <button class="screen-pill"         data-target="s-iv-intro"    onclick="goto('s-iv-intro')">IV&thinsp;Intro</button>
+  <button class="screen-pill"         data-target="s-iv-question" onclick="goto('s-iv-question')">IV&thinsp;Question</button>
+  <button class="screen-pill"         data-target="s-iv-processing" onclick="goto('s-iv-processing')">IV&thinsp;Processing</button>
+  <button class="screen-pill"         data-target="s-iv-feedback" onclick="goto('s-iv-feedback')">IV&thinsp;Feedback</button>
+  <button class="screen-pill"         data-target="s-iv-completing" onclick="goto('s-iv-completing')">IV&thinsp;Completing</button>
+  <button class="screen-pill"         data-target="s-results"     onclick="goto('s-results')">Results</button>
+</div>
+
+<script>
+const ALL = [
+  's-login','s-signup','s-dashboard','s-profile',
+  's-jd','s-company','s-setup','s-briefing',
+  's-iv-intro','s-iv-question','s-iv-processing','s-iv-feedback','s-iv-completing',
+  's-results'
+];
+
+function goto(id) {
+  ALL.forEach(s => document.getElementById(s).classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+  document.querySelectorAll('.screen-pill').forEach(p => {
+    p.classList.toggle('current', p.dataset.target === id);
+  });
+}
+
+function prevScreen() {
+  const idx = ALL.indexOf(ALL.find(s => document.getElementById(s).classList.contains('active')));
+  goto(ALL[(idx - 1 + ALL.length) % ALL.length]);
+}
+
+function nextScreen() {
+  const idx = ALL.indexOf(ALL.find(s => document.getElementById(s).classList.contains('active')));
+  goto(ALL[(idx + 1) % ALL.length]);
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowLeft')  prevScreen();
+  if (e.key === 'ArrowRight') nextScreen();
+});
+
+function pickRadio(el, name) {
+  document.querySelectorAll('input[name="' + name + '"]').forEach(r => {
+    r.closest('.radio-opt').classList.remove('selected');
+  });
+  el.querySelector('input').checked = true;
+  el.classList.add('selected');
+}
+
+function toggleExpand(bodyId, btnId) {
+  var body  = document.getElementById(bodyId);
+  var btn   = document.getElementById(btnId);
+  var arrow = btn.querySelector('.expand-arrow');
+  var open  = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  arrow.style.transform = open ? '' : 'rotate(90deg)';
+  // update text node
+  var nodes = btn.childNodes;
+  for (var i = 0; i < nodes.length; i++) {
+    if (nodes[i].nodeType === 3 && nodes[i].textContent.trim()) {
+      nodes[i].textContent = ' ' + (open ? 'Show model answer' : 'Hide model answer');
+    }
+  }
+}
+
+document.body.style.paddingBottom = '52px';
+</script>
+</body>
+</html>

@@ -133,4 +133,23 @@ const PROJECTS = [
     },
     complexity: { backend: 25, frontend: 90, ai: 15 },
   },
+  {
+    id:          'interview-me',
+    week:        8,
+    title:       'Interview Me',
+    category:    'Web App · AI',
+    tagline:     'AI that interviews you before the real thing',
+    description: 'AI-powered mock interview platform. Paste a job description, get a personalised briefing, then practice with an AI interviewer that speaks questions aloud, scores your answers, and tells you exactly how to improve.',
+    icon:        '🎙️',
+    tags:        ['Next.js 16', 'React 19', 'Supabase', 'OpenAI'],
+    status:      'Beta Testing',
+    buildCost:   '~$20',
+    monthlyCost: '~$3–$8',
+    page:        'interview-me.html',
+    skills: {
+      confident: ['Next.js 16', 'Supabase', 'Full-Stack Development', 'AI Prompt Engineering'],
+      learning:  ['Web Speech API', 'TTS Audio Pipeline', 'AI Evaluation Rubrics'],
+    },
+    complexity: { backend: 80, frontend: 75, ai: 85 },
+  },
 ];

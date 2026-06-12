@@ -40,8 +40,8 @@ function renderTimeline() {
   // Coming-soon teaser for next week
   const nextWeek = PROJECTS.length + 1;
   const teaserLines = [
-    `Week ${nextWeek} is in the works. Dropping this Friday.`,
-    `Something new is brewing for Week ${nextWeek}.`,
+    `Week ${nextWeek} is in the works. Dropping Friday 12 Jun.`,
+    `Something new is brewing for Week ${nextWeek}. Out 12 Jun.`,
     `A new problem. A new build. Week ${nextWeek} coming soon.`,
     `The next one's already underway. Watch this space.`,
   ];
