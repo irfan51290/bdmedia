@@ -1,49 +1,35 @@
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 import { PageHeader } from "@/components/layout/page-header";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { SalesPipeline } from "@/components/sales/sales-pipeline";
 
-const stages = ["new", "contacted", "proposal", "negotiation", "won", "lost"];
+export default async function SalesPage() {
+  const supabase = await createClient();
 
-const stageColors: Record<string, string> = {
-  new:         "bg-brand-yellow text-black",
-  contacted:   "bg-brand-mint text-black",
-  proposal:    "bg-brand-teal text-white",
-  negotiation: "bg-brand-orange text-white",
-  won:         "bg-green-500 text-white",
-  lost:        "bg-brand-coral text-white",
-};
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
 
-export default function SalesPage() {
+  const [{ data: leads, error: leadsError }, { data: clients }] =
+    await Promise.all([
+      supabase
+        .from("leads")
+        .select("*")
+        .order("created_at", { ascending: false }),
+      supabase.from("clients").select("id, name").order("name"),
+    ]);
+
+  if (leadsError) throw new Error(leadsError.message);
+
   return (
     <>
       <PageHeader
         title="Sales Pipeline"
-        description="Track leads from first contact to closed deal."
-        actions={
-          <Button className="neu-btn bg-brand-yellow text-black font-bold rounded-sm h-8 px-3 text-xs">
-            <Plus className="w-3.5 h-3.5 mr-1" />
-            New Lead
-          </Button>
-        }
+        description={`${leads?.length ?? 0} lead${leads?.length !== 1 ? "s" : ""}`}
       />
       <main className="flex-1 p-6 overflow-x-auto">
-        <div className="flex gap-4 min-w-max">
-          {stages.map((stage) => (
-            <div key={stage} className="w-64 flex flex-col gap-3">
-              <div
-                className={`neu-card-sm rounded-sm px-3 py-2 flex items-center justify-between ${stageColors[stage]}`}
-              >
-                <span className="text-xs font-extrabold uppercase tracking-widest">
-                  {stage}
-                </span>
-                <span className="text-xs font-bold opacity-70">0</span>
-              </div>
-              <div className="neu-card rounded-sm p-4 bg-card min-h-24 flex items-center justify-center">
-                <p className="text-xs text-muted-foreground">No leads</p>
-              </div>
-            </div>
-          ))}
-        </div>
+        <SalesPipeline leads={leads ?? []} clients={clients ?? []} />
       </main>
     </>
   );
