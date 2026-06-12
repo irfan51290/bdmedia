@@ -1,61 +1,56 @@
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 import { PageHeader } from "@/components/layout/page-header";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { FinanceDashboard } from "@/components/finance/finance-dashboard";
+import type { Database } from "@/lib/supabase/database.types";
 
-const tabs = ["Invoices", "Expenses", "Ledger"];
+type InvoiceRow = Database["public"]["Tables"]["invoices"]["Row"];
+type LineItemRow = Database["public"]["Tables"]["line_items"]["Row"];
+type InvoiceWithItems = InvoiceRow & { line_items: LineItemRow[] };
 
-export default function FinancePage() {
+export default async function FinancePage() {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+
+  const [
+    { data: rawInvoices, error: invError },
+    { data: expenses },
+    { data: clients },
+    { data: projects },
+  ] = await Promise.all([
+    supabase
+      .from("invoices")
+      .select("*, line_items(*)")
+      .order("created_at", { ascending: false }),
+    supabase
+      .from("expenses")
+      .select("*")
+      .order("date", { ascending: false }),
+    supabase.from("clients").select("id, name").order("name"),
+    supabase.from("projects").select("id, title").order("title"),
+  ]);
+
+  if (invError) throw new Error(invError.message);
+
+  const invoices = (rawInvoices ?? []) as unknown as InvoiceWithItems[];
+
   return (
     <>
       <PageHeader
         title="Finance"
-        description="Invoices, expenses, and your P&L ledger."
-        actions={
-          <Button className="neu-btn bg-brand-teal text-white font-bold rounded-sm h-8 px-3 text-xs">
-            <Plus className="w-3.5 h-3.5 mr-1" />
-            New Invoice
-          </Button>
-        }
+        description="Invoices, expenses, and your P&amp;L ledger."
       />
       <main className="flex-1 p-6">
-        {/* Tab bar */}
-        <div className="flex gap-2 mb-6">
-          {tabs.map((tab, i) => (
-            <button
-              key={tab}
-              className={`neu-btn rounded-sm px-4 py-2 text-sm font-bold cursor-pointer ${
-                i === 0
-                  ? "bg-brand-teal text-white"
-                  : "bg-card text-foreground"
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
-
-        {/* Summary bento */}
-        <div className="bento-grid mb-6">
-          {[
-            { label: "Total Billed",     value: "SGD 0", bg: "bg-brand-teal text-white" },
-            { label: "Paid",             value: "SGD 0", bg: "bg-brand-mint text-black" },
-            { label: "Outstanding",      value: "SGD 0", bg: "bg-brand-yellow text-black" },
-            { label: "Total Expenses",   value: "SGD 0", bg: "bg-brand-coral text-white" },
-          ].map((s) => (
-            <div key={s.label} className={`neu-card rounded-sm p-5 ${s.bg}`}>
-              <p className="text-xs font-semibold uppercase tracking-widest opacity-70">
-                {s.label}
-              </p>
-              <p className="text-3xl font-extrabold mt-2">{s.value}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className="neu-card rounded-sm p-6 bg-card">
-          <p className="text-muted-foreground text-sm">
-            No invoices yet. Create your first invoice to get started.
-          </p>
-        </div>
+        <FinanceDashboard
+          invoices={invoices}
+          expenses={expenses ?? []}
+          clients={clients ?? []}
+          projects={projects ?? []}
+        />
       </main>
     </>
   );
