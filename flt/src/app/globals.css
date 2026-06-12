@@ -1,0 +1,239 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* =============================================================
+   FreelanceOS (FLT) — Design System
+   Style: Neubrutalism × Bento Grid
+   Typography: Plus Jakarta Sans
+   ============================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
+
+@theme inline {
+  /* ---------- Typography ---------- */
+  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono);
+  --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
+
+  /* ---------- Semantic color aliases (Tailwind v4) ---------- */
+  --color-background:  var(--background);
+  --color-foreground:  var(--foreground);
+  --color-card:        var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover:     var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary:     var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary:   var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted:       var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent:      var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border:      var(--border);
+  --color-input:       var(--input);
+  --color-ring:        var(--ring);
+
+  /* Brand accent swatches (direct use: bg-brand-yellow, etc.) */
+  --color-brand-yellow: #FFEB3B;
+  --color-brand-coral:  #FF6B6B;
+  --color-brand-mint:   #4ECDC4;
+  --color-brand-orange: #F97316;
+  --color-brand-teal:   #0D9488;
+
+  /* Neubrutalism tokens */
+  --color-neu-border:  #000000;
+  --color-neu-shadow:  #000000;
+  --neu-border-width:  3px;
+  --neu-shadow-sm:     3px 3px 0 #000;
+  --neu-shadow-md:     4px 4px 0 #000;
+  --neu-shadow-lg:     6px 6px 0 #000;
+
+  /* Sidebar */
+  --color-sidebar-ring:               var(--sidebar-ring);
+  --color-sidebar-border:             var(--sidebar-border);
+  --color-sidebar-accent-foreground:  var(--sidebar-accent-foreground);
+  --color-sidebar-accent:             var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary:            var(--sidebar-primary);
+  --color-sidebar-foreground:         var(--sidebar-foreground);
+  --color-sidebar:                    var(--sidebar);
+
+  /* Charts */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Radius (neubrutalism uses sharp-ish corners) */
+  --radius-sm:  4px;
+  --radius-md:  6px;
+  --radius-lg:  8px;
+  --radius-xl:  12px;
+  --radius-2xl: 16px;
+  --radius-3xl: 20px;
+  --radius-4xl: 24px;
+}
+
+/* =============================================================
+   Light Mode — FLT Palette
+   ============================================================= */
+:root {
+  --background:          #FAFAF9;
+  --foreground:          #0C0A09;
+  --card:                #FFFFFF;
+  --card-foreground:     #0C0A09;
+  --popover:             #FFFFFF;
+  --popover-foreground:  #0C0A09;
+
+  /* Primary = Teal */
+  --primary:             #0D9488;
+  --primary-foreground:  #FFFFFF;
+
+  /* Secondary = soft warm */
+  --secondary:           #F5F0EB;
+  --secondary-foreground:#0C0A09;
+
+  --muted:               #F5F0EB;
+  --muted-foreground:    #78716C;
+
+  /* Accent = orange */
+  --accent:              #F97316;
+  --accent-foreground:   #FFFFFF;
+
+  --destructive:         #EF4444;
+  --border:              #000000;
+  --input:               #000000;
+  --ring:                #0D9488;
+  --radius:              0.5rem;
+
+  /* Charts — vibrant neubrutalism palette */
+  --chart-1: #0D9488;
+  --chart-2: #F97316;
+  --chart-3: #FFEB3B;
+  --chart-4: #FF6B6B;
+  --chart-5: #4ECDC4;
+
+  /* Sidebar */
+  --sidebar:                    #0C0A09;
+  --sidebar-foreground:         #FAFAF9;
+  --sidebar-primary:            #FFEB3B;
+  --sidebar-primary-foreground: #0C0A09;
+  --sidebar-accent:             #1C1917;
+  --sidebar-accent-foreground:  #FAFAF9;
+  --sidebar-border:             #292524;
+  --sidebar-ring:               #0D9488;
+}
+
+/* =============================================================
+   Dark Mode
+   ============================================================= */
+.dark {
+  --background:          #0C0A09;
+  --foreground:          #FAFAF9;
+  --card:                #1C1917;
+  --card-foreground:     #FAFAF9;
+  --popover:             #1C1917;
+  --popover-foreground:  #FAFAF9;
+  --primary:             #14B8A6;
+  --primary-foreground:  #0C0A09;
+  --secondary:           #292524;
+  --secondary-foreground:#FAFAF9;
+  --muted:               #292524;
+  --muted-foreground:    #A8A29E;
+  --accent:              #FB923C;
+  --accent-foreground:   #0C0A09;
+  --destructive:         #F87171;
+  --border:              #ffffff33;
+  --input:               #ffffff1a;
+  --ring:                #14B8A6;
+
+  --chart-1: #14B8A6;
+  --chart-2: #FB923C;
+  --chart-3: #FDE047;
+  --chart-4: #F87171;
+  --chart-5: #67E8F9;
+
+  --sidebar:                    #0C0A09;
+  --sidebar-foreground:         #FAFAF9;
+  --sidebar-primary:            #FFEB3B;
+  --sidebar-primary-foreground: #0C0A09;
+  --sidebar-accent:             #1C1917;
+  --sidebar-accent-foreground:  #FAFAF9;
+  --sidebar-border:             #292524;
+  --sidebar-ring:               #14B8A6;
+}
+
+/* =============================================================
+   Base layer
+   ============================================================= */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+  html {
+    @apply font-sans;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight;
+  }
+}
+
+/* =============================================================
+   Neubrutalism utility classes
+   ============================================================= */
+@layer utilities {
+  /* Hard shadow cards */
+  .neu-card {
+    border: var(--neu-border-width) solid var(--color-neu-border);
+    box-shadow: var(--neu-shadow-md);
+    transition: box-shadow 150ms ease, transform 150ms ease;
+  }
+  .neu-card:hover {
+    box-shadow: var(--neu-shadow-lg);
+    transform: translate(-1px, -1px);
+  }
+  .neu-card-sm {
+    border: 2px solid var(--color-neu-border);
+    box-shadow: var(--neu-shadow-sm);
+  }
+  .neu-btn {
+    border: var(--neu-border-width) solid var(--color-neu-border);
+    box-shadow: var(--neu-shadow-sm);
+    transition: box-shadow 100ms ease, transform 100ms ease;
+  }
+  .neu-btn:hover {
+    box-shadow: 2px 2px 0 #000;
+    transform: translate(1px, 1px);
+  }
+  .neu-btn:active {
+    box-shadow: none;
+    transform: translate(3px, 3px);
+  }
+
+  /* Bento grid helpers */
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .bento-span-2 { grid-column: span 2; }
+  .bento-span-3 { grid-column: span 3; }
+  .bento-span-4 { grid-column: span 4; }
+  .bento-row-2  { grid-row: span 2; }
+
+  /* Status badge colours */
+  .status-active    { @apply bg-brand-teal text-white; }
+  .status-draft     { @apply bg-brand-yellow text-black; }
+  .status-overdue   { @apply bg-brand-coral text-white; }
+  .status-completed { @apply bg-brand-mint text-black; }
+  .status-paused    { @apply bg-muted text-muted-foreground; }
+}
