@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FLT — Your freelance business HQ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.1.0/tabler-icons.min.css" />
+<style>
+  :root{
+    --ink:#111111;
+    --cream:#FBF6EC;
+    --lime:#C8FF4D;
+    --coral:#FF6B4A;
+    --sky:#5EC8FF;
+    --violet:#9A8CFF;
+    --pink:#FF8FCB;
+    --line:#111111;
+    --shadow-offset:6px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{font-family:'DM Sans', sans-serif; background:var(--cream); color:var(--ink); line-height:1.5;}
+  h1,h2,h3,h4,.display{font-family:'Space Grotesk', sans-serif; font-weight:700; letter-spacing:-0.02em;}
+
+  .wrap{max-width:1160px; margin:0 auto; padding:0 24px;}
+
+  /* NAV */
+  nav{display:flex; align-items:center; justify-content:space-between; padding:24px 0;}
+  .logo{display:flex; align-items:center; gap:10px;}
+  .logo-mark{width:38px; height:38px; background:var(--ink); border-radius:10px; display:flex; align-items:center; justify-content:center; color:var(--lime); font-weight:700; font-family:'Space Grotesk',sans-serif; font-size:18px; border:2px solid var(--ink);}
+  .logo-text{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:20px;}
+  .nav-links{display:flex; gap:28px; align-items:center;}
+  .nav-links a{color:var(--ink); text-decoration:none; font-weight:500; font-size:15px;}
+  .pill-badge{background:var(--ink); color:var(--lime); font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:700; padding:6px 14px; border-radius:99px; text-transform:uppercase; letter-spacing:0.08em;}
+
+  /* HERO */
+  .hero{padding:60px 0 70px; display:grid; grid-template-columns:1.1fr 0.9fr; gap:48px; align-items:center;}
+  .hero-tag{display:inline-flex; align-items:center; gap:8px; background:var(--lime); border:2px solid var(--ink); padding:6px 14px; border-radius:99px; font-size:13px; font-weight:700; margin-bottom:24px; box-shadow:3px 3px 0 var(--ink);}
+  .hero h1{font-size:54px; line-height:1.05; margin-bottom:20px;}
+  .hero h1 span{background:var(--coral); padding:0 10px; box-shadow:5px 5px 0 var(--ink); display:inline-block; transform:rotate(-1deg); border:2px solid var(--ink);}
+  .hero p{font-size:18px; color:#444; max-width:480px; margin-bottom:28px;}
+  .cta-row{display:flex; gap:14px; align-items:center;}
+  .btn{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; padding:14px 26px; border-radius:12px; border:2px solid var(--ink); cursor:pointer; text-decoration:none; display:inline-flex; align-items:center; gap:8px; transition:transform 0.1s ease;}
+  .btn-primary{background:var(--ink); color:var(--cream); box-shadow:5px 5px 0 var(--coral);}
+  .btn-secondary{background:var(--cream); color:var(--ink); box-shadow:5px 5px 0 var(--ink);}
+  .btn:active{transform:translate(3px,3px); box-shadow:0 0 0 transparent !important;}
+  .vote-note{font-size:13px; color:#666; margin-top:14px; display:flex; align-items:center; gap:6px;}
+
+  /* HERO VISUAL - mini dashboard preview */
+  .hero-visual{position:relative;}
+  .browser-frame{background:#fff; border:2.5px solid var(--ink); border-radius:16px; box-shadow:10px 10px 0 var(--ink); overflow:hidden; transform:rotate(1.5deg);}
+  .browser-bar{display:flex; align-items:center; gap:6px; padding:10px 14px; border-bottom:2px solid var(--ink); background:var(--cream);}
+  .browser-dot{width:10px; height:10px; border-radius:50%; border:1.5px solid var(--ink);}
+  .browser-dot.r{background:var(--coral);} .browser-dot.y{background:var(--lime);} .browser-dot.g{background:var(--sky);}
+
+  /* MOCK APP */
+  .app{display:flex; font-size:12px; min-height:380px;}
+  .sidebar{width:130px; background:var(--ink); color:var(--cream); padding:16px 12px; display:flex; flex-direction:column; gap:4px;}
+  .sb-logo{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; color:var(--lime); margin-bottom:14px;}
+  .sb-section{font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:#888; margin:10px 0 4px;}
+  .sb-item{display:flex; align-items:center; gap:8px; padding:7px 8px; border-radius:8px; font-size:12px; font-weight:500;}
+  .sb-item.active{background:var(--lime); color:var(--ink);}
+  .sb-dot{width:7px; height:7px; border-radius:50%;}
+  .main{flex:1; padding:18px; background:var(--cream);}
+  .main-title{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:18px; margin-bottom:2px;}
+  .main-sub{color:#777; font-size:12px; margin-bottom:14px;}
+  .metric-row{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:14px;}
+  .metric{background:#fff; border:2px solid var(--ink); border-radius:10px; padding:10px; box-shadow:3px 3px 0 var(--ink);}
+  .metric-val{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:18px;}
+  .metric-label{font-size:10px; color:#777; margin-top:2px;}
+  .dept-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:10px;}
+  .dept-card{border:2px solid var(--ink); border-radius:12px; padding:12px; box-shadow:4px 4px 0 var(--ink);}
+  .dept-head{display:flex; align-items:center; gap:8px; margin-bottom:8px; font-weight:700; font-family:'Space Grotesk',sans-serif; font-size:13px;}
+  .dept-icon{width:26px; height:26px; border-radius:7px; border:2px solid var(--ink); display:flex; align-items:center; justify-content:center; font-size:13px;}
+  .dept-stats{display:flex; gap:8px;}
+  .dept-stat{flex:1; background:rgba(0,0,0,0.04); border-radius:8px; padding:6px 8px;}
+  .dept-stat-val{font-weight:700; font-family:'Space Grotesk',sans-serif; font-size:14px;}
+  .dept-stat-label{font-size:9px; color:#777;}
+
+  /* floating chips */
+  .float-chip{position:absolute; background:#fff; border:2px solid var(--ink); border-radius:12px; padding:10px 14px; box-shadow:5px 5px 0 var(--ink); font-size:13px; font-weight:700; font-family:'Space Grotesk',sans-serif; display:flex; align-items:center; gap:8px;}
+  .chip-1{top:-20px; right:30px; transform:rotate(-4deg); background:var(--sky);}
+  .chip-2{bottom:-22px; left:-20px; transform:rotate(3deg); background:var(--pink);}
+
+  /* SECTION: Why FLT */
+  .section{padding:70px 0;}
+  .section-head{text-align:center; max-width:640px; margin:0 auto 48px;}
+  .section-head .tag{display:inline-block; background:var(--violet); color:#fff; font-size:12px; font-weight:700; padding:5px 14px; border-radius:99px; border:2px solid var(--ink); margin-bottom:16px;}
+  .section-head h2{font-size:38px; margin-bottom:12px;}
+  .section-head p{color:#555; font-size:17px;}
+
+  .feature-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:18px;}
+  .feature-card{background:#fff; border:2.5px solid var(--ink); border-radius:16px; padding:22px; box-shadow:6px 6px 0 var(--ink); transition:transform 0.15s, box-shadow 0.15s;}
+  .feature-card:hover{transform:translate(-2px,-2px); box-shadow:8px 8px 0 var(--ink);}
+  .feature-icon{width:46px; height:46px; border-radius:12px; border:2px solid var(--ink); display:flex; align-items:center; justify-content:center; font-size:22px; margin-bottom:14px;}
+  .feature-card h3{font-size:17px; margin-bottom:8px;}
+  .feature-card p{font-size:13.5px; color:#555; line-height:1.6;}
+
+  .bg-lime{background:var(--lime);}
+  .bg-coral{background:var(--coral); color:#fff;}
+  .bg-sky{background:var(--sky);}
+  .bg-pink{background:var(--pink);}
+  .bg-violet{background:var(--violet); color:#fff;}
+
+  /* JOURNEY / TIMELINE */
+  .journey{display:flex; gap:0; position:relative; margin-top:10px;}
+  .journey-step{flex:1; text-align:center; position:relative; padding:0 10px;}
+  .journey-step:not(:last-child)::after{content:""; position:absolute; top:24px; right:-10px; width:50%; height:3px; background:var(--ink); border-radius:2px;}
+  .journey-num{width:48px; height:48px; border-radius:50%; border:2.5px solid var(--ink); background:#fff; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:18px; margin:0 auto 14px; box-shadow:4px 4px 0 var(--ink); position:relative; z-index:2;}
+  .journey-step h4{font-size:14px; margin-bottom:6px;}
+  .journey-step p{font-size:12.5px; color:#666; line-height:1.5;}
+
+  /* PERSONA SPLIT */
+  .persona-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px;}
+  .persona-card{border:2.5px solid var(--ink); border-radius:18px; padding:28px; box-shadow:7px 7px 0 var(--ink);}
+  .persona-card .tag-row{display:flex; flex-wrap:wrap; gap:6px; margin-top:14px;}
+  .persona-tag{font-size:12px; font-weight:700; padding:4px 12px; border-radius:99px; border:1.5px solid var(--ink); background:#fff;}
+  .persona-card h3{font-size:22px; margin-bottom:10px;}
+  .persona-card p{font-size:14px; color:#444;}
+
+  /* VOTE CTA */
+  .vote-section{background:var(--ink); color:var(--cream); padding:70px 0; border-radius:28px; margin:40px auto 60px; text-align:center;}
+  .vote-section h2{color:var(--cream); font-size:38px; margin-bottom:14px;}
+  .vote-section p{color:#bbb; font-size:16px; max-width:520px; margin:0 auto 28px;}
+  .vote-section .btn-primary{background:var(--lime); color:var(--ink); box-shadow:5px 5px 0 var(--coral);}
+
+  footer{padding:32px 0 50px; text-align:center; color:#888; font-size:13px;}
+
+  @media (max-width: 880px){
+    .hero{grid-template-columns:1fr; padding-top:30px;}
+    .hero h1{font-size:38px;}
+    .feature-grid{grid-template-columns:repeat(2,1fr);}
+    .journey{flex-direction:column; gap:24px;}
+    .journey-step:not(:last-child)::after{display:none;}
+    .persona-grid{grid-template-columns:1fr;}
+    .app{flex-direction:column;}
+    .sidebar{display:none;}
+    .dept-grid{grid-template-columns:1fr;}
+    .metric-row{grid-template-columns:repeat(2,1fr);}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">
+      <div class="logo-mark">F</div>
+      <div class="logo-text">FLT</div>
+    </div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#journey">How it works</a>
+      <a href="#personas">Who it's for</a>
+      <span class="pill-badge">In development</span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <div class="hero-tag"><i class="ti ti-sparkles" aria-hidden="true"></i> New project · vote to prioritise</div>
+      <h1>Run your freelance like a <span>business</span>, not a side hustle.</h1>
+      <p>FLT gives every freelancer their own business HQ — sales, finance, projects, and marketing departments in one simple dashboard. Built for people just starting out, and for those ready to scale.</p>
+      <div class="cta-row">
+        <a href="#" class="btn btn-primary"><i class="ti ti-thumb-up" aria-hidden="true"></i> Vote for this project</a>
+        <a href="#features" class="btn btn-secondary">See how it works</a>
+      </div>
+      <div class="vote-note"><i class="ti ti-bulb" aria-hidden="true"></i> Your vote helps decide what gets built next on bdmedia.net</div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="browser-frame">
+        <div class="browser-bar">
+          <div class="browser-dot r"></div>
+          <div class="browser-dot y"></div>
+          <div class="browser-dot g"></div>
+        </div>
+        <div class="app">
+          <div class="sidebar">
+            <div class="sb-logo">FLT</div>
+            <div class="sb-item active"><i class="ti ti-home" aria-hidden="true"></i> Dashboard</div>
+            <div class="sb-section">Departments</div>
+            <div class="sb-item"><span class="sb-dot" style="background:var(--violet)"></span> Sales</div>
+            <div class="sb-item"><span class="sb-dot" style="background:var(--lime)"></span> Finance</div>
+            <div class="sb-item"><span class="sb-dot" style="background:var(--sky)"></span> Projects</div>
+            <div class="sb-item"><span class="sb-dot" style="background:var(--pink)"></span> Marketing</div>
+          </div>
+          <div class="main">
+            <div class="main-title">Morning, Irfan</div>
+            <div class="main-sub">Your business at a glance</div>
+            <div class="metric-row">
+              <div class="metric"><div class="metric-val">$2.4k</div><div class="metric-label">Revenue this month</div></div>
+              <div class="metric"><div class="metric-val">$850</div><div class="metric-label">Outstanding</div></div>
+              <div class="metric"><div class="metric-val">3</div><div class="metric-label">Active projects</div></div>
+              <div class="metric"><div class="metric-val">4</div><div class="metric-label">Open leads</div></div>
+            </div>
+            <div class="dept-grid">
+              <div class="dept-card">
+                <div class="dept-head"><span class="dept-icon bg-violet"><i class="ti ti-user-dollar" aria-hidden="true"></i></span> Sales</div>
+                <div class="dept-stats">
+                  <div class="dept-stat"><div class="dept-stat-val">4</div><div class="dept-stat-label">Leads</div></div>
+                  <div class="dept-stat"><div class="dept-stat-val">60%</div><div class="dept-stat-label">Win rate</div></div>
+                </div>
+              </div>
+              <div class="dept-card">
+                <div class="dept-head"><span class="dept-icon bg-lime"><i class="ti ti-receipt-2" aria-hidden="true"></i></span> Finance</div>
+                <div class="dept-stats">
+                  <div class="dept-stat"><div class="dept-stat-val">$2.4k</div><div class="dept-stat-label">This month</div></div>
+                  <div class="dept-stat"><div class="dept-stat-val">$850</div><div class="dept-stat-label">Owed</div></div>
+                </div>
+              </div>
+              <div class="dept-card">
+                <div class="dept-head"><span class="dept-icon bg-sky"><i class="ti ti-layout-kanban" aria-hidden="true"></i></span> Projects</div>
+                <div class="dept-stats">
+                  <div class="dept-stat"><div class="dept-stat-val">3</div><div class="dept-stat-label">Active</div></div>
+                  <div class="dept-stat"><div class="dept-stat-val">$57</div><div class="dept-stat-label">Avg $/hr</div></div>
+                </div>
+              </div>
+              <div class="dept-card">
+                <div class="dept-head"><span class="dept-icon bg-pink"><i class="ti ti-speakerphone" aria-hidden="true"></i></span> Marketing</div>
+                <div class="dept-stats">
+                  <div class="dept-stat"><div class="dept-stat-val">3</div><div class="dept-stat-label">Posts</div></div>
+                  <div class="dept-stat"><div class="dept-stat-val">5</div><div class="dept-stat-label">Portfolio</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="float-chip chip-1"><i class="ti ti-brand-telegram" aria-hidden="true"></i> 9am briefing sent</div>
+      <div class="float-chip chip-2"><i class="ti ti-file-invoice" aria-hidden="true"></i> Invoice auto-generated</div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="section" id="features">
+    <div class="section-head">
+      <span class="tag">What's inside</span>
+      <h2>Four departments. One dashboard.</h2>
+      <p>Everything a freelancer needs to operate like a real business — without the overwhelm of enterprise tools built for teams.</p>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon bg-violet"><i class="ti ti-user-dollar" aria-hidden="true"></i></div>
+        <h3>Sales</h3>
+        <p>Lead pipeline, AI-generated proposals, scope of work templates, and a referral tracker so word-of-mouth never gets lost.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon bg-lime"><i class="ti ti-receipt-2" aria-hidden="true"></i></div>
+        <h3>Finance</h3>
+        <p>One-click invoices that auto-fill from your profile, a credit &amp; debit ledger, expense tracking, and savings prompts on every payment.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon bg-sky"><i class="ti ti-layout-kanban" aria-hidden="true"></i></div>
+        <h3>Projects</h3>
+        <p>Kanban board, clock in/out per task, revision round counters, and an honest effective hourly rate for every project — fixed or hourly.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon bg-pink"><i class="ti ti-speakerphone" aria-hidden="true"></i></div>
+        <h3>Marketing</h3>
+        <p>Content calendar, AI post ideas tailored to your niche, portfolio tracker, and a bio builder for your socials.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon bg-coral"><i class="ti ti-brand-telegram" aria-hidden="true"></i></div>
+        <h3>Telegram briefings</h3>
+        <p>Every morning at 9am, get a message on what needs your attention — overdue invoices, cold leads, upcoming deadlines.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon bg-violet"><i class="ti ti-seedling" aria-hidden="true"></i></div>
+        <h3>Guided onboarding</h3>
+        <p>New to freelancing? A step-by-step checklist teaches you what running a freelance business actually involves.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon bg-lime"><i class="ti ti-file-description" aria-hidden="true"></i></div>
+        <h3>Contracts made simple</h3>
+        <p>Pre-built scope of work templates by service type — protect yourself from scope creep before work even begins.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon bg-sky"><i class="ti ti-clock-dollar" aria-hidden="true"></i></div>
+        <h3>Know your real rate</h3>
+        <p>For fixed-price projects, FLT shows your actual hourly rate based on time logged — no judgement, just the number.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOURNEY -->
+  <section class="section" id="journey">
+    <div class="section-head">
+      <span class="tag" style="background:var(--coral); color:#fff;">The loop</span>
+      <h2>From lead to paid, automatically.</h2>
+      <p>One signed scope of work creates the project. One completed project creates the invoice. Nothing falls through the cracks.</p>
+    </div>
+    <div class="journey">
+      <div class="journey-step">
+        <div class="journey-num">1</div>
+        <h4>Lead comes in</h4>
+        <p>Added to your pipeline, proposal generated by AI from a short brief.</p>
+      </div>
+      <div class="journey-step">
+        <div class="journey-num">2</div>
+        <h4>Scope signed</h4>
+        <p>Project auto-created with deliverables, deadlines, and revision limits.</p>
+      </div>
+      <div class="journey-step">
+        <div class="journey-num">3</div>
+        <h4>Work happens</h4>
+        <p>Clock in/out, log expenses, track revisions — all in one place.</p>
+      </div>
+      <div class="journey-step">
+        <div class="journey-num">4</div>
+        <h4>Get paid</h4>
+        <p>One-click invoice pulls in time, expenses, and your profile details.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PERSONAS -->
+  <section class="section" id="personas">
+    <div class="section-head">
+      <span class="tag" style="background:var(--sky);">Built for two journeys</span>
+      <h2>Whether you're starting out or scaling up</h2>
+    </div>
+    <div class="persona-grid">
+      <div class="persona-card" style="background:var(--lime);">
+        <h3>New to freelancing</h3>
+        <p>Get a guided, simplified workspace that teaches you what freelancing actually involves — from your first client to your first invoice.</p>
+        <div class="tag-row">
+          <span class="persona-tag">Guided checklist</span>
+          <span class="persona-tag">What to charge</span>
+          <span class="persona-tag">Contract templates</span>
+          <span class="persona-tag">Tip cards</span>
+        </div>
+      </div>
+      <div class="persona-card" style="background:var(--pink);">
+        <h3>Already freelancing</h3>
+        <p>Unlock the full toolkit from day one — every department, every AI feature, full pipeline visibility, and the Telegram bot.</p>
+        <div class="tag-row">
+          <span class="persona-tag">Full sales pipeline</span>
+          <span class="persona-tag">Credit &amp; debit ledger</span>
+          <span class="persona-tag">AI proposals</span>
+          <span class="persona-tag">Daily briefings</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VOTE CTA -->
+  <section class="vote-section">
+    <h2>Should this be the next build?</h2>
+    <p>FLT is currently in early development. Vote to help decide if this gets prioritised next on the roadmap.</p>
+    <a href="#" class="btn btn-primary"><i class="ti ti-thumb-up" aria-hidden="true"></i> Vote for FLT</a>
+  </section>
+
+  <footer>
+    Built by B&amp;D Media · FLT is an early-stage concept, not yet live
+  </footer>
+
+</div>
+
+</body>
+</html>

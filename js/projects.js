@@ -152,4 +152,23 @@ const PROJECTS = [
     },
     complexity: { backend: 80, frontend: 75, ai: 85 },
   },
+  {
+    id:          'flt',
+    week:        9,
+    title:       'FLT — FreelanceOS',
+    category:    'Web App · SaaS',
+    tagline:     'Run your freelance like a business, not a side hustle',
+    description: 'Your freelance business HQ. Four departments — Sales, Finance, Projects, Marketing — in one dashboard. AI proposals, one-click invoices, Telegram briefings, and honest rate tracking.',
+    icon:        '🏢',
+    tags:        ['Next.js', 'TypeScript', 'Supabase', 'shadcn/ui'],
+    status:      'Prototype',
+    buildCost:   '~$15',
+    monthlyCost: '~$7–$12',
+    page:        'flt.html',
+    skills: {
+      confident: ['Next.js', 'TypeScript', 'Supabase', 'Full-Stack Development'],
+      learning:  ['SaaS Product Design', 'Telegram Bot API', 'AI Proposal Generation'],
+    },
+    complexity: { backend: 85, frontend: 80, ai: 65 },
+  },
 ];
