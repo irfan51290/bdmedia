@@ -1,49 +1,43 @@
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 import { PageHeader } from "@/components/layout/page-header";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Plus } from "lucide-react";
+import { ProjectsList } from "@/components/projects/projects-list";
 
-const statusColors: Record<string, string> = {
-  planning:   "bg-brand-yellow text-black",
-  active:     "bg-brand-teal text-white",
-  paused:     "bg-muted text-muted-foreground",
-  completed:  "bg-brand-mint text-black",
-  cancelled:  "bg-brand-coral text-white",
-};
+export default async function ProjectsPage() {
+  const supabase = await createClient();
 
-export default function ProjectsPage() {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+
+  const [
+    { data: projects, error: projectsError },
+    { data: clients },
+    { data: leads },
+  ] = await Promise.all([
+    supabase
+      .from("projects")
+      .select("*")
+      .order("created_at", { ascending: false }),
+    supabase.from("clients").select("id, name").order("name"),
+    supabase.from("leads").select("id, title").order("title"),
+  ]);
+
+  if (projectsError) throw new Error(projectsError.message);
+
   return (
     <>
       <PageHeader
         title="Projects"
-        description="Manage your active and upcoming projects."
-        actions={
-          <Button className="neu-btn bg-brand-orange text-white font-bold rounded-sm h-8 px-3 text-xs">
-            <Plus className="w-3.5 h-3.5 mr-1" />
-            New Project
-          </Button>
-        }
+        description={`${projects?.length ?? 0} project${projects?.length !== 1 ? "s" : ""}`}
       />
       <main className="flex-1 p-6">
-        {/* Status filters */}
-        <div className="flex flex-wrap gap-2 mb-6">
-          {Object.entries(statusColors).map(([status, cls]) => (
-            <button
-              key={status}
-              className={`neu-btn rounded-sm px-3 py-1.5 text-xs font-bold uppercase tracking-wide cursor-pointer ${cls}`}
-            >
-              {status}
-            </button>
-          ))}
-        </div>
-
-        <div className="bento-grid">
-          <div className="bento-span-4 neu-card rounded-sm p-6 bg-card">
-            <p className="text-muted-foreground text-sm">
-              No projects yet. Convert a lead or create one directly.
-            </p>
-          </div>
-        </div>
+        <ProjectsList
+          projects={projects ?? []}
+          clients={clients ?? []}
+          leads={leads ?? []}
+        />
       </main>
     </>
   );
