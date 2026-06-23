@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CS Tool Dashboard — Variant D: Bold Light</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #f8fafc;
+    --white: #ffffff;
+    --border: #e2e8f0;
+    --text: #0f172a;
+    --muted: #64748b;
+    --red: #ef4444;
+    --red-light: #fef2f2;
+    --red-border: #fecaca;
+    --amber: #f59e0b;
+    --amber-light: #fffbeb;
+    --amber-border: #fde68a;
+    --green: #10b981;
+    --green-light: #ecfdf5;
+    --green-border: #a7f3d0;
+    --violet: #f97316;
+    --violet-light: #fff7ed;
+    --violet-border: #fed7aa;
+    --sky: #0ea5e9;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --mono: 'SF Mono', 'Fira Code', 'Courier New', monospace;
+  }
+  body { background: var(--bg); color: var(--text); font-family: var(--sans); min-height: 100vh; }
+
+  .shell { display: flex; height: 100vh; overflow: hidden; }
+
+  /* Sidebar */
+  .sidebar { width: 240px; background: var(--white); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; }
+  .sidebar-logo { padding: 20px 20px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+  .logo-icon { width: 32px; height: 32px; background: var(--violet); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 16px; font-weight: 900; box-shadow: 0 2px 8px rgba(249,115,22,0.35); }
+  .logo-text { font-size: 15px; font-weight: 700; color: var(--text); }
+  .logo-text span { color: var(--violet); }
+  .sidebar-nav { padding: 12px 8px; flex: 1; }
+  .nav-section { margin-bottom: 20px; }
+  .nav-section-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); font-weight: 600; padding: 0 12px 8px; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; font-size: 14px; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.1s; }
+  .nav-item:hover { background: var(--bg); color: var(--text); }
+  .nav-item.active { background: var(--violet-light); color: var(--violet); font-weight: 600; }
+  .nav-item .nav-badge { margin-left: auto; font-size: 11px; font-weight: 700; background: var(--red); color: white; padding: 2px 6px; border-radius: 10px; }
+  .nav-item .nav-badge.amber { background: var(--amber); }
+  .nav-icon { font-size: 16px; }
+  .project-list { padding: 8px; }
+  .project-row { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; }
+  .project-row:hover { background: var(--bg); }
+  .project-row.active { background: var(--violet-light); }
+  .project-avatar { width: 24px; height: 24px; border-radius: 6px; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; color: white; flex-shrink: 0; }
+  .avatar-orange { background: var(--violet); }
+  .avatar-sky { background: var(--sky); }
+  .sidebar-footer { padding: 16px; border-top: 1px solid var(--border); }
+  .user-row { display: flex; align-items: center; gap: 10px; }
+  .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--violet), #fb923c); display: flex; align-items: center; justify-content: center; color: white; font-size: 13px; font-weight: 700; }
+  .user-name { font-size: 13px; font-weight: 600; }
+  .user-role { font-size: 11px; color: var(--muted); }
+
+  /* Main */
+  .main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+
+  /* Topbar */
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; border-bottom: 1px solid var(--border); background: var(--white); flex-shrink: 0; }
+  .topbar-left { }
+  .topbar-title { font-size: 22px; font-weight: 700; }
+  .topbar-sub { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .topbar-right { display: flex; gap: 8px; align-items: center; }
+  .alert-pill { display: flex; align-items: center; gap: 6px; background: var(--red-light); border: 1px solid var(--red-border); color: var(--red); padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .alert-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .btn { font-size: 13px; font-weight: 600; padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--white); color: var(--text); cursor: pointer; transition: all 0.1s; }
+  .btn:hover { background: var(--bg); }
+  .btn-primary { background: var(--violet); border-color: var(--violet); color: white; }
+  .btn-primary:hover { background: #ea6c0a; }
+  .btn-sm { padding: 6px 12px; font-size: 12px; }
+
+  /* Content */
+  .content { padding: 32px; display: flex; flex-direction: column; gap: 24px; }
+
+  /* Stat cards */
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .stat-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; gap: 4px; transition: box-shadow 0.2s; }
+  .stat-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+  .stat-card-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 12px; }
+  .icon-red { background: var(--red-light); }
+  .icon-amber { background: var(--amber-light); }
+  .icon-green { background: var(--green-light); }
+  .icon-violet { background: var(--violet-light); }
+  .stat-label { font-size: 12px; color: var(--muted); font-weight: 500; }
+  .stat-value { font-size: 36px; font-weight: 800; line-height: 1.1; color: var(--text); }
+  .stat-value.red { color: var(--red); }
+  .stat-value.amber { color: var(--amber); }
+  .stat-value.green { color: var(--green); }
+  .stat-value.orange { color: var(--violet); }
+  .stat-delta { font-size: 12px; font-weight: 600; margin-top: 4px; }
+  .delta-bad { color: var(--red); }
+  .delta-good { color: var(--green); }
+  .delta-neu { color: var(--muted); }
+
+  /* Two col */
+  .grid-main { display: grid; grid-template-columns: 1fr 360px; gap: 20px; }
+
+  /* Panel */
+  .panel { background: var(--white); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .panel-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border); }
+  .panel-title { font-size: 14px; font-weight: 700; }
+  .panel-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+  .badge-red { background: var(--red-light); color: var(--red); border: 1px solid var(--red-border); }
+  .badge-amber { background: var(--amber-light); color: var(--amber); border: 1px solid var(--amber-border); }
+  .badge-green { background: var(--green-light); color: var(--green); border: 1px solid var(--green-border); }
+  .view-all { font-size: 12px; font-weight: 600; color: var(--violet); cursor: pointer; }
+  .view-all:hover { text-decoration: underline; }
+
+  /* Error rows */
+  .error-row { display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-bottom: 1px solid var(--border); }
+  .error-row:last-child { border-bottom: none; }
+  .error-row:hover { background: var(--bg); }
+  .error-indicator { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .ind-red { background: var(--red); }
+  .ind-amber { background: var(--amber); }
+  .ind-blue { background: var(--sky); }
+  .error-info { flex: 1; min-width: 0; }
+  .error-title { font-size: 13px; font-weight: 600; color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .error-meta { display: flex; gap: 8px; margin-top: 3px; align-items: center; }
+  .error-page-tag { font-size: 11px; font-family: var(--mono); color: var(--muted); background: var(--bg); padding: 1px 6px; border-radius: 4px; border: 1px solid var(--border); }
+  .error-time { font-size: 11px; color: var(--muted); }
+  .sev-pill { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; }
+  .sev-error { background: var(--red-light); color: var(--red); }
+  .sev-warn { background: var(--amber-light); color: var(--amber); }
+  .sev-info { background: #f0f9ff; color: var(--sky); }
+  .resolve-btn { font-size: 11px; font-weight: 600; color: var(--muted); padding: 4px 10px; border: 1px solid var(--border); border-radius: 6px; cursor: pointer; background: var(--white); flex-shrink: 0; }
+  .resolve-btn:hover { border-color: var(--green); color: var(--green); }
+
+  /* Feedback */
+  .fb-item { padding: 16px 20px; border-bottom: 1px solid var(--border); }
+  .fb-item:last-child { border-bottom: none; }
+  .fb-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .sentiment-pill { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+  .sp-pos { background: var(--green-light); color: var(--green); }
+  .sp-neg { background: var(--red-light); color: var(--red); }
+  .sp-neu { background: var(--bg); color: var(--muted); border: 1px solid var(--border); }
+  .theme-tag { font-size: 11px; font-weight: 600; color: var(--violet); background: var(--violet-light); padding: 3px 10px; border-radius: 20px; }
+  .fb-ts { font-size: 11px; color: var(--muted); margin-left: auto; }
+  .fb-text { font-size: 13px; color: var(--text); line-height: 1.6; margin-bottom: 10px; }
+  .fb-ai-summary { font-size: 11px; color: var(--muted); background: var(--bg); padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border); margin-bottom: 10px; }
+  .fb-ai-label { font-size: 10px; font-weight: 700; color: var(--violet); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+  .fb-actions { display: flex; gap: 6px; }
+  .action-btn { font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 6px; cursor: pointer; border: 1px solid var(--border); background: var(--white); color: var(--text); }
+  .action-approve { background: var(--green); border-color: var(--green); color: white; }
+  .action-approve:hover { background: #059669; }
+  .action-btn:hover { background: var(--bg); }
+  .action-github { color: var(--violet); border-color: var(--violet-border); }
+  .action-github:hover { background: var(--violet-light); }
+  .icon-orange { background: var(--violet-light); }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">C</div>
+      <div>
+        <div class="logo-text">CS <span>Tool</span></div>
+      </div>
+    </div>
+
+    <div class="sidebar-nav">
+      <div class="nav-section">
+        <div class="nav-section-label">Navigation</div>
+        <div class="nav-item active"><span class="nav-icon">⊞</span> Overview</div>
+        <div class="nav-item"><span class="nav-icon">⚠</span> Errors <span class="nav-badge">12</span></div>
+        <div class="nav-item"><span class="nav-icon">💬</span> Feedback <span class="nav-badge amber">3</span></div>
+        <div class="nav-item"><span class="nav-icon">📊</span> Analytics</div>
+        <div class="nav-item"><span class="nav-icon">📮</span> Weekly Digest</div>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-section-label">Projects</div>
+        <div class="project-row active">
+          <div class="project-avatar avatar-orange">F</div>
+          <div>
+            <div style="font-size:13px; font-weight:600;">FLT</div>
+            <div style="font-size:11px; color:var(--muted);">FreelanceOS</div>
+          </div>
+        </div>
+        <div class="project-row">
+          <div class="project-avatar avatar-sky">A</div>
+          <div>
+            <div style="font-size:13px; font-weight:600;">APP</div>
+            <div style="font-size:11px; color:var(--muted);">MyApp</div>
+          </div>
+        </div>
+        <div style="padding:8px 12px;">
+          <div style="font-size:13px; font-weight:600; color:var(--violet); cursor:pointer;">+ Add project</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="user-row">
+        <div class="user-avatar">I</div>
+        <div>
+          <div class="user-name">Irfan</div>
+          <div class="user-role">Owner</div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="topbar-title">FLT — Overview</div>
+        <div class="topbar-sub">FreelanceOS · Last updated just now</div>
+      </div>
+      <div class="topbar-right">
+        <div class="alert-pill"><div class="alert-dot"></div>12 errors need attention</div>
+        <button class="btn btn-sm">Export</button>
+        <button class="btn btn-sm btn-primary">Create Issue</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- Stat cards -->
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-card-icon icon-red">🔴</div>
+          <div class="stat-label">Total Errors</div>
+          <div class="stat-value red">247</div>
+          <div class="stat-delta delta-bad">↑ 23% vs last week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon icon-amber">⚡</div>
+          <div class="stat-label">Unresolved Now</div>
+          <div class="stat-value amber">12</div>
+          <div class="stat-delta delta-bad">↑ 4 since yesterday</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon icon-green">💬</div>
+          <div class="stat-label">Feedback This Month</div>
+          <div class="stat-value green">38</div>
+          <div class="stat-delta delta-neu">3 awaiting review</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-icon icon-orange">✦</div>
+          <div class="stat-label">Avg Sentiment</div>
+          <div class="stat-value orange">+74</div>
+          <div class="stat-delta delta-good">↑ +6 pts this month</div>
+        </div>
+      </div>
+
+      <!-- Main grid -->
+      <div class="grid-main">
+
+        <!-- Errors -->
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">Active Errors</div>
+              <div class="panel-sub">Sorted by most recent</div>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <span class="badge badge-red">12 open</span>
+              <span class="view-all">View all →</span>
+            </div>
+          </div>
+
+          <div class="error-row">
+            <div class="error-indicator ind-red"></div>
+            <div class="error-info">
+              <div class="error-title">Cannot read property 'id' of undefined</div>
+              <div class="error-meta">
+                <span class="sev-pill sev-error">Error</span>
+                <span class="error-page-tag">/dashboard/projects</span>
+                <span class="error-time">2 min ago</span>
+              </div>
+            </div>
+            <button class="resolve-btn">Resolve</button>
+          </div>
+          <div class="error-row">
+            <div class="error-indicator ind-red"></div>
+            <div class="error-info">
+              <div class="error-title">Network request failed: 503 Service Unavailable</div>
+              <div class="error-meta">
+                <span class="sev-pill sev-error">Error</span>
+                <span class="error-page-tag">/api/clients</span>
+                <span class="error-time">8 min ago</span>
+              </div>
+            </div>
+            <button class="resolve-btn">Resolve</button>
+          </div>
+          <div class="error-row">
+            <div class="error-indicator ind-amber"></div>
+            <div class="error-info">
+              <div class="error-title">Supabase session expired, token refresh failed</div>
+              <div class="error-meta">
+                <span class="sev-pill sev-warn">Warning</span>
+                <span class="error-page-tag">/auth/callback</span>
+                <span class="error-time">15 min ago</span>
+              </div>
+            </div>
+            <button class="resolve-btn">Resolve</button>
+          </div>
+          <div class="error-row">
+            <div class="error-indicator ind-red"></div>
+            <div class="error-info">
+              <div class="error-title">ChunkLoadError: Loading chunk 14 failed</div>
+              <div class="error-meta">
+                <span class="sev-pill sev-error">Error</span>
+                <span class="error-page-tag">/dashboard</span>
+                <span class="error-time">32 min ago</span>
+              </div>
+            </div>
+            <button class="resolve-btn">Resolve</button>
+          </div>
+          <div class="error-row">
+            <div class="error-indicator ind-amber"></div>
+            <div class="error-info">
+              <div class="error-title">React: Each child in list should have unique key</div>
+              <div class="error-meta">
+                <span class="sev-pill sev-warn">Warning</span>
+                <span class="error-page-tag">/invoices</span>
+                <span class="error-time">1 hour ago</span>
+              </div>
+            </div>
+            <button class="resolve-btn">Resolve</button>
+          </div>
+          <div class="error-row">
+            <div class="error-indicator ind-blue"></div>
+            <div class="error-info">
+              <div class="error-title">ErrorBoundary fallback triggered for component tree</div>
+              <div class="error-meta">
+                <span class="sev-pill sev-info">Info</span>
+                <span class="error-page-tag">/projects/[id]</span>
+                <span class="error-time">2 hours ago</span>
+              </div>
+            </div>
+            <button class="resolve-btn">Resolve</button>
+          </div>
+        </div>
+
+        <!-- Feedback -->
+        <div class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-title">Feedback Queue</div>
+              <div class="panel-sub">Pending your review</div>
+            </div>
+            <span class="badge badge-amber">3 pending</span>
+          </div>
+
+          <div class="fb-item">
+            <div class="fb-header">
+              <span class="sentiment-pill sp-pos">Positive</span>
+              <span class="theme-tag">UX</span>
+              <span class="fb-ts">12 min ago</span>
+            </div>
+            <div class="fb-text">"The new invoice flow is so much faster. Took 30 seconds instead of 5 minutes!"</div>
+            <div class="fb-ai-summary">
+              <div class="fb-ai-label">AI Summary</div>
+              Positive UX feedback about invoice speed improvement. High value signal.
+            </div>
+            <div class="fb-actions">
+              <button class="action-btn action-approve">✓ Approve</button>
+              <button class="action-btn">Archive</button>
+              <button class="action-btn action-github">GitHub ↗</button>
+            </div>
+          </div>
+
+          <div class="fb-item">
+            <div class="fb-header">
+              <span class="sentiment-pill sp-neg">Negative</span>
+              <span class="theme-tag">Bug</span>
+              <span class="fb-ts">1 hour ago</span>
+            </div>
+            <div class="fb-text">"Can't submit a proposal — save button does nothing after I fill in the form."</div>
+            <div class="fb-ai-summary">
+              <div class="fb-ai-label">AI Summary</div>
+              Bug report: proposal save button non-functional. Likely blocking user flows.
+            </div>
+            <div class="fb-actions">
+              <button class="action-btn action-approve">✓ Approve</button>
+              <button class="action-btn">Archive</button>
+              <button class="action-btn action-github">GitHub ↗</button>
+            </div>
+          </div>
+
+          <div class="fb-item">
+            <div class="fb-header">
+              <span class="sentiment-pill sp-neu">Neutral</span>
+              <span class="theme-tag">Feature</span>
+              <span class="fb-ts">3 hours ago</span>
+            </div>
+            <div class="fb-text">"Would love dark mode support throughout the whole app, not just the sidebar."</div>
+            <div class="fb-ai-summary">
+              <div class="fb-ai-label">AI Summary</div>
+              Feature request for global dark mode. Low urgency, consider for backlog.
+            </div>
+            <div class="fb-actions">
+              <button class="action-btn action-approve">✓ Approve</button>
+              <button class="action-btn">Archive</button>
+              <button class="action-btn action-github">GitHub ↗</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

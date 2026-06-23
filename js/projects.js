@@ -171,4 +171,23 @@ const PROJECTS = [
     },
     complexity: { backend: 85, frontend: 80, ai: 65 },
   },
+  {
+    id:          'cs-tool',
+    week:        10,
+    title:       'CS Tool — Feedback & Error Dashboard',
+    category:    'Dev Tool · SaaS',
+    tagline:     'One SDK. Every bug. Every piece of feedback. One dashboard.',
+    description: 'A drop-in SDK that adds an error boundary + feedback widget to any React app. Errors and feedback flow into a multi-project dashboard with AI categorisation, Telegram alerts, and GitHub issue creation.',
+    icon:        '🛠️',
+    tags:        ['Next.js 14', 'React SDK', 'Supabase', 'Claude AI'],
+    status:      'In Progress',
+    buildCost:   '~$10',
+    monthlyCost: '~$5–$10',
+    page:        'cs-tool.html',
+    skills: {
+      confident: ['SDK Design', 'Next.js', 'Supabase', 'Full-Stack Development'],
+      learning:  ['npm Package Publishing', 'Error Monitoring Architecture', 'Multi-Tenant Dashboards'],
+    },
+    complexity: { backend: 80, frontend: 85, ai: 70 },
+  },
 ];
